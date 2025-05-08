@@ -1,15 +1,21 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import router from 'next/router'
-import api from '@/utils/api'
+import api from './api'
 import { IUser } from '@/@types'
 
+/**
+ * State that is stored in useAuthStore
+ */
 interface IAuthState {
     current_user: IUser | null,
     access: string | null,
     refresh: string | null,
 }
 
+/**
+ * Functions stored in useAuthStore
+ */
 interface IAuthStore extends IAuthState {
     setAccess: (access: string) => void;
     login: (username: string, password: string) => void,
@@ -26,7 +32,7 @@ export const useAuthStore = create<IAuthStore>()(
             setAccess: (access: string): void => {
                 set({ access })
             },
-            login: async (username: string, password: string) => {
+            login: async (username, password) => {
                 set({ current_user: null })
                 try {
                     const auth_token_res = await api.post('/api/token/', {
@@ -44,7 +50,6 @@ export const useAuthStore = create<IAuthStore>()(
             },
             logout: () => {
                 set({ current_user: null, access: null, refresh: null })
-                router.push('/login')
             },
         }), {
         name: 'auth-storage',

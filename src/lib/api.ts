@@ -1,16 +1,22 @@
 import axios from "axios";
 import { useAuthStore } from "./store";
+import { GetRefreshResponse } from "@/@types/api/response/auth";
 
 const base_url = "http://127.0.0.1:8000";
-const setAccess = useAuthStore((state) => state.setAccess)
 
+/**
+ * Create axios instance.
+ */
 const api = axios.create({
     baseURL: base_url,
 });
 
+/**
+ * Adds access token to request header if present in auth store.
+ */
 api.interceptors.request.use(
     (request) => {
-        const token = useAuthStore((state) => state.access);
+        const token = useAuthStore.getState().access
         if (token) {
             request.headers.Authorization = `Bearer ${token}`;
         }
@@ -21,6 +27,9 @@ api.interceptors.request.use(
     }
 );
 
+/**
+ * If error in the response with 401 code we attempt to refresh the token.
+ */
 api.interceptors.response.use(
     (response) => {
         return response;
@@ -28,17 +37,17 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response && error.response.status == 403 && !originalRequest._return) {
+        if (error.response && error.response.status == 401 && !originalRequest._return) {
             originalRequest._retry = true
 
             try {
-                const res = await axios.get(`${base_url}/api/token/refresh/`, {
+                const res = await axios.post<GetRefreshResponse>(`${base_url}/api/token/refresh/`, {
                     data: {
-                        "refresh": useAuthStore((state) => state.refresh)
+                        "refresh": useAuthStore.getState().refresh
                     }
-                })
+                }).catch((error) => alert(error))
                 if (res) {
-                    setAccess(res.data.access)
+                    useAuthStore.getState().setAccess(res.data.access)
                 }
             } catch (error) {
                 console.error('Error fetching data: ', error)
