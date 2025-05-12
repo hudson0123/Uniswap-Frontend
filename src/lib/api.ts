@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from "./store";
+import { useAuthStore, useNotifyStore } from "./store";
 import { GetRefreshResponse } from "@/@types/api/response/auth";
 
 const base_url = "http://127.0.0.1:8000";
@@ -45,7 +45,9 @@ api.interceptors.response.use(
                     data: {
                         "refresh": useAuthStore.getState().refresh
                     }
-                }).catch((error) => alert(error))
+                }).catch((e) => {
+                    useNotifyStore.getState().setNotification("error", "Error logging in.")
+                })
                 if (res) {
                     useAuthStore.getState().setAccess(res.data.access)
                 }

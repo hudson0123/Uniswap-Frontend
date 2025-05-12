@@ -45,7 +45,7 @@ export const useAuthStore = create<IAuthStore>()(
                     set({ current_user: current_user_data_res.data })
                     router.push('/home')
                 } catch (e) {
-                    console.error(e)
+                    useNotifyStore.getState().setNotification("error", "Error logging in.")
                 }
             },
             logout: () => {
@@ -54,4 +54,37 @@ export const useAuthStore = create<IAuthStore>()(
         }), {
         name: 'auth-storage',
     }
-    ))
+    )
+)
+
+type NotificationType = "info" | "warn" | "success" | "error"
+
+export interface INotificationState {
+    notification_type: NotificationType | null,
+    message: string | null,
+}
+
+export interface INotificationStore extends INotificationState {
+    setNotification: (notification_type: NotificationType, message: string) => void,
+    clearNotification: () => void,
+}
+
+export const useNotifyStore = create<INotificationStore>()(
+    persist(
+        (set) => ({
+            notification_type: null,
+            message: null,
+            setNotification: (notification_type, message) => {
+                set({ notification_type: notification_type})
+                set({ message: message})
+            },
+            clearNotification: () => {
+                set({ notification_type: null})
+                set({ message: null})
+            },
+        }), {
+            name: "notification-storage"
+        }
+    )
+
+)
