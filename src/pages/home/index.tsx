@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer'
 import api from '@/lib/api'
 import { PaginatedResponse } from '@/@types/api'
 import { IPost } from '@/@types'
-import PostCardGrid from '@/components/Posts/PostCardGrid'
+import PostCardChunk from '@/components/Posts/PostCardChunk'
 
 const queryPosts = async ({ pageParam }: {pageParam: number}) => {
   const res = await api.get<PaginatedResponse<IPost>>('api/posts/?page=' + pageParam)
@@ -48,8 +48,8 @@ export default function Home() {
       <div className="flex flex-col">
         {data.pages.map((page) => {
           return (
-            <PostCardGrid
-              posts={page.results.filter((post) => post.ticket_title.toLowerCase())}
+            <PostCardChunk
+              posts={page.results}
             />
           )
         })

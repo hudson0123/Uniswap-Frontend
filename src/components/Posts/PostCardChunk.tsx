@@ -1,9 +1,10 @@
 import PostCard from "./PostCard"
+import { IPost } from "@/@types"
 
-export default function PostCardGrid({posts}) {
+export default function PostCardChunk({posts}: {posts: IPost[]}) {
 
     return (
-        <div className="">
+        <div className="mx-10">
             {posts.map(post => (
                 <PostCard 
                     key = {post.id}
