@@ -1,24 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import api from "@/utils/api";
+import { useAuthStore } from "@/lib/store";
 
 function Topbar() {
 
-    const getCurrentUser = async () => {
-        const res = await api.get('/api/current-user/')
-        return res.data
-    }
+    const currentUser = useAuthStore((state) => state.current_user)
 
-    const {data: currentUser, error, isPending} = useQuery({
-        queryKey: ['currentUser'],
-        queryFn: getCurrentUser
-    })
-
-    if ( isPending ) {
-        return <p>Pending...</p>
-    } else if ( error ) {
-        return <p>Error...</p>
+    if (!currentUser) {
+        return <p>Loading..</p>
     }
 
     return (
