@@ -11,8 +11,8 @@ function Topbar() {
     }
 
     return (
-        <nav className="fixed p-4 px-10 w-full bg-gray-600">
-            <div className="flex flex-wrap justify-between mx-auto items-center ">
+        <nav className="fixed p-4 px-10 w-full bg-gray-500">
+            <div className="flex flex-wrap justify-between mx-auto">
                 <Link href="/home" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">UniSwap</span>
                 </Link>

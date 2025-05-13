@@ -1,11 +1,14 @@
+import LandingTopbar from "@/components/Navigation/LandingTopbar";
 import Topbar from "@/components/Navigation/Topbar";
 
 export default function Landing() {
+
+  
   return (
     <>
-      <div className="">
-        {/* <Topbar /> */}
-        <p>Welcome to the Landing Page.</p>
+      <LandingTopbar />
+      <div className="bg-white flex h-[150vh] w-full justify-center items-center">
+        <p className='text-black text-3xl font-bold'>Welcome to the Landing Page.</p>
       </div>
     </>
   );

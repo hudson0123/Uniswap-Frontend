@@ -35,8 +35,8 @@ export default function Home() {
 
   if (isPending) {
     return (
-      <div className='flex justify-center items-center h-[80vh]'>
-        <h1>Loading..</h1>
+      <div className='bg-white flex h-screen w-full justify-center items-center'>
+        <h1 className='text-black text-3xl font-bold'>Loading...</h1>
       </div>
     )
   }
@@ -49,7 +49,7 @@ export default function Home() {
     <>
       <NotificationBanner />
       <Topbar />
-      <div className="flex flex-col pt-50">
+      <div className="flex flex-col pt-50 bg-white">
         {data.pages.map((page) => {
           return (
             <PostCardChunk
