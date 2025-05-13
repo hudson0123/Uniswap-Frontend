@@ -6,6 +6,7 @@ import { PaginatedResponse } from '@/@types/api'
 import { IPost } from '@/@types'
 import PostCardChunk from '@/components/Posts/PostCardChunk'
 import Topbar from '@/components/Navigation/Topbar'
+import NotificationBanner from '@/components/NotificationBanner'
 
 const queryPosts = async ({ pageParam }: { pageParam: number }) => {
   const res = await api.get<PaginatedResponse<IPost>>('api/posts/?page=' + pageParam)
@@ -46,6 +47,7 @@ export default function Home() {
 
   return (
     <>
+      <NotificationBanner />
       <Topbar />
       <div className="flex flex-col pt-50">
         {data.pages.map((page) => {

@@ -1,7 +1,7 @@
 import { IUser } from ".."
 
 export interface IPost {
-    id: string,
+    id: number,
     author: IUser,
     ticket_title: string,
     ticket_price: number,

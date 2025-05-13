@@ -2,14 +2,14 @@ import React from 'react'
 import api from '@/lib/api'
 import { useNotifyStore } from '@/lib/store'
 import { useMutation } from '@tanstack/react-query';
-import { IPost } from '@/@types';
+import { IPost, ICreatePost } from '@/@types';
 
 export default function PostCard({ post } : {post: IPost}) {
 
     const setNotification = useNotifyStore(((state) => state.setNotification))
 
     const createRequestMutation = useMutation({
-        mutationFn: (request) => {
+        mutationFn: (request: ICreatePost) => {
             return api.post('/api/requests/', {
                 "sender_id": request.sender_id,
                 "post_id": request.post_id
@@ -32,6 +32,12 @@ export default function PostCard({ post } : {post: IPost}) {
             <div>
                 <p className=''>${post.ticket_price}</p>
             </div>
+            <button onClick={() => {
+                createRequestMutation.mutate({
+                    sender_id: post.author.id,
+                    post_id: post.id
+                })
+            }}>Click Me</button>
         </div>
     )
 }
