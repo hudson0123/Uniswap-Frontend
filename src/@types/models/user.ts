@@ -15,7 +15,7 @@ export interface IUser {
     instagram: string,
     discord: string,
     groupme: string,
-    is_verified_uga: boolean,
+    verified: boolean,
     rating: number,
     profile_picture: string,
 }

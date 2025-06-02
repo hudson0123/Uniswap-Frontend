@@ -18,7 +18,7 @@ function Topbar() {
                 </Link>
                 <div className='flex justify-end items-center'>
                     <Link href={"/" + currentUser.username} className="invisible md:visible text-white hover:underline">@{currentUser.username}</Link>
-                    <Link href={"/" + currentUser.username}><Image width={100} height={100} className="w-12 h-12 ml-2 rounded-full border-1 border-gray-300 hover:ring-1 ring-white transform duration-100" src={currentUser.profile_picture ? currentUser.profile_picture : "http://www.w3.org/2000/svg"} alt="user-profile" /></Link>
+                    <Link href={"/" + currentUser.username}><Image width={100} height={100} className="w-12 h-12 ml-2 rounded-full border-1 border-gray-300 hover:ring-1 ring-white transform duration-100" src={currentUser.profile_picture ? currentUser.profile_picture : "/profile.jpg"} alt="user-profile" /></Link>
                 </div>
             </div>
         </nav>
