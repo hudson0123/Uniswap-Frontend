@@ -7,10 +7,12 @@ import { IUser } from "@/@types";
 import NotificationBanner from "@/components/NotificationBanner";
 import Topbar from "@/components/Navigation/Topbar";
 import AccountCard from "@/components/Account/AccountCard";
-import AccountRequests from "@/components/Account/AccountRequests";
+import AccountRequests from "@/components/Account/AccountSentRequests";
 import AccountListings from "@/components/Account/AccountListings";
 import AccountWatchlist from "@/components/Account/AccountWatchlist";
 import AccountSettings from "@/components/Account/AccountSettings";
+import AccountReceivedRequests from "@/components/Account/AccountReceivedRequests";
+import AccountSentRequests from "@/components/Account/AccountSentRequests";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -55,20 +57,23 @@ export default function AccountPage() {
       <div className="grid grid-cols-3 gap-20 p-20 h-screen bg-gray-200 text-black">
         <AccountCard account_data={account_data} />
         <div className="bg-white p-10 flex flex-col mt-15 w-full rounded-2xl shadow-xl col-span-2 max-h-[80vh]">
-          <div className="grid grid-cols-4">
-            <button onClick={() => setAccountDetailSelection(1)} className="hover:opacity-70 cursor-pointer">Requests</button>
-            <button onClick={() => setAccountDetailSelection(2)} className="hover:opacity-70 cursor-pointer">My Listings</button>
-            <button onClick={() => setAccountDetailSelection(3)} className="hover:opacity-70 cursor-pointer">Watchlist</button>
-            <button onClick={() => setAccountDetailSelection(4)} className="hover:opacity-70 cursor-pointer">Settings</button>
+          <div className="grid grid-cols-5">
+            <button onClick={() => setAccountDetailSelection(1)} className="hover:opacity-70 cursor-pointer">Received Requests</button>
+            <button onClick={() => setAccountDetailSelection(2)} className="hover:opacity-70 cursor-pointer">Sent Requests</button>
+            <button onClick={() => setAccountDetailSelection(3)} className="hover:opacity-70 cursor-pointer">My Listings</button>
+            <button onClick={() => setAccountDetailSelection(4)} className="hover:opacity-70 cursor-pointer">Watchlist</button>
+            <button onClick={() => setAccountDetailSelection(5)} className="hover:opacity-70 cursor-pointer">Settings</button>
           </div>
           <hr></hr>
           {accountDetailSelection == 1 ? (
-            <AccountRequests />
+            <AccountReceivedRequests />
           ) :  accountDetailSelection == 2 ? (
-            <AccountListings />
-          ) :  accountDetailSelection == 3 ? (
-            <AccountWatchlist />
-          ) : (
+            <AccountSentRequests />
+        ) :  accountDetailSelection == 3 ? (
+              <AccountListings />
+        ) :  accountDetailSelection == 4 ?  (
+              <AccountWatchlist />
+        ) : (
             <AccountSettings />
           )}
         </div>
