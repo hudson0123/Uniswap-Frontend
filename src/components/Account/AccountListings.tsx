@@ -39,12 +39,20 @@ export default function AccountListings() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-5 mt-5 overflow-y-scroll">
-      {listings_data.map((listing) => (
-        <PostCard 
-            post = {listing}
-        />
-      ))}
-    </div>
+    <>
+      {listings_data.length == 0 ? (
+        <div className="flex justify-center mt-auto mb-auto text-2xl h-20">
+          <p className="font-semibold mt-20">
+            When you create a post, you will see it here.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 mt-5 overflow-y-scroll">
+          {listings_data.map((listing) => (
+            <PostCard post={listing} />
+          ))}
+        </div>
+      )}
+    </>
   );
 }

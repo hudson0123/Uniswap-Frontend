@@ -12,7 +12,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
   };
 
   return (
-    <div className="relative bg-white p-10 flex flex-col mt-15 w-full rounded-2xl shadow-xl h-[80vh]">
+    <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
       <button className="cursor-pointer" onClick={editProfile}>
         <Image
           src="/edit.svg"
@@ -54,8 +54,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
           <p>Following</p>
         </div>
       </div>
-      {account_data.discord && (
-        <>
+      <>
+        {account_data.email && (
           <div className="flex justify-start mb-2">
             <Image
               src="/gmail.svg"
@@ -66,6 +66,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
             />
             <p className="mt-auto mb-auto">{account_data?.email}</p>
           </div>
+        )}
+        {account_data.snapchat && (
           <div className="flex justify-start mb-2">
             <Image
               src="/snapchat.svg"
@@ -76,6 +78,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
             />
             <p className="mt-auto mb-auto">@{account_data?.snapchat}</p>
           </div>
+        )}
+        {account_data.instagram && (
           <div className="flex justify-start mb-2">
             <Image
               src="/instagram.svg"
@@ -86,6 +90,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
             />
             <p className="mt-auto mb-auto">@{account_data?.instagram}</p>
           </div>
+        )}
+        {account_data.groupme && (
           <div className="flex justify-start mb-2">
             <Image
               src="/groupme.jpeg"
@@ -96,6 +102,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
             />
             <p className="mt-auto mb-auto">@{account_data?.groupme}</p>
           </div>
+        )}
+        {account_data.discord && (
           <div className="flex justify-start mb-2">
             <Image
               src="/discord.svg"
@@ -106,8 +114,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
             />
             <p className="mt-auto mb-auto">@{account_data?.discord}</p>
           </div>
-        </>
-      )}
+        )}
+      </>
     </div>
   );
 }
