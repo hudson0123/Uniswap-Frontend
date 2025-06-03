@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { z } from 'zod'
 
-const useForm = <T>() => {
+const useForm = () => {
 
     const [form, setForm] = useState({
         email: {value: '', error: ''},

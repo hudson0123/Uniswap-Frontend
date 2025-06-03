@@ -49,7 +49,7 @@ export default function Home() {
     <>
       <NotificationBanner />
       <Topbar />
-      <div className="flex flex-col pt-50 bg-white">
+      <div className="flex flex-col pt-25 bg-[#f5f5f5]">
         {data.pages.map((page) => {
           return (
             <PostCardChunk
@@ -59,14 +59,14 @@ export default function Home() {
         })
         }
       </div>
-      <div className="relative">
+      <div className="relative bg-[#f5f5f5] py-5">
         {hasNextPage ? (
-          <div className='mt-5'>
-            <h1>Loading...</h1>
+          <div className='flex flex-col ml-auto mr-auto'>
+            <h1 className='text-black text-2xl ml-auto mr-auto1'>...</h1>
           </div>
         ) : (
-          <div className='flex flex-col w-full justify-center align-middle my-5'>
-            <h2 className='font-bold text-white ml-auto mr-auto'>That's all the posts we have :)</h2>
+          <div className='flex flex-col w-full justify-center align-middle bg-[#f5f5f5] py-5'>
+            <h2 className='font-bold text-black ml-auto mr-auto'>That's all the posts we have :)</h2>
           </div>
         )}
         <div ref={ref} className='absolute top-[-200px]'></div>

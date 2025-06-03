@@ -12,6 +12,7 @@ import AccountSettings from "@/components/Account/AccountSettings";
 import AccountReceivedRequests from "@/components/Account/AccountReceivedRequests";
 import AccountSentRequests from "@/components/Account/AccountSentRequests";
 import { useAuthStore } from "@/lib/store";
+import CreatePostForm from "@/components/Forms/CreatePostForm";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -59,18 +60,19 @@ export default function AccountPage() {
         {current_user.id == account_data.id && (
           <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[80vh] overflow-auto mt-5">
             {/* Responsive tabs */}
-            <div className="flex md:grid md:grid-cols-5 overflow-x-auto gap-2 md:gap-0 mb-4">
+            <div className="flex md:grid md:grid-cols-6 overflow-x-auto gap-2 md:gap-0 mb-4">
               {[
                 ["Received Requests", 1],
                 ["Sent Requests", 2],
-                ["My Listings", 3],
-                ["Watchlist", 4],
-                ["Settings", 5],
+                ["Create Post", 3],
+                ["My Listings", 4],
+                ["Watchlist", 5],
+                ["Settings", 6],
               ].map(([label, id]) => (
                 <button
                   key={id}
                   onClick={() => setAccountDetailSelection(Number(id))}
-                  className={`min-w-max px-4 py-2 text-sm md:text-base whitespace-nowrap rounded hover:bg-gray-100 ${
+                  className={`min-w-max px-4 py-2 text-xs md:text-base whitespace-nowrap rounded hover:bg-gray-100 ${
                     accountDetailSelection === id
                       ? "font-semibold border-b-2 border-black"
                       : ""
@@ -90,8 +92,10 @@ export default function AccountPage() {
               ) : accountDetailSelection === 2 ? (
                 <AccountSentRequests />
               ) : accountDetailSelection === 3 ? (
-                <AccountListings />
+                <CreatePostForm />
               ) : accountDetailSelection === 4 ? (
+                <AccountListings />
+              ) : accountDetailSelection === 5 ? (
                 <AccountWatchlist />
               ) : (
                 <AccountSettings />
