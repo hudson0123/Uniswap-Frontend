@@ -14,6 +14,11 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
     router.push(editUrl);
   };
 
+  const verifyProfile = () => {
+    const editUrl = "/" + account_data.username + "/verify";
+    router.push(editUrl);
+  };
+
   if (!current_user) {
     return;
   }
@@ -54,12 +59,12 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
           4 Following
         </Link>
       </div>
+      <p className="italics text-sms text-gray-500">
+        {account_data?.verified ? <p>Verified UGA Student</p> : <p className="text-sm">Unverified - Verify <button className="italic hover:underline cursor-pointer" onClick={verifyProfile}>here</button></p>}
+      </p>
       <p className="italics text-sm text-gray-500">
         Member since{" "}
         {new Date(account_data?.date_joined).toDateString().substring(4)}
-      </p>
-      <p className="italics text-sms text-gray-500">
-        {account_data?.verified && <p>Verified UGA Student</p>}
       </p>
       <div className="mt-8">
         {account_data.phone_number && (

@@ -22,7 +22,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function EditAccountCard({
+export default function EditAccountForm({
   username: username,
 }: {
   username: string | string[] | undefined;
@@ -40,13 +40,9 @@ export default function EditAccountCard({
     resolver: zodResolver(schema),
   });
 
-  if (!current_user) {
-    return;
-  }
-
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await api.patch("/api/users/" + current_user.id + "/", {
+      await api.patch("/api/users/" + current_user?.id + "/", {
         first_name: data.first_name,
         last_name: data.last_name,
         phone_number: data.phone_number,
@@ -56,14 +52,14 @@ export default function EditAccountCard({
         discord: data.discord,
       });
       refreshCurrentUser();
-      router.push("/" + current_user.username + "/");
+      router.push("/" + current_user?.username + "/");
     } catch {
       setNotification("error", "Unable to Update User");
     }
   };
 
-  if (username !== current_user.username) {
-    router.push("/" + current_user.username + "/edit/");
+  if (username !== current_user?.username) {
+    router.push("/" + current_user?.username + "/edit/");
   }
 
   return (
@@ -74,8 +70,8 @@ export default function EditAccountCard({
       <div className="flex flex-row">
         <Image
           src={
-            current_user.profile_picture
-              ? current_user.profile_picture
+            current_user?.profile_picture
+              ? current_user?.profile_picture
               : "/profile.jpg"
           }
           width={100}
@@ -83,7 +79,7 @@ export default function EditAccountCard({
           alt="profile"
           className="w-15 h-15 rounded-full bg-white"
         />
-        <p className="my-auto mr-auto">@{current_user.username}</p>
+        <p className="my-auto mr-auto">@{current_user?.username}</p>
       </div>
       <div className="relative mt-8">
         <label htmlFor="last_name" className="text-sm">
@@ -92,7 +88,7 @@ export default function EditAccountCard({
         <input
           id="first_name"
           type="text"
-          defaultValue={current_user.first_name}
+          defaultValue={current_user?.first_name}
           className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("first_name")}
         />
@@ -107,7 +103,7 @@ export default function EditAccountCard({
         <input
           id="last_name"
           type="text"
-          defaultValue={current_user.last_name}
+          defaultValue={current_user?.last_name}
           className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("last_name")}
         />
@@ -137,7 +133,7 @@ export default function EditAccountCard({
           <input
             id="phone_number"
             type="phone_number"
-            defaultValue={current_user.phone_number}
+            defaultValue={current_user?.phone_number}
             className="block px-2.5 pb-2 pt-2 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("phone_number")}
           />
@@ -155,7 +151,7 @@ export default function EditAccountCard({
           <input
             id="snapchat"
             type="snapchat"
-            defaultValue={current_user.snapchat}
+            defaultValue={current_user?.snapchat}
             className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("snapchat")}
           />
@@ -173,7 +169,7 @@ export default function EditAccountCard({
           <input
             id="instagram"
             type="instagram"
-            defaultValue={current_user.instagram}
+            defaultValue={current_user?.instagram}
             className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("instagram")}
           />{" "}
@@ -191,7 +187,7 @@ export default function EditAccountCard({
           <input
             id="groupme"
             type="groupme"
-            defaultValue={current_user.groupme}
+            defaultValue={current_user?.groupme}
             className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("groupme")}
           />{" "}
@@ -209,7 +205,7 @@ export default function EditAccountCard({
           <input
             id="discord"
             type="discord"
-            defaultValue={current_user.discord}
+            defaultValue={current_user?.discord}
             className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("discord")}
           />{" "}
