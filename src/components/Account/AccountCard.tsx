@@ -3,6 +3,7 @@ import { IUser } from "@/@types";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@/lib/store";
+import Link from "next/link";
 
 export default function AccountCard({ account_data }: { account_data: IUser }) {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
   };
 
   if (!current_user) {
-    return
+    return;
   }
 
   return (
@@ -44,25 +45,19 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
       <p className="text-4xl font-bold mt-5">
         {account_data?.first_name} {account_data?.last_name}
       </p>
-      <p className="italics mt-3">@{account_data?.username}</p>
+      <p className="italics">@{account_data?.username}</p>
+      <div className="mt-1">
+        <Link href="/followers" className="hover:underline cursor-pointer mr-3">1 Followers</Link>
+        <Link href="/following" className="hover:underline cursor-pointer">4 Following</Link>
+      </div>
       <p className="italics text-sm text-gray-500">
         Member since{" "}
         {new Date(account_data?.date_joined).toDateString().substring(4)}
       </p>
-      <p className="italics text-sm text-gray-500">
+      <p className="italics text-sms text-gray-500">
         {account_data?.verified && <p>Verified UGA Student</p>}
       </p>
-      <div className="grid grid-cols-2 mt-5 w-1/2">
-        <div className="flex flex-col">
-          <p>2</p>
-          <p>Followers</p>
-        </div>
-        <div>
-          <p>1</p>
-          <p>Following</p>
-        </div>
-      </div>
-      <>
+      <div className="mt-8">
         {account_data.email && (
           <div className="flex justify-start mb-2">
             <Image
@@ -123,7 +118,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
             <p className="mt-auto mb-auto">@{account_data?.discord}</p>
           </div>
         )}
-      </>
+      </div>
     </div>
   );
 }

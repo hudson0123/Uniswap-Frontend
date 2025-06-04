@@ -29,8 +29,8 @@ export default function PostCard({ post }: { post: IPost }) {
         <div className='relative text-black rounded border-1 shadow px-3 py-3 w-full h-50 bg-gray-300'>
             <div className='flex flex-rows'>
                 <div className='flex-cols'>
-                    <p className='text-lg font-semibold'>{post.ticket_title}</p>
-                    <p className=''>${post.ticket_price}</p>
+                    <p className='md:text-lg text-sm font-semibold'>{post.ticket_title}</p>
+                    <p className='md:text-lg text-sm'>${post.ticket_price}</p>
                 </div>
                 <Link className="ml-auto my-auto" href={"/" + post.author.username}>
                     <p className='italic hover:underline'>@{post.author.username}</p>

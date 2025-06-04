@@ -16,7 +16,7 @@ export default function AccountReceivedRequests() {
   } = useQuery({
     queryKey: ["received", currentUser],
     queryFn: async () => {
-      const received_res = await api.get("/api/my-received-requests/");
+      const received_res = await api.get("/api/my-received-requests/?status=pending");
       return received_res.data;
     },
   });
@@ -35,7 +35,7 @@ export default function AccountReceivedRequests() {
       {received_data.length == 0 ? (
         <div className="flex justify-center mt-auto mb-auto text-2xl h-20">
           <p className="font-semibold mt-20">
-            When you receive a request, you will see it here.
+            You Have No Pending Requests.
           </p>
         </div>
       ) : (

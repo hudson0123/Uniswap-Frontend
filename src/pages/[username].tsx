@@ -7,7 +7,6 @@ import NotificationBanner from "@/components/NotificationBanner";
 import Topbar from "@/components/Navigation/Topbar";
 import AccountCard from "@/components/Account/AccountCard";
 import AccountListings from "@/components/Account/AccountListings";
-import AccountWatchlist from "@/components/Account/AccountWatchlist";
 import AccountSettings from "@/components/Account/AccountSettings";
 import AccountReceivedRequests from "@/components/Account/AccountReceivedRequests";
 import AccountSentRequests from "@/components/Account/AccountSentRequests";
@@ -52,7 +51,7 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="min-h-screen">
       <NotificationBanner />
       <Topbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black">
@@ -60,19 +59,18 @@ export default function AccountPage() {
         {current_user.id == account_data.id && (
           <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[80vh] overflow-auto mt-5">
             {/* Responsive tabs */}
-            <div className="flex md:grid md:grid-cols-6 overflow-x-auto gap-2 md:gap-0 mb-4">
+            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 mb-4 justify-between">
               {[
                 ["Received Requests", 1],
                 ["Sent Requests", 2],
                 ["Create Post", 3],
                 ["My Listings", 4],
-                ["Watchlist", 5],
-                ["Settings", 6],
+                ["Settings", 5],
               ].map(([label, id]) => (
                 <button
                   key={id}
                   onClick={() => setAccountDetailSelection(Number(id))}
-                  className={`min-w-max px-4 py-2 text-xs md:text-base whitespace-nowrap rounded hover:bg-gray-100 ${
+                  className={`w-full px-4 py-2 text-xs md:text-base whitespace-nowrap rounded hover:bg-gray-100 ${
                     accountDetailSelection === id
                       ? "font-semibold border-b-2 border-black"
                       : ""
@@ -95,8 +93,6 @@ export default function AccountPage() {
                 <CreatePostForm />
               ) : accountDetailSelection === 4 ? (
                 <AccountListings />
-              ) : accountDetailSelection === 5 ? (
-                <AccountWatchlist />
               ) : (
                 <AccountSettings />
               )}

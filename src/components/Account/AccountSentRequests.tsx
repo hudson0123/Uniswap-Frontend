@@ -35,7 +35,7 @@ export default function AccountSentRequests() {
       {sent_data.length == 0 ? (
         <div className="flex justify-center mt-auto mb-auto text-2xl h-20">
           <p className="font-semibold mt-20">
-            When you send a request, you will see it here.
+            You Have No Pending Sent Requests.
           </p>
         </div>
       ) : (
