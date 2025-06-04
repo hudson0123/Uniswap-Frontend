@@ -47,8 +47,12 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
       </p>
       <p className="italics">@{account_data?.username}</p>
       <div className="mt-1">
-        <Link href="/followers" className="hover:underline cursor-pointer mr-3">1 Followers</Link>
-        <Link href="/following" className="hover:underline cursor-pointer">4 Following</Link>
+        <Link href="/followers" className="hover:underline cursor-pointer mr-3">
+          1 Followers
+        </Link>
+        <Link href="/following" className="hover:underline cursor-pointer">
+          4 Following
+        </Link>
       </div>
       <p className="italics text-sm text-gray-500">
         Member since{" "}
@@ -58,6 +62,18 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
         {account_data?.verified && <p>Verified UGA Student</p>}
       </p>
       <div className="mt-8">
+        {account_data.phone_number && (
+          <div className="flex justify-start mb-2">
+            <Image
+              src="/phone.svg"
+              width={100}
+              height={100}
+              alt="profile"
+              className="w-12 h-12 mr-5"
+            />
+            <p className="mt-auto mb-auto">{account_data?.phone_number.slice(0,3) + "-" + account_data?.phone_number.slice(3,6) + "-" + account_data?.phone_number.slice(6,10)}</p>
+          </div>
+        )}
         {account_data.email && (
           <div className="flex justify-start mb-2">
             <Image
@@ -67,7 +83,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-12 h-12 mr-5"
             />
-            <p className="mt-auto mb-auto">{account_data?.email}</p>
+            <p className="mt-auto mb-auto text-sm">{account_data?.email}</p>
           </div>
         )}
         {account_data.snapchat && (
@@ -79,7 +95,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-10 h-10 mr-5"
             />
-            <p className="mt-auto mb-auto">@{account_data?.snapchat}</p>
+            <p className="mt-auto mb-auto text-sm">@{account_data?.snapchat}</p>
           </div>
         )}
         {account_data.instagram && (
@@ -91,7 +107,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-10 h-10 mr-5"
             />
-            <p className="mt-auto mb-auto">@{account_data?.instagram}</p>
+            <p className="mt-auto mb-auto text-sm">@{account_data?.instagram}</p>
           </div>
         )}
         {account_data.groupme && (
@@ -103,7 +119,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-10 h-10 rounded-full mr-5"
             />
-            <p className="mt-auto mb-auto">@{account_data?.groupme}</p>
+            <p className="mt-auto mb-auto text-sm">@{account_data?.groupme}</p>
           </div>
         )}
         {account_data.discord && (
@@ -115,7 +131,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-12 h-12 mr-5"
             />
-            <p className="mt-auto mb-auto">@{account_data?.discord}</p>
+            <p className="mt-auto mb-auto text-sm">@{account_data?.discord}</p>
           </div>
         )}
       </div>

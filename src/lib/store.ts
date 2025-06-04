@@ -20,6 +20,7 @@ interface IAuthStore extends IAuthState {
     setAccess: (access: string) => void;
     login: (username: string, password: string) => void,
     logout: () => void,
+    refreshCurrentUser: () => void,
 }
 
 
@@ -50,7 +51,12 @@ export const useAuthStore = create<IAuthStore>()(
             },
             logout: () => {
                 set({ current_user: null, access: null, refresh: null })
+                router.push('/login')
             },
+            refreshCurrentUser: async () => {
+                const current_user_data_res = await api.get('/api/current-user/')
+                set({ current_user: current_user_data_res.data })
+            }
         }), {
         name: 'auth-storage',
     }

@@ -1,12 +1,11 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { IPost } from "@/@types";
+import { IPost, IUser } from "@/@types";
 import { useAuthStore } from "@/lib/store";
 import api from "@/lib/api";
 import PostCard from "../Posts/PostCard";
 
-export default function AccountListings() {
-  const current_user_data = useAuthStore((state) => state.current_user);
+export default function AccountListings({current_user_data}: {current_user_data: IUser}) {
 
   const {
     data: listings_data,
@@ -47,7 +46,7 @@ export default function AccountListings() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-5 mt-5 overflow-y-scroll">
+        <div className="grid grid-cols-1 gap-5 mt-5 max-h-[70vh] overflow-y-scroll">
           {listings_data.map((listing) => (
             <PostCard post={listing} />
           ))}

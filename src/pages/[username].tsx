@@ -56,10 +56,10 @@ export default function AccountPage() {
       <Topbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black">
         <AccountCard account_data={account_data} />
-        {current_user.id == account_data.id && (
+        {current_user.id == account_data.id ? (
           <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[80vh] overflow-auto mt-5">
             {/* Responsive tabs */}
-            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 mb-4 justify-between">
+            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
               {[
                 ["Received Requests", 1],
                 ["Sent Requests", 2],
@@ -70,7 +70,7 @@ export default function AccountPage() {
                 <button
                   key={id}
                   onClick={() => setAccountDetailSelection(Number(id))}
-                  className={`w-full px-4 py-2 text-xs md:text-base whitespace-nowrap rounded hover:bg-gray-100 ${
+                  className={`w-full px-4 py-2 text-xs md:text-base whitespace-nowrap hover:border-b-2 hover:border-gray-300 ${
                     accountDetailSelection === id
                       ? "font-semibold border-b-2 border-black"
                       : ""
@@ -81,7 +81,7 @@ export default function AccountPage() {
               ))}
             </div>
 
-            <hr className="mb-4" />
+            <hr className="" />
 
             {/* Content area */}
             <div className="flex-1 overflow-y-auto min-h-50">
@@ -92,11 +92,35 @@ export default function AccountPage() {
               ) : accountDetailSelection === 3 ? (
                 <CreatePostForm />
               ) : accountDetailSelection === 4 ? (
-                <AccountListings />
+                <AccountListings current_user_data={account_data} />
               ) : (
                 <AccountSettings />
               )}
             </div>
+          </div>
+        ) : (
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[80vh] overflow-auto mt-5">
+            {/* Responsive tabs */}
+            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
+              {[
+                ["Active Listings", 1],
+              ].map(([label, id]) => (
+                <button
+                  key={id}
+                  onClick={() => setAccountDetailSelection(Number(id))}
+                  className={`w-full px-4 py-2 text-xs md:text-base whitespace-nowrap hover:border-b-2 hover:border-gray-200 ${
+                    accountDetailSelection === id
+                      ? "font-semibold border-b-2 border-black"
+                      : ""
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <hr className="" />
+            <AccountListings current_user_data={current_user} />
           </div>
         )}
       </div>

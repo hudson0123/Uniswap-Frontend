@@ -30,14 +30,18 @@ export default function SentRequestCard({ request }: { request: IRequest }) {
               />
             </Link>
           </div>
-          <p className="text-sm md:text-md text-base font-medium">
-            ${request.post.ticket_price}
-          </p>
-          <p className="text-xs text-gray-700">
-            {moment(new Date(request.sent_at)).fromNow()}
-          </p>
-          <div>
-            {request.status}
+          <div className="grid grid-cols-2 gap-1">
+            <div>
+              <p className="text-sm md:text-md font-medium">
+                ${request.post.ticket_price}
+              </p>
+              <p className="text-xs text-gray-700">
+                {moment(new Date(request.sent_at)).fromNow()}
+              </p>
+            </div>
+            <div className="mt-auto ml-auto">
+              {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+            </div>
           </div>
         </div>
       </div>

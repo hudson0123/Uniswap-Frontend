@@ -40,7 +40,7 @@ export default function PostCard({ post }: { post: IPost }) {
 
             <hr></hr>
             <div>
-                <p className='w-3/5 mt-2'>{post.description}</p>
+                <p className='w-5/5 mt-2'>{post.description}</p>
             </div>
             <button className="absolute bottom-2 left-2 border-1 px-2 py-1 rounded bg-white cursor-pointer hover:bg-gray-200 transform duration-200" onClick={() => {
                 createRequestMutation.mutate({

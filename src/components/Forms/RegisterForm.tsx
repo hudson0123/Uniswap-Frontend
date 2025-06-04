@@ -7,10 +7,10 @@ import { useRouter } from "next/router";
 
 const schema = z
   .object({
-    username: z.string(),
-    email: z.string().email(),
-    first_name: z.string(),
-    last_name: z.string(),
+    username: z.string().max(10, "Your username must be under 10 characters."),
+    email: z.string().email("Incorrectly formatted email address."),
+    first_name: z.string().max(10, "Your first name must be under 10 characters."),
+    last_name: z.string().max(10, "Your last name must be under 10 characters."),
     password: z.string(),
     confirm_password: z.string(),
   })
@@ -158,7 +158,7 @@ export default function RegisterForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="border bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+        className="bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
         Register
       </button>
