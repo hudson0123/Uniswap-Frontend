@@ -65,7 +65,7 @@ export default function EditAccountForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 rounded-2xl shadow-xl w-fit m-auto"
+      className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 rounded-2xl shadow-xl w-2/3 m-auto"
     >
       <div className="flex flex-row">
         <Image
@@ -77,9 +77,9 @@ export default function EditAccountForm({
           width={100}
           height={100}
           alt="profile"
-          className="w-15 h-15 rounded-full bg-white"
+          className="w-20 h-20 rounded-full bg-white"
         />
-        <p className="my-auto mr-auto">@{current_user?.username}</p>
+        <p className="my-auto ml-5 text-2xl">@{current_user?.username}</p>
       </div>
       <div className="relative mt-8">
         <label htmlFor="last_name" className="text-sm">
@@ -89,7 +89,7 @@ export default function EditAccountForm({
           id="first_name"
           type="text"
           defaultValue={current_user?.first_name}
-          className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("first_name")}
         />
         {errors.first_name && (
@@ -104,7 +104,7 @@ export default function EditAccountForm({
           id="last_name"
           type="text"
           defaultValue={current_user?.last_name}
-          className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("last_name")}
         />
         {errors.last_name && (
@@ -134,7 +134,7 @@ export default function EditAccountForm({
             id="phone_number"
             type="phone_number"
             defaultValue={current_user?.phone_number}
-            className="block px-2.5 pb-2 pt-2 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            className="block px-2.5 pb-2 pt-2 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("phone_number")}
           />
         </div>
@@ -147,12 +147,12 @@ export default function EditAccountForm({
             alt="profile"
             className="w-10 h-10 mr-5"
           />
-          <p className="m-auto mr-2">@</p>
+          <p className="my-auto mr-2">@</p>
           <input
             id="snapchat"
             type="snapchat"
             defaultValue={current_user?.snapchat}
-            className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("snapchat")}
           />
         </div>
@@ -165,12 +165,12 @@ export default function EditAccountForm({
             alt="profile"
             className="w-10 h-10 mr-5"
           />
-          <p className="m-auto mr-2">@</p>
+          <p className="my-auto mr-2">@</p>
           <input
             id="instagram"
             type="instagram"
             defaultValue={current_user?.instagram}
-            className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("instagram")}
           />{" "}
         </div>
@@ -181,14 +181,14 @@ export default function EditAccountForm({
             width={100}
             height={100}
             alt="profile"
-            className="w-10 h-10 rounded-full mr-5"
+            className="w-10 h-10 rounded-1/2 mr-5"
           />
-          <p className="m-auto mr-2">@</p>
+          <p className="my-auto mr-2">@</p>
           <input
             id="groupme"
             type="groupme"
             defaultValue={current_user?.groupme}
-            className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("groupme")}
           />{" "}
         </div>
@@ -201,12 +201,12 @@ export default function EditAccountForm({
             alt="profile"
             className="w-10 h-10 mr-5"
           />
-          <p className="m-auto mr-2">@</p>
+          <p className="my-auto mr-2">@</p>
           <input
             id="discord"
             type="discord"
             defaultValue={current_user?.discord}
-            className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("discord")}
           />{" "}
         </div>

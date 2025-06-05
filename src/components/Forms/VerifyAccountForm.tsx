@@ -50,20 +50,21 @@ export default function VerifyAccountForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 rounded-2xl shadow-xl w-fit m-auto"
+      className="relative bg-white p-40 flex flex-col rounded-2xl shadow-xl w-200 m-auto mt-20"
     >
-      <label className="text">Verification Code</label>
+      <label className="m-auto text-3xl">Verification Code</label>
       <input
-        className="block mt-2 px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-gray-200 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+        className="m-auto text-center text-2xl block px-2.5 pb-2.5 pt-2.5 w-50 mt-10 bg-gray-200 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
         type="text"
         id="code"
+        placeholder="123456"
         {...register("code")}
       />
       <p className="text-red-500">{errors.code?.message}</p>
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+        className="m-auto bg-blue-300 text-gray-900 font-bold rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
         Verify
       </button>

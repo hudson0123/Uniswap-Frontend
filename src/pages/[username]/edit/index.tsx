@@ -2,6 +2,7 @@ import React from "react";
 import Router, { useRouter } from "next/router";
 import EditAccountForm from "@/components/Forms/EditAccountForm";
 import NotificationBanner from "@/components/NotificationBanner";
+import Topbar from "@/components/Navigation/Topbar";
 
 export default function Edit() {
   const router = useRouter();
@@ -9,6 +10,7 @@ export default function Edit() {
 
   return (
     <>
+      <Topbar />
       <NotificationBanner />
       <EditAccountForm username={username} />
     </>

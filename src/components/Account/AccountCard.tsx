@@ -19,13 +19,11 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
     router.push(editUrl);
   };
 
-  if (!current_user) {
-    return;
-  }
+
 
   return (
     <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
-      {current_user.id == account_data.id && (
+      {current_user?.id == account_data.id && (
         <button className="cursor-pointer" onClick={editProfile}>
           <Image
             src="/edit.svg"

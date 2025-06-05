@@ -12,6 +12,7 @@ import AccountReceivedRequests from "@/components/Account/AccountReceivedRequest
 import AccountSentRequests from "@/components/Account/AccountSentRequests";
 import { useAuthStore } from "@/lib/store";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
+import Image from "next/image";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -34,8 +35,24 @@ export default function AccountPage() {
 
   if (isPending || !current_user) {
     return (
-      <div className="m-5 mt-20 md:m-20">
-        <p>LOADING...</p>
+      <div className="min-h-screen">
+        <NotificationBanner />
+        <Topbar />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mx-20 mb-20">
+          <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
+            <Image
+              src={"/profile.jpg"}
+              width={100}
+              height={100}
+              alt="profile"
+              className="w-30 h-30 flex rounded-full bg-white"
+            />
+          </div>
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[85vh] overflow-auto mt-5">
+            {/* Responsive tabs */}
+            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between"></div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -54,10 +71,10 @@ export default function AccountPage() {
     <div className="min-h-screen">
       <NotificationBanner />
       <Topbar />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mx-20 mb-20">
         <AccountCard account_data={account_data} />
         {current_user.id == account_data.id ? (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[80vh] overflow-auto mt-5">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 min-h-[85vh] overflow-auto mt-5">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
               {[
@@ -99,12 +116,10 @@ export default function AccountPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[80vh] overflow-auto mt-5">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[85vh] overflow-auto mt-5">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
-              {[
-                ["Active Listings", 1],
-              ].map(([label, id]) => (
+              {[["Active Listings", 1]].map(([label, id]) => (
                 <button
                   key={id}
                   onClick={() => setAccountDetailSelection(Number(id))}
