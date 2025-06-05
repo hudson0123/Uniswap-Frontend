@@ -50,8 +50,8 @@ export const useAuthStore = create<IAuthStore>()(
                 }
             },
             logout: () => {
-                set({ current_user: null, access: null, refresh: null })
                 router.push('/login')
+                set({ current_user: null, access: null, refresh: null })
             },
             refreshCurrentUser: async () => {
                 const current_user_data_res = await api.get('/api/current-user/')

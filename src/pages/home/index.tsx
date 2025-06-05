@@ -7,6 +7,7 @@ import { IPost } from "@/@types";
 import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
 import NotificationBanner from "@/components/NotificationBanner";
+import SearchUsers from "@/components/Users/SearchUsers";
 
 const queryPosts = async ({ pageParam }: { pageParam: number }) => {
   const res = await api.get<PaginatedResponse<IPost>>(
@@ -51,26 +52,15 @@ export default function Home() {
     <>
       <NotificationBanner />
       <Topbar />
-      <div className="pt-30 px-20 flex flex-col-2 w-full min-h-[85vh] overflow-auto">
-        <div className="bg-white p-10 rounded-2xl shadow-xl w-1/2">
+      <div className="pt-10 px-20 flex flex-col-2 w-full min-h-[85vh] overflow-auto gap-10">
+        <div className="bg-white p-10 w-2/3 rounded-2xl shadow-xl">
           {data.pages.map((page) => {
             return <PostCardChunk posts={page.results} />;
           })}
         </div>
-        <div>he</div>
+        <SearchUsers />
       </div>
-      <div className="relative bg-[#f5f5f5] py-5">
-        {hasNextPage ? (
-          <div className="flex flex-col ml-auto mr-auto">
-            <h1 className="text-black text-2xl ml-auto mr-auto">...</h1>
-          </div>
-        ) : (
-          <div className="flex flex-col w-full justify-center align-middle py-5">
-            <h2 className="font-bold text-black ml-auto mr-auto">
-              That's all the posts we have :)
-            </h2>
-          </div>
-        )}
+      <div className="relative pb-10">
         <div ref={ref} className="absolute top-[-200px]"></div>
       </div>
     </>

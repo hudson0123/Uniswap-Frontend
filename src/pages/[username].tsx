@@ -35,10 +35,10 @@ export default function AccountPage() {
 
   if (isPending || !current_user) {
     return (
-      <div className="min-h-screen">
+      <div className="max-h-[85vh]">
         <NotificationBanner />
         <Topbar />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mx-20 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mx-20 mb-20 h-[94vh]">
           <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
             <Image
               src={"/profile.jpg"}
@@ -48,7 +48,7 @@ export default function AccountPage() {
               className="w-30 h-30 flex rounded-full bg-white"
             />
           </div>
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[85vh] overflow-auto mt-5">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 overflow-auto mt-5">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between"></div>
           </div>
@@ -68,13 +68,13 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="max-h-[85vh]">
       <NotificationBanner />
       <Topbar />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mx-20 mb-20">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black md:mx-20 mb-20 ">
         <AccountCard account_data={account_data} />
         {current_user.id == account_data.id ? (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 min-h-[85vh] overflow-auto mt-5">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[75vh] overflow-auto mt-5 rounded-2xl shadow-xl">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
               {[

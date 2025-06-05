@@ -65,7 +65,7 @@ export default function EditAccountForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 rounded-2xl shadow-xl w-2/3 m-auto"
+      className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 md:rounded-2xl md:shadow-xl md:w-2/3 w-full m-auto"
     >
       <div className="flex flex-row">
         <Image

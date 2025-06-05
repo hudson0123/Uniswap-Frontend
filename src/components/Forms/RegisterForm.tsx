@@ -7,10 +7,14 @@ import { useRouter } from "next/router";
 
 const schema = z
   .object({
-    username: z.string().max(10, "Your username must be under 10 characters."),
+    username: z.string().max(12, "Your username must be under 12 characters."),
     email: z.string().email("Incorrectly formatted email address."),
-    first_name: z.string().max(10, "Your first name must be under 10 characters."),
-    last_name: z.string().max(10, "Your last name must be under 10 characters."),
+    first_name: z
+      .string()
+      .max(10, "Your first name must be under 10 characters."),
+    last_name: z
+      .string()
+      .max(10, "Your last name must be under 10 characters."),
     password: z.string(),
     confirm_password: z.string(),
   })
@@ -21,10 +25,9 @@ const schema = z
 
 type FormData = z.infer<typeof schema>;
 
-
 export default function RegisterForm() {
   const setNotification = useNotifyStore((state) => state.setNotification);
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -42,7 +45,7 @@ export default function RegisterForm() {
         last_name: data.last_name,
         email: data.email,
       });
-      router.push('/login')
+      router.push("/login");
     } catch {
       setNotification("error", "Unable to Create User.");
     }
@@ -51,7 +54,7 @@ export default function RegisterForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 px-8 py-10 rounded text-black w-100"
+      className="grid grid-cols-1 px-8 mb-5 py-5 rounded text-black md:w-2/5"
     >
       <div className="relative mt-8">
         <input
@@ -67,7 +70,9 @@ export default function RegisterForm() {
         >
           Username
         </label>
-        {errors.username && <p className="text-red-600 text-sm">{errors.username.message}</p>}
+        {errors.username && (
+          <p className="text-red-600 text-sm">{errors.username.message}</p>
+        )}
       </div>
 
       <div className="relative mt-8">
@@ -84,41 +89,48 @@ export default function RegisterForm() {
         >
           Email
         </label>
-        {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
+        {errors.email && (
+          <p className="text-red-600 text-sm">{errors.email.message}</p>
+        )}
       </div>
+      <div className="flex flex-col-2 gap-3">
+        <div className="relative mt-8 w-1/2">
+          <input
+            id="first_name"
+            type="text"
+            placeholder=" "
+            className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            {...register("first_name")}
+          />
+          <label
+            htmlFor="first_name"
+            className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4"
+          >
+            First Name
+          </label>
+          {errors.first_name && (
+            <p className="text-red-600 text-sm">{errors.first_name.message}</p>
+          )}
+        </div>
 
-      <div className="relative mt-8">
-        <input
-          id="first_name"
-          type="text"
-          placeholder=" "
-          className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("first_name")}
-        />
-        <label
-          htmlFor="first_name"
-          className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4"
-        >
-          First Name
-        </label>
-        {errors.first_name && <p className="text-red-600 text-sm">{errors.first_name.message}</p>}
-      </div>
-
-      <div className="relative mt-8">
-        <input
-          id="last_name"
-          type="text"
-          placeholder=" "
-          className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("last_name")}
-        />
-        <label
-          htmlFor="last_name"
-          className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4"
-        >
-          Last Name
-        </label>
-        {errors.last_name && <p className="text-red-600 text-sm">{errors.last_name.message}</p>}
+        <div className="relative mt-8 w-1/2">
+          <input
+            id="last_name"
+            type="text"
+            placeholder=" "
+            className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            {...register("last_name")}
+          />
+          <label
+            htmlFor="last_name"
+            className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4"
+          >
+            Last Name
+          </label>
+          {errors.last_name && (
+            <p className="text-red-600 text-sm">{errors.last_name.message}</p>
+          )}
+        </div>
       </div>
 
       <div className="relative mt-8">
@@ -135,7 +147,9 @@ export default function RegisterForm() {
         >
           Password
         </label>
-        {errors.password && <p className="text-red-600 text-sm">{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-red-600 text-sm">{errors.password.message}</p>
+        )}
       </div>
 
       <div className="relative mt-8">
@@ -152,13 +166,17 @@ export default function RegisterForm() {
         >
           Confirm Password
         </label>
-        {errors.confirm_password && <p className="text-red-600 text-sm">{errors.confirm_password.message}</p>}
+        {errors.confirm_password && (
+          <p className="text-red-600 text-sm">
+            {errors.confirm_password.message}
+          </p>
+        )}
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+        className="bg-black text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
         Register
       </button>
