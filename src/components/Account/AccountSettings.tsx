@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAuthStore } from "@/lib/store";
-import DeleteAccountConfirmation from "./DeleteAccountConfirmation";
 import api from "@/lib/api";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useRouter } from "next/router";

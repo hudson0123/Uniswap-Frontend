@@ -8,14 +8,32 @@ function Topbar() {
     data: currentUserData,
     error: currentUserError,
     isPending: currentUserPending,
-  } = useCurrentUser()
+  } = useCurrentUser();
 
   if (currentUserPending) {
-    return
+    return (
+      <div className="">
+        <nav className="p-4 px-10 w-full bg-white z-10">
+          <div className="flex flex-wrap justify-between mx-auto h-10">
+            <Link
+              href="/home"
+              className="flex items-center space-x-3 rtl:space-x-reverse"
+            >
+              <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
+                UniSwap
+              </span>
+            </Link>
+            <div className="group relative flex justify-end items-center">
+              <TopbarProfileDropdown />
+            </div>
+          </div>
+        </nav>
+      </div>
+    );
   }
 
   if (currentUserError) {
-    return
+    return;
   }
 
   return (

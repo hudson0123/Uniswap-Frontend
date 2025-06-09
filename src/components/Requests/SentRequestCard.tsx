@@ -7,7 +7,7 @@ import moment from "moment";
 export default function SentRequestCard({ request }: { request: IRequest }) {
   return (
     <div className="">
-      <div className="relative text-black rounded border shadow px-3 py-3 w-full h-fit bg-gray-300">
+      <div className="relative text-black px-3 pb-3 w-full h-fit">
         <div className="flex flex-col relative">
           <div className="grid grid-cols-2 gap-1 mb-2">
             <p className="md:text-xl text-sm font-semibold whitespace-nowrap mt-auto mb-auto">
@@ -45,6 +45,7 @@ export default function SentRequestCard({ request }: { request: IRequest }) {
           </div>
         </div>
       </div>
+      <hr></hr>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { IRequest } from "@/@types";
 import React from "react";
-import PostCard from "../Posts/PostCard";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import api from "@/lib/api";
 import Link from "next/link";
@@ -20,15 +19,15 @@ export default function ReceivedRequestCard({
         status: request.status,
       });
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["received"] });
-      queryClient.invalidateQueries({ queryKey: ["sent"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["received"] });
+      await queryClient.invalidateQueries({ queryKey: ["sent"] });
     },
   });
 
   return (
     <div className="">
-      <div className="relative text-black rounded border shadow px-3 py-3 w-full h-fit bg-gray-300">
+      <div className="relative text-black px-3 pb-3 w-full h-fit">
         <div className="flex flex-col relative">
           <div className="grid grid-cols-2 gap-1 mb-2">
             <p className="md:text-xl text-sm font-semibold whitespace-nowrap mt-auto mb-auto">
@@ -65,21 +64,13 @@ export default function ReceivedRequestCard({
                 })
               }
             >
-              {requestStatusMutation.isPending ? (
-                <Image
-                  alt="loading"
-                  width={100}
-                  height={100}
-                  src="/loading.svg"
-                  className="md:h-8 h-8 md:w-8 w-8"
-                />
-              ) : (
+              {!requestStatusMutation.isPending && (
                 <Image
                   alt="accept"
                   width={100}
                   height={100}
                   src="/accept.svg"
-                  className="md:h-8 h-8 md:w-8 w-8"
+                  className="md:h-8 h-8 md:w-8 w-8 cursor-pointer"
                 />
               )}
             </button>
@@ -92,27 +83,20 @@ export default function ReceivedRequestCard({
                 })
               }
             >
-              {requestStatusMutation.isPending ? (
-                <Image
-                  alt="loading"
-                  width={100}
-                  height={100}
-                  src="/loading.svg"
-                  className="md:h-8 h-8 md:w-8 w-8"
-                />
-              ) : (
+              {!requestStatusMutation.isPending && (
                 <Image
                   alt="reject"
                   width={100}
                   height={100}
                   src="/reject.svg"
-                  className="md:h-8 h-8 md:w-8 w-8"
+                  className="md:h-8 h-8 md:w-8 w-8 cursor-pointer"
                 />
               )}
             </button>
           </div>
         </div>
       </div>
+      <hr></hr>
     </div>
   );
 }

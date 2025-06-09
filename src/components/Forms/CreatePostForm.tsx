@@ -35,7 +35,7 @@ export default function CreatePostForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await api.post("/api/posts/", {
+      await api.post("/api/posts/", {
         ticket_title: data.ticket_title,
         ticket_price: data.ticket_price,
         description: data.description,
