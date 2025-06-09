@@ -99,7 +99,7 @@ export default function TopbarProfileDropdown() {
       </button>
       <hr className=""></hr>
       <button className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer">
-        Help Center
+        Report Issue
       </button>
       <hr className=""></hr>
       <button

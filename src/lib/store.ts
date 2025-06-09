@@ -1,12 +1,10 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { IUser } from '@/@types'
 
 /**
  * State that is stored in useAuthStore
  */
 interface IAuthState {
-    currentUser: IUser | null,
     access: string | null,
     refresh: string | null,
 }
@@ -17,7 +15,6 @@ interface IAuthState {
 interface IAuthStore extends IAuthState {
     setAccess: (access: string) => void;
     setRefresh: (refresh: string) => void;
-    setCurrentUser: (currentUser: IUser) => void;
     resetAuth: () => void
 }
 
@@ -25,7 +22,6 @@ interface IAuthStore extends IAuthState {
 export const useAuthStore = create<IAuthStore>()(
     persist(
         (set) => ({
-            currentUser: null,
             access: null,
             refresh: null,
             setAccess: (access: string): void => {
@@ -34,11 +30,8 @@ export const useAuthStore = create<IAuthStore>()(
             setRefresh: (refresh: string): void => {
                 set({refresh})
             },
-            setCurrentUser: (currentUser: IUser) => {
-                set({currentUser: currentUser})
-            },
             resetAuth: () => {
-                set({ access: null, refresh: null, currentUser: null })
+                set({ access: null, refresh: null})
             }
         }), {
         name: 'auth-storage',
