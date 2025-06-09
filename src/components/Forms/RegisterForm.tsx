@@ -38,7 +38,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await api.post("/api/users/", {
+      await api.post("/api/users/", {
         username: data.username,
         password: data.password,
         first_name: data.first_name,
@@ -46,6 +46,7 @@ export default function RegisterForm() {
         email: data.email,
       });
       router.push("/login");
+      return null;
     } catch {
       setNotification("error", "Unable to Create User.");
     }

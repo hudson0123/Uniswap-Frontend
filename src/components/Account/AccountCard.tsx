@@ -16,11 +16,13 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
   const editProfile = () => {
     const editUrl = "/" + accountData.username + "/edit";
     router.push(editUrl);
+    return null;
   };
 
   const verifyProfile = () => {
     const editUrl = "/" + accountData.username + "/verify";
     router.push(editUrl);
+    return null;
   };
 
   if (currentUserPending) {

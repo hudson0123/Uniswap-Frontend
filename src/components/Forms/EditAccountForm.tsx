@@ -63,6 +63,7 @@ export default function EditAccountForm({
       });
       queryClient.invalidateQueries({ queryKey: ['currentUser']})
       router.push("/" + currentUserData?.username + "/");
+      return null;
     } catch {
       setNotification("error", "Unable to Update User");
     }
@@ -70,6 +71,7 @@ export default function EditAccountForm({
 
   if (username !== currentUserData?.username) {
     router.push("/" + currentUserData?.username + "/edit/");
+    return null;
   }
 
   return (

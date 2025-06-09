@@ -20,11 +20,13 @@ export default function AccountSettings() {
     await api.delete("/api/users/" + currentUserData?.id + "/");
     resetAuth()
     router.push('/login')
+    return null;
   };
 
   const handleLogout = () => {
     resetAuth()
     router.push('/login')
+    return null;
   }
 
   if (currentUserPending) {

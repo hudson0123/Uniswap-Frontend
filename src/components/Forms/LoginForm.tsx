@@ -30,6 +30,7 @@ export default function LoginForm() {
       setAccess(data.access)
       setRefresh(data.refresh)
       router.push('/home')
+      return null;
     }
   });
 

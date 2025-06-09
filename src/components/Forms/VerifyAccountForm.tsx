@@ -40,8 +40,9 @@ export default function VerifyAccountForm({
       });
       if (res.status == 200) {
         queryClient.invalidateQueries({ queryKey: ['currentUser']})
-        router.push("/" + username + "/");
         setNotification("success", "Your Account is Verified!");
+        router.push("/" + username + "/");
+        return null;
       } else {
         setNotification("error", "Failed to Verify.");
       }
