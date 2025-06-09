@@ -5,6 +5,7 @@ import { z } from "zod";
 import api from "@/lib/api";
 import { useNotifyStore } from "@/lib/store";
 import { useRouter } from "next/router";
+import { useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
   code: z
@@ -30,6 +31,7 @@ export default function VerifyAccountForm({
 
   const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();
+  const queryClient = useQueryClient()
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -37,6 +39,7 @@ export default function VerifyAccountForm({
         code: data.code,
       });
       if (res.status == 200) {
+        queryClient.invalidateQueries({ queryKey: ['currentUser']})
         router.push("/" + username + "/");
         setNotification("success", "Your Account is Verified!");
       } else {

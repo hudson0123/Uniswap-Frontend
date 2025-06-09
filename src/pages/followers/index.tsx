@@ -1,12 +1,9 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { IUser } from '@/@types'
-import { useAuthStore } from '@/lib/store';
 import api from '@/lib/api';
 
 export default function Followers() {
-
-  const current_user = useAuthStore((state) => state.current_user);
 
 
   const {
@@ -14,14 +11,14 @@ export default function Followers() {
     isPending,
     error
   } = useQuery<IUser[]>({
-    queryKey: ['followers', current_user],
+    queryKey: ['followers'],
     queryFn: async () => {
       const res = await api.get('/api/followers/');
       return res.data;
     }
   })
 
-    if (isPending || !current_user) {
+    if (isPending) {
     return (
       <div className="m-5 mt-20 md:m-20">
         <p>LOADING...</p>
@@ -42,7 +39,7 @@ export default function Followers() {
   return (
     <div>
       {followers_data.map((follower) => (
-        <p>{follower.username}</p>
+        <p key={follower.id}>{follower.username}</p>
       ))}
     </div>
   )

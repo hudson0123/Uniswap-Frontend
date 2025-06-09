@@ -2,28 +2,38 @@ import React from "react";
 import { IUser } from "@/@types";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useAuthStore } from "@/lib/store";
 import Link from "next/link";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
-export default function AccountCard({ account_data }: { account_data: IUser }) {
+export default function AccountCard({ accountData }: { accountData: IUser }) {
   const router = useRouter();
-  const current_user = useAuthStore((state) => state.current_user);
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
 
   const editProfile = () => {
-    const editUrl = "/" + account_data.username + "/edit";
+    const editUrl = "/" + accountData.username + "/edit";
     router.push(editUrl);
   };
 
   const verifyProfile = () => {
-    const editUrl = "/" + account_data.username + "/verify";
+    const editUrl = "/" + accountData.username + "/verify";
     router.push(editUrl);
   };
 
+  if (currentUserPending) {
+    return;
+  }
 
+  if (currentUserError) {
+    return;
+  }
 
   return (
     <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
-      {current_user?.id == account_data.id && (
+      {currentUserData?.id == accountData.id && (
         <button className="cursor-pointer" onClick={editProfile}>
           <Image
             src="/edit.svg"
@@ -36,8 +46,8 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
       )}
       <Image
         src={
-          account_data.profile_picture
-            ? account_data.profile_picture
+          accountData.profile_picture
+            ? accountData.profile_picture
             : "/profile.jpg"
         }
         width={100}
@@ -46,9 +56,9 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
         className="w-30 h-30 flex rounded-full bg-white"
       />
       <p className="text-4xl font-bold mt-5">
-        {account_data?.first_name} {account_data?.last_name}
+        {accountData?.first_name} {accountData?.last_name}
       </p>
-      <p className="italics">@{account_data?.username}</p>
+      <p className="italics">@{accountData?.username}</p>
       <div className="mt-1">
         <Link href="/followers" className="hover:underline cursor-pointer mr-3">
           1 Followers
@@ -58,14 +68,26 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
         </Link>
       </div>
       <p className="italics text-sms text-gray-500">
-        {account_data?.verified ? <p>Verified UGA Student</p> : <p className="text-sm">Unverified - Verify <button className="italic hover:underline cursor-pointer" onClick={verifyProfile}>here</button></p>}
+        {accountData?.verified ? (
+          <p>Verified UGA Student</p>
+        ) : (
+          <p className="text-sm">
+            Unverified - Verify{" "}
+            <button
+              className="italic hover:underline cursor-pointer"
+              onClick={verifyProfile}
+            >
+              here
+            </button>
+          </p>
+        )}
       </p>
       <p className="italics text-sm text-gray-500">
         Member since{" "}
-        {new Date(account_data?.date_joined).toDateString().substring(4)}
+        {new Date(accountData?.date_joined).toDateString().substring(4)}
       </p>
       <div className="mt-8">
-        {account_data.phone_number && (
+        {accountData.phone_number && (
           <div className="flex justify-start mb-2">
             <Image
               src="/phone.svg"
@@ -74,10 +96,16 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-12 h-12 mr-5"
             />
-            <p className="mt-auto mb-auto">{account_data?.phone_number.slice(0,3) + "-" + account_data?.phone_number.slice(3,6) + "-" + account_data?.phone_number.slice(6,10)}</p>
+            <p className="mt-auto mb-auto">
+              {accountData?.phone_number.slice(0, 3) +
+                "-" +
+                accountData?.phone_number.slice(3, 6) +
+                "-" +
+                accountData?.phone_number.slice(6, 10)}
+            </p>
           </div>
         )}
-        {account_data.email && (
+        {accountData.email && (
           <div className="flex justify-start mb-2">
             <Image
               src="/gmail.svg"
@@ -86,10 +114,10 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-12 h-12 mr-5"
             />
-            <p className="mt-auto mb-auto text-sm">{account_data?.email}</p>
+            <p className="mt-auto mb-auto text-sm">{accountData?.email}</p>
           </div>
         )}
-        {account_data.snapchat && (
+        {accountData.snapchat && (
           <div className="flex justify-start mb-2">
             <Image
               src="/snapchat.svg"
@@ -98,10 +126,10 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-10 h-10 mr-5"
             />
-            <p className="mt-auto mb-auto text-sm">@{account_data?.snapchat}</p>
+            <p className="mt-auto mb-auto text-sm">@{accountData?.snapchat}</p>
           </div>
         )}
-        {account_data.instagram && (
+        {accountData.instagram && (
           <div className="flex justify-start mb-2">
             <Image
               src="/instagram.svg"
@@ -110,10 +138,10 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-10 h-10 mr-5"
             />
-            <p className="mt-auto mb-auto text-sm">@{account_data?.instagram}</p>
+            <p className="mt-auto mb-auto text-sm">@{accountData?.instagram}</p>
           </div>
         )}
-        {account_data.groupme && (
+        {accountData.groupme && (
           <div className="flex justify-start mb-2">
             <Image
               src="/groupme.jpeg"
@@ -122,10 +150,10 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-10 h-10 rounded-full mr-5"
             />
-            <p className="mt-auto mb-auto text-sm">@{account_data?.groupme}</p>
+            <p className="mt-auto mb-auto text-sm">@{accountData?.groupme}</p>
           </div>
         )}
-        {account_data.discord && (
+        {accountData.discord && (
           <div className="flex justify-start mb-2">
             <Image
               src="/discord.svg"
@@ -134,7 +162,7 @@ export default function AccountCard({ account_data }: { account_data: IUser }) {
               alt="profile"
               className="w-12 h-12 mr-5"
             />
-            <p className="mt-auto mb-auto text-sm">@{account_data?.discord}</p>
+            <p className="mt-auto mb-auto text-sm">@{accountData?.discord}</p>
           </div>
         )}
       </div>

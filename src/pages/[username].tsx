@@ -10,18 +10,22 @@ import AccountListings from "@/components/Account/AccountListings";
 import AccountSettings from "@/components/Account/AccountSettings";
 import AccountReceivedRequests from "@/components/Account/AccountReceivedRequests";
 import AccountSentRequests from "@/components/Account/AccountSentRequests";
-import { useAuthStore } from "@/lib/store";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
 import Image from "next/image";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function AccountPage() {
   const router = useRouter();
   const username = router.query.username;
   const [accountDetailSelection, setAccountDetailSelection] = useState(1);
-  const current_user = useAuthStore((state) => state.current_user);
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
 
   const {
-    data: account_data,
+    data: accountData,
     isPending,
     error,
   } = useQuery<IUser>({
@@ -33,12 +37,12 @@ export default function AccountPage() {
     enabled: !!username,
   });
 
-  if (isPending || !current_user) {
+  if (isPending || currentUserPending) {
     return (
       <div className="max-h-[85vh]">
         <NotificationBanner />
         <Topbar />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mx-20 mb-20 h-[94vh]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mb-20 h-[94vh]">
           <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
             <Image
               src={"/profile.jpg"}
@@ -57,7 +61,7 @@ export default function AccountPage() {
     );
   }
 
-  if (error) {
+  if (error || currentUserError) {
     return (
       <div>
         <p className="text-red-500 flex justify-center mt-5 text-sm">
@@ -72,8 +76,8 @@ export default function AccountPage() {
       <NotificationBanner />
       <Topbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black md:mx-20 mb-20 ">
-        <AccountCard account_data={account_data} />
-        {current_user.id == account_data.id ? (
+        <AccountCard accountData={accountData} />
+        {currentUserData?.id == accountData.id || !currentUserData ? (
           <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[75vh] overflow-auto mt-5 rounded-2xl shadow-xl">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
@@ -109,7 +113,7 @@ export default function AccountPage() {
               ) : accountDetailSelection === 3 ? (
                 <CreatePostForm />
               ) : accountDetailSelection === 4 ? (
-                <AccountListings current_user_data={account_data} />
+                <AccountListings currentUser_data={accountData} />
               ) : (
                 <AccountSettings />
               )}
@@ -135,7 +139,7 @@ export default function AccountPage() {
             </div>
 
             <hr className="" />
-            <AccountListings current_user_data={current_user} />
+            <AccountListings currentUser_data={currentUserData} />
           </div>
         )}
       </div>

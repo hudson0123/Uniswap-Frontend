@@ -5,14 +5,14 @@ import { useAuthStore } from "@/lib/store";
 import api from "@/lib/api";
 import PostCard from "../Posts/PostCard";
 
-export default function AccountListings({current_user_data}: {current_user_data: IUser}) {
+export default function AccountListings({currentUser_data}: {currentUser_data: IUser}) {
 
   const {
     data: listings_data,
     isPending,
     error,
   } = useQuery<IPost[]>({
-    queryKey: ["account_listings", current_user_data],
+    queryKey: ["account_listings", currentUser_data],
     queryFn: async () => {
       const res = await api.get("/api/my-posts/");
       return res.data;
