@@ -17,19 +17,22 @@ const queryPosts = async ({ pageParam }: { pageParam: number }) => {
 };
 
 export default function Home() {
-
   // Hooks
   const { ref, inView } = useInView();
-  const { data: postData, error: postError, isPending: postPending, fetchNextPage } =
-    useInfiniteQuery({
-      queryKey: ["posts"],
-      queryFn: queryPosts,
-      initialPageParam: 1,
-      getNextPageParam: (lastpage, _, lastPageParam) => {
-        if (!lastpage.next) return null;
-        return lastPageParam + 1;
-      },
-    });
+  const {
+    data: postData,
+    error: postError,
+    isPending: postPending,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: queryPosts,
+    initialPageParam: 1,
+    getNextPageParam: (lastpage, _, lastPageParam) => {
+      if (!lastpage.next) return null;
+      return lastPageParam + 1;
+    },
+  });
 
   useEffect(() => {
     if (inView) {
@@ -55,17 +58,19 @@ export default function Home() {
       <NotificationBanner />
       <Topbar />
       <div className="pt-10 px-20 flex flex-col-2 w-full min-h-[85vh] gap-10">
-        <div className="bg-white p-10 md:w-2/3 rounded-2xl shadow-xl">
-          {postData.pages.map((page) => {
-            return <PostCardChunk key={page.next} posts={page.results} />;
-          })}
+        <div className="bg-white p-10 w-2/3 rounded-2xl shadow-xl sticky top-10 self-start">
+          <div>
+            {postData.pages.map((page) => {
+              return <PostCardChunk key={page.next} posts={page.results} />;
+            })}
+          </div>
         </div>
         <div className="invisible md:visible sticky top-10 self-start w-1/3">
           <SearchUsers />
         </div>
       </div>
       <div className="relative pb-10">
-        <div ref={ref} className="absolute top-[-200px]"></div>
+        <div ref={ref} className="absolute top-[-300px]"></div>
       </div>
     </>
   );

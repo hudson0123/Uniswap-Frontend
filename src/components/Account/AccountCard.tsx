@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import useFollow from "@/hooks/useFollow";
 
 export default function AccountCard({ accountData }: { accountData: IUser }) {
-  
   // Hooks
   const router = useRouter();
   const {
@@ -14,6 +14,17 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
+  const {
+    data: followerData,
+    isPending: followerPending,
+    error: followerError,
+  } = useFollow()[0];
+  const {
+    data: followingData,
+    isPending: followingPending,
+    error: followingError,
+  } = useFollow()[1];
+  
 
   const editProfile = () => {
     const editUrl = "/" + accountData.username + "/edit";
@@ -27,16 +38,16 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
     return null;
   };
 
-  if (currentUserPending) {
+  if (currentUserPending || followerPending || followingPending) {
     return;
   }
 
-  if (currentUserError) {
+  if (currentUserError || followerError || followingError) {
     return;
   }
 
   return (
-    <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
+    <div className="relative bg-white p-10 flex flex-col md:mt-5 w-full rounded-2xl shadow-xl">
       {currentUserData?.id == accountData.id && (
         <button className="cursor-pointer" onClick={editProfile}>
           <Image
@@ -65,15 +76,15 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
       <p className="italics">@{accountData?.username}</p>
       <div className="mt-1">
         <Link href="/followers" className="hover:underline cursor-pointer mr-3">
-          1 Followers
+          <span className="font-bold">{followerData ? followerData.length : '0'}</span>  Followers
         </Link>
         <Link href="/following" className="hover:underline cursor-pointer">
-          4 Following
+          <span className="font-bold">{followingData ? followingData.length : '0'}</span> Following
         </Link>
       </div>
       <p className="italics text-sms text-gray-500">
         {accountData?.verified ? (
-          <p>Verified UGA Student</p>
+          'Verified UGA Student'
         ) : (
           <p className="text-sm">
             Unverified - Verify{" "}

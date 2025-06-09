@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuthStore } from "@/lib/store";
+import { useAuthStore, useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useRouter } from "next/router";
@@ -16,12 +16,17 @@ export default function AccountSettings() {
   const [deleteConfirmationVisibility, setDeleteConfirmationVisibility] =
     useState<boolean>(false);
   const router = useRouter();
+  const setNotification = useNotifyStore((state) => state.setNotification)
 
   const handleDeleteAccount = async () => {
-    await api.delete("/api/users/" + currentUserData?.id + "/");
-    resetAuth();
-    router.push("/login");
-    return null;
+    try {      
+      await api.delete("/api/users/" + currentUserData?.id + "/");
+      resetAuth();
+      router.push("/login");
+      return null;
+    } catch {
+      setNotification("error", "Unable to Delete Account.")
+    }
   };
 
   const handleLogout = () => {

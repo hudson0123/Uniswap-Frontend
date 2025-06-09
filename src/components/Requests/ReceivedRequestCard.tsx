@@ -11,7 +11,6 @@ export default function ReceivedRequestCard({
 }: {
   request: IRequest;
 }) {
-
   // Hooks
   const queryClient = useQueryClient();
   const requestStatusMutation = useMutation({
@@ -21,8 +20,11 @@ export default function ReceivedRequestCard({
       });
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["received"] });
-      await queryClient.invalidateQueries({ queryKey: ["sent"] });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["received"]}),
+        queryClient.invalidateQueries({ queryKey: ["sent"]}),
+        queryClient.invalidateQueries({ queryKey: ["followers"]}),
+      ]);
     },
   });
 
@@ -51,7 +53,9 @@ export default function ReceivedRequestCard({
               />
             </Link>
           </div>
-          <p className="text-sm md:text-md font-medium">${request.post.ticket_price}</p>
+          <p className="text-sm md:text-md font-medium">
+            ${request.post.ticket_price}
+          </p>
           <p className="text-xs text-gray-700">
             {moment(new Date(request.sent_at)).fromNow()}
           </p>

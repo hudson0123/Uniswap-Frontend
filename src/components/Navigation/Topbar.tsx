@@ -15,7 +15,7 @@ function Topbar() {
   if (currentUserPending) {
     return (
       <div className="">
-        <nav className="p-4 px-10 w-full bg-white z-10">
+        <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm">
           <div className="flex flex-wrap justify-between mx-auto h-10">
             <Link
               href="/home"

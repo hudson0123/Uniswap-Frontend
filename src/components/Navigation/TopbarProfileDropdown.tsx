@@ -49,7 +49,7 @@ export default function TopbarProfileDropdown() {
   return (
     <div
       tabIndex={0}
-      className="transform duration-200 md:group-hover:visible md:group-hover:opacity-100 md:group-hover:top-13 group-focus:visible group-focus:opacity-100 z-11 grid grid-cols-1 absolute top-10 right-6 bg-white border-1 border-gray-200 shadow-xl rounded-xl w-70 h-fit invisible opacity-0 cursor-pointer"
+      className="transform duration-200 md:group-hover:visible md:group-hover:opacity-100 md:group-hover:top-13 group-focus:visible group-focus:opacity-100 z-11 grid grid-cols-1 absolute top-10 right-6 bg-white border-1 border-gray-200 shadow-xl rounded-xl w-50 h-fit invisible opacity-0 cursor-pointer"
     >
       <div
         onClick={handleShowProfile}
