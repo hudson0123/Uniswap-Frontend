@@ -1,14 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import router from 'next/router'
-import api from './api'
 import { IUser } from '@/@types'
 
 /**
  * State that is stored in useAuthStore
  */
 interface IAuthState {
-    current_user: IUser | null,
+    currentUser: IUser | null,
     access: string | null,
     refresh: string | null,
 }
@@ -18,44 +16,29 @@ interface IAuthState {
  */
 interface IAuthStore extends IAuthState {
     setAccess: (access: string) => void;
-    login: (username: string, password: string) => void,
-    logout: () => void,
-    refreshCurrentUser: () => void,
+    setRefresh: (refresh: string) => void;
+    setCurrentUser: (currentUser: IUser) => void;
+    resetAuth: () => void
 }
 
 
 export const useAuthStore = create<IAuthStore>()(
     persist(
         (set) => ({
-            current_user: null,
+            currentUser: null,
             access: null,
             refresh: null,
             setAccess: (access: string): void => {
                 set({ access })
             },
-            login: async (username, password) => {
-                set({ current_user: null })
-                try {
-                    const auth_token_res = await api.post('/api/token/', {
-                        "username": username,
-                        "password": password
-                    })
-                    set({ access: auth_token_res.data.access })
-                    set({ refresh: auth_token_res.data.refresh })
-                    const current_user_data_res = await api.get('/api/current-user/')
-                    set({ current_user: current_user_data_res.data })
-                    router.push('/home')
-                } catch (e) {
-                    useNotifyStore.getState().setNotification("error", "Error logging in.")
-                }
+            setRefresh: (refresh: string): void => {
+                set({refresh})
             },
-            logout: () => {
-                router.push('/login')
-                set({ current_user: null, access: null, refresh: null })
+            setCurrentUser: (currentUser: IUser) => {
+                set({currentUser: currentUser})
             },
-            refreshCurrentUser: async () => {
-                const current_user_data_res = await api.get('/api/current-user/')
-                set({ current_user: current_user_data_res.data })
+            resetAuth: () => {
+                set({ access: null, refresh: null, currentUser: null })
             }
         }), {
         name: 'auth-storage',

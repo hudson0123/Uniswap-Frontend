@@ -1,11 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useAuthStore } from "@/lib/store";
 import TopbarProfileDropdown from "./TopbarProfileDropdown";
-import { useState } from "react";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 function Topbar() {
-  const current_user = useAuthStore((state) => state.current_user);
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser()
+
+  if (currentUserPending) {
+    return
+  }
+
+  if (currentUserError) {
+    return
+  }
 
   return (
     <div className="">
@@ -25,8 +36,8 @@ function Topbar() {
               height={100}
               className="w-12 h-12 ml-2 rounded-full hover:ring-1 ring-white transform duration-100"
               src={
-                current_user?.profile_picture
-                  ? current_user?.profile_picture
+                currentUserData?.profile_picture
+                  ? currentUserData?.profile_picture
                   : "/profile.jpg"
               }
               alt="user-profile"

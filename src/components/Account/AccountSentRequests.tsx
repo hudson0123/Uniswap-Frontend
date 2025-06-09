@@ -3,10 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import SentRequestCard from "../Requests/SentRequestCard";
 import { IRequest } from "@/@types";
-import { useAuthStore } from "@/lib/store";
 
 export default function AccountSentRequests() {
-  const currentUser = useAuthStore((state) => state.current_user);
 
   // Query Current User Sent/Received Requests
   const {
@@ -14,7 +12,7 @@ export default function AccountSentRequests() {
     isPending,
     error,
   } = useQuery({
-    queryKey: ["sent", currentUser],
+    queryKey: ["sent"],
     queryFn: async () => {
       const sent_res = await api.get("/api/my-sent-requests/");
       return sent_res.data;
@@ -41,7 +39,7 @@ export default function AccountSentRequests() {
       ) : (
         <div className="flex flex-col gap-5 mt-5 overflow-y-scroll">
           {sent_data.map((sent_request: IRequest) => (
-            <SentRequestCard request={sent_request} />
+            <SentRequestCard key={sent_request.id} request={sent_request} />
           ))}
         </div>
       )}

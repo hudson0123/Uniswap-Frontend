@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import api from "@/lib/api";
@@ -17,7 +17,7 @@ const queryPosts = async ({ pageParam }: { pageParam: number }) => {
 };
 
 export default function Home() {
-  const { data, error, isPending, fetchNextPage, hasNextPage } =
+  const { data: postData, error: postError, isPending: postPending, fetchNextPage } =
     useInfiniteQuery({
       queryKey: ["posts"],
       queryFn: queryPosts,
@@ -27,6 +27,8 @@ export default function Home() {
         return lastPageParam + 1;
       },
     });
+
+
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function Home() {
     }
   }, [fetchNextPage, inView]);
 
-  if (isPending) {
+  if (postPending) {
     return (
       <div className="">
         <NotificationBanner />
@@ -44,7 +46,7 @@ export default function Home() {
     );
   }
 
-  if (error) {
+  if (postError) {
     return;
   }
 
@@ -52,13 +54,15 @@ export default function Home() {
     <>
       <NotificationBanner />
       <Topbar />
-      <div className="pt-10 px-20 flex flex-col-2 w-full min-h-[85vh] overflow-auto gap-10">
-        <div className="bg-white p-10 w-2/3 rounded-2xl shadow-xl">
-          {data.pages.map((page) => {
-            return <PostCardChunk posts={page.results} />;
+      <div className="pt-10 px-20 flex flex-col-2 w-full min-h-[85vh] gap-10">
+        <div className="bg-white p-10 md:w-2/3 rounded-2xl shadow-xl">
+          {postData.pages.map((page) => {
+            return <PostCardChunk key={page.next} posts={page.results} />;
           })}
         </div>
-        <SearchUsers />
+        <div className="invisible md:visible sticky top-10 self-start w-1/3">
+          <SearchUsers />
+        </div>
       </div>
       <div className="relative pb-10">
         <div ref={ref} className="absolute top-[-200px]"></div>

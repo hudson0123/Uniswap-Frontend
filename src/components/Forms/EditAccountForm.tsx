@@ -1,14 +1,13 @@
 import React from "react";
-import { IUser } from "@/@types";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useAuthStore } from "@/lib/store";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
   first_name: z.string(),
@@ -28,10 +27,7 @@ export default function EditAccountForm({
   username: string | string[] | undefined;
 }) {
   const router = useRouter();
-  const current_user = useAuthStore((state) => state.current_user);
-  const refreshCurrentUser = useAuthStore((state) => state.refreshCurrentUser);
   const setNotification = useNotifyStore((state) => state.setNotification);
-
   const {
     register,
     handleSubmit,
@@ -39,10 +35,24 @@ export default function EditAccountForm({
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
+  const queryClient = useQueryClient()
+
+  if (currentUserPending) {
+    return;
+  }
+
+  if (currentUserError) {
+    return;
+  }
 
   const onSubmit = async (data: FormData) => {
     try {
-      await api.patch("/api/users/" + current_user?.id + "/", {
+      await api.patch("/api/users/" + currentUserData?.id + "/", {
         first_name: data.first_name,
         last_name: data.last_name,
         phone_number: data.phone_number,
@@ -51,15 +61,15 @@ export default function EditAccountForm({
         groupme: data.groupme,
         discord: data.discord,
       });
-      refreshCurrentUser();
-      router.push("/" + current_user?.username + "/");
+      queryClient.invalidateQueries({ queryKey: ['currentUser']})
+      router.push("/" + currentUserData?.username + "/");
     } catch {
       setNotification("error", "Unable to Update User");
     }
   };
 
-  if (username !== current_user?.username) {
-    router.push("/" + current_user?.username + "/edit/");
+  if (username !== currentUserData?.username) {
+    router.push("/" + currentUserData?.username + "/edit/");
   }
 
   return (
@@ -70,8 +80,8 @@ export default function EditAccountForm({
       <div className="flex flex-row">
         <Image
           src={
-            current_user?.profile_picture
-              ? current_user?.profile_picture
+            currentUserData?.profile_picture
+              ? currentUserData?.profile_picture
               : "/profile.jpg"
           }
           width={100}
@@ -79,7 +89,7 @@ export default function EditAccountForm({
           alt="profile"
           className="w-20 h-20 rounded-full bg-white"
         />
-        <p className="my-auto ml-5 text-2xl">@{current_user?.username}</p>
+        <p className="my-auto ml-5 text-2xl">@{currentUserData?.username}</p>
       </div>
       <div className="relative mt-8">
         <label htmlFor="last_name" className="text-sm">
@@ -88,7 +98,7 @@ export default function EditAccountForm({
         <input
           id="first_name"
           type="text"
-          defaultValue={current_user?.first_name}
+          defaultValue={currentUserData?.first_name}
           className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("first_name")}
         />
@@ -103,7 +113,7 @@ export default function EditAccountForm({
         <input
           id="last_name"
           type="text"
-          defaultValue={current_user?.last_name}
+          defaultValue={currentUserData?.last_name}
           className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("last_name")}
         />
@@ -120,7 +130,7 @@ export default function EditAccountForm({
             alt="profile"
             className="w-12 h-12 mr-2"
           />
-          <p className="mt-auto mb-auto">{current_user?.email}</p>
+          <p className="mt-auto mb-auto">{currentUserData?.email}</p>
         </div>
         <div className="flex justify-start mb-2">
           <Image
@@ -133,7 +143,7 @@ export default function EditAccountForm({
           <input
             id="phone_number"
             type="phone_number"
-            defaultValue={current_user?.phone_number}
+            defaultValue={currentUserData?.phone_number}
             className="block px-2.5 pb-2 pt-2 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("phone_number")}
           />
@@ -151,7 +161,7 @@ export default function EditAccountForm({
           <input
             id="snapchat"
             type="snapchat"
-            defaultValue={current_user?.snapchat}
+            defaultValue={currentUserData?.snapchat}
             className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("snapchat")}
           />
@@ -169,7 +179,7 @@ export default function EditAccountForm({
           <input
             id="instagram"
             type="instagram"
-            defaultValue={current_user?.instagram}
+            defaultValue={currentUserData?.instagram}
             className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("instagram")}
           />{" "}
@@ -187,7 +197,7 @@ export default function EditAccountForm({
           <input
             id="groupme"
             type="groupme"
-            defaultValue={current_user?.groupme}
+            defaultValue={currentUserData?.groupme}
             className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("groupme")}
           />{" "}
@@ -205,7 +215,7 @@ export default function EditAccountForm({
           <input
             id="discord"
             type="discord"
-            defaultValue={current_user?.discord}
+            defaultValue={currentUserData?.discord}
             className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
             {...register("discord")}
           />{" "}
