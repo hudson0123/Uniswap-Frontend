@@ -5,6 +5,7 @@ import api from '@/lib/api';
 
 export default function Following() {
 
+  // Hooks
   const {
     data: followings_data,
     isPending,

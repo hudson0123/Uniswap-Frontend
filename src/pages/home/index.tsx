@@ -17,6 +17,9 @@ const queryPosts = async ({ pageParam }: { pageParam: number }) => {
 };
 
 export default function Home() {
+
+  // Hooks
+  const { ref, inView } = useInView();
   const { data: postData, error: postError, isPending: postPending, fetchNextPage } =
     useInfiniteQuery({
       queryKey: ["posts"],
@@ -27,9 +30,6 @@ export default function Home() {
         return lastPageParam + 1;
       },
     });
-
-
-  const { ref, inView } = useInView();
 
   useEffect(() => {
     if (inView) {

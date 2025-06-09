@@ -26,6 +26,8 @@ export default function EditAccountForm({
 }: {
   username: string | string[] | undefined;
 }) {
+
+  // Hooks
   const router = useRouter();
   const setNotification = useNotifyStore((state) => state.setNotification);
   const {
@@ -69,6 +71,7 @@ export default function EditAccountForm({
     }
   };
 
+  // If Attempting to edit not the current user then push to the correct url
   if (username !== currentUserData?.username) {
     router.push("/" + currentUserData?.username + "/edit/");
     return null;

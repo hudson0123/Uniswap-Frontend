@@ -6,6 +6,8 @@ import Link from "next/link";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function AccountCard({ accountData }: { accountData: IUser }) {
+  
+  // Hooks
   const router = useRouter();
   const {
     data: currentUserData,

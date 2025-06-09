@@ -1,11 +1,9 @@
 import React from "react";
 import RegisterFrom from "@/components/Forms/RegisterForm";
-import { useAuthStore } from "@/lib/store";
 import NotificationBanner from "@/components/NotificationBanner";
 import Link from "next/link";
 import LandingTopbar from "@/components/Navigation/LandingTopbar";
 export default function Login() {
-  const login = useAuthStore((state) => state.login);
 
   return (
     <div className="">

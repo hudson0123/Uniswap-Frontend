@@ -4,6 +4,8 @@ import TopbarProfileDropdown from "./TopbarProfileDropdown";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 function Topbar() {
+
+  // Hooks
   const {
     data: currentUserData,
     error: currentUserError,

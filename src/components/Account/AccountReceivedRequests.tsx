@@ -19,7 +19,6 @@ export default function AccountReceivedRequests() {
     },
   });
 
-  // Check Pending or Error
   if (isPending) {
     return;
   }

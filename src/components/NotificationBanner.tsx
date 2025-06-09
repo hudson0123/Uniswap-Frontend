@@ -3,9 +3,11 @@ import { useNotifyStore } from "@/lib/store";
 
 export default function NotificationBanner() {
 
+    // Hooks
     const notification = useNotifyStore()
+    
+    // Determine Notification Color
     let color
-
     if (notification.notification_type == "success") {
         color = "bg-green-500"
     } else if (notification.notification_type == "error") {

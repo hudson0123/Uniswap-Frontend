@@ -8,8 +8,8 @@ import Image from 'next/image';
 
 export default function PostCard({ post }: { post: IPost }) {
 
+    // Hooks
     const setNotification = useNotifyStore(((state) => state.setNotification))
-
     const createRequestMutation = useMutation({
         mutationFn: (request: ICreatePost) => {
             return api.post('/api/requests/', {

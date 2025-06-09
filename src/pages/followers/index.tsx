@@ -5,7 +5,7 @@ import api from '@/lib/api';
 
 export default function Followers() {
 
-
+  // Hooks
   const {
     data: followers_data,
     isPending,

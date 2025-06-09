@@ -6,25 +6,26 @@ import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
 
+const schema = z.object({
+  ticket_title: z.string(),
+  ticket_price: z.string(),
+  description: z
+    .string()
+    .max(100, "Keep the description under 50 characters."),
+  category: z.string(),
+  meetup_time: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: "Invalid datetime format",
+  }),
+  meetup_location: z.string(),
+});
+
+type FormData = z.infer<typeof schema>;
+
 export default function CreatePostForm() {
-  const schema = z.object({
-    ticket_title: z.string(),
-    ticket_price: z.string(),
-    description: z
-      .string()
-      .max(100, "Keep the description under 50 characters."),
-    category: z.string(),
-    meetup_time: z.string().refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid datetime format",
-    }),
-    meetup_location: z.string(),
-  });
 
+  // Hooks
   const setNotification = useNotifyStore((state) => state.setNotification);
-
-  type FormData = z.infer<typeof schema>;
   const router = useRouter();
-
   const {
     register,
     handleSubmit,

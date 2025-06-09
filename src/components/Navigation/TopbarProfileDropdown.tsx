@@ -5,9 +5,10 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import { useAuthStore } from "@/lib/store";
 
 export default function TopbarProfileDropdown() {
+
+  // Hooks
   const router = useRouter();
   const resetAuth = useAuthStore((state) => state.resetAuth)
-
   const {
     data: currentUserData,
     error: currentUserError,

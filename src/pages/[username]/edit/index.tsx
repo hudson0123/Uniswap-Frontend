@@ -1,5 +1,5 @@
 import React from "react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import EditAccountForm from "@/components/Forms/EditAccountForm";
 import NotificationBanner from "@/components/NotificationBanner";
 import Topbar from "@/components/Navigation/Topbar";

@@ -26,6 +26,8 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 export default function RegisterForm() {
+
+  // Hooks
   const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();
   const {

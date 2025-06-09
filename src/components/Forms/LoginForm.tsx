@@ -16,11 +16,12 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function LoginForm() {
+
+  // Hooks
   const setNotification = useNotifyStore((state) => state.setNotification);
   const setAccess = useAuthStore((state) => state.setAccess)
   const setRefresh = useAuthStore((state) => state.setRefresh)   
   const router = useRouter()                                                                                                                                                                                                                                               
-
   const mutation = useMutation<GetAccessResponse, Error, GetAccessRequest>({
     mutationFn: async (login: GetAccessRequest) => {
       const res = await api.post("/api/token/", login);
@@ -33,7 +34,6 @@ export default function LoginForm() {
       return null;
     }
   });
-
   const {
     register,
     handleSubmit,

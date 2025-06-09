@@ -45,7 +45,7 @@ api.interceptors.response.use(
                     data: {
                         "refresh": useAuthStore.getState().refresh
                     }
-                }).catch((e) => {
+                }).catch(() => {
                     useNotifyStore.getState().setNotification("error", "Error logging in.")
                 })
                 if (res) {

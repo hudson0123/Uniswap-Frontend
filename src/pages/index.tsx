@@ -1,5 +1,4 @@
 import LandingTopbar from "@/components/Navigation/LandingTopbar";
-import Topbar from "@/components/Navigation/Topbar";
 
 export default function Landing() {
 

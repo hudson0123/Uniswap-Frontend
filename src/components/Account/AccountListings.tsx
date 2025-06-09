@@ -1,12 +1,16 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IPost, IUser } from "@/@types";
-import { useAuthStore } from "@/lib/store";
 import api from "@/lib/api";
 import PostCard from "../Posts/PostCard";
 
-export default function AccountListings({currentUser_data}: {currentUser_data: IUser}) {
+export default function AccountListings({
+  currentUser_data,
+}: {
+  currentUser_data: IUser;
+}) {
 
+  // Query Current User Posts
   const {
     data: listings_data,
     isPending,
@@ -48,7 +52,7 @@ export default function AccountListings({currentUser_data}: {currentUser_data: I
       ) : (
         <div className="grid grid-cols-1 gap-5 mt-5 max-h-[70vh] overflow-y-scroll">
           {listings_data.map((listing) => (
-            <PostCard post={listing} />
+            <PostCard key={listing.id} post={listing} />
           ))}
         </div>
       )}

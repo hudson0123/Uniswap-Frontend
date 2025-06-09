@@ -5,35 +5,37 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import { useRouter } from "next/router";
 
 export default function AccountSettings() {
-  const resetAuth = useAuthStore((state) => state.resetAuth)
-    const {
-      data: currentUserData,
-      error: currentUserError,
-      isPending: currentUserPending,
-    } = useCurrentUser();
+
+  // Hooks
+  const resetAuth = useAuthStore((state) => state.resetAuth);
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
   const [deleteConfirmationVisibility, setDeleteConfirmationVisibility] =
     useState<boolean>(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDeleteAccount = async () => {
     await api.delete("/api/users/" + currentUserData?.id + "/");
-    resetAuth()
-    router.push('/login')
+    resetAuth();
+    router.push("/login");
     return null;
   };
 
   const handleLogout = () => {
-    resetAuth()
-    router.push('/login')
+    resetAuth();
+    router.push("/login");
     return null;
-  }
+  };
 
   if (currentUserPending) {
-    return
+    return;
   }
 
   if (currentUserError) {
-    return
+    return;
   }
 
   return (
@@ -58,7 +60,9 @@ export default function AccountSettings() {
           >
             x
           </button>
-          <h2 className="text-lg mb-2">Are you sure you would like to delete your account?</h2>
+          <h2 className="text-lg mb-2">
+            Are you sure you would like to delete your account?
+          </h2>
           <button
             className="border bg-red-500 text-white rounded-md py-2 w-1/2 mt-2 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
             onClick={() => handleDeleteAccount()}

@@ -11,8 +11,9 @@ export default function ReceivedRequestCard({
 }: {
   request: IRequest;
 }) {
-  const queryClient = useQueryClient();
 
+  // Hooks
+  const queryClient = useQueryClient();
   const requestStatusMutation = useMutation({
     mutationFn: (request: { id: string; status: string }) => {
       return api.patch("/api/requests/" + request.id + "/", {

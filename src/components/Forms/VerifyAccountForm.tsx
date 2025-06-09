@@ -21,6 +21,11 @@ export default function VerifyAccountForm({
 }: {
   username: string | string[] | undefined;
 }) {
+
+  // Hooks
+  const setNotification = useNotifyStore((state) => state.setNotification);
+  const router = useRouter();
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
@@ -28,10 +33,6 @@ export default function VerifyAccountForm({
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
-
-  const setNotification = useNotifyStore((state) => state.setNotification);
-  const router = useRouter();
-  const queryClient = useQueryClient()
 
   const onSubmit = async (data: FormData) => {
     try {
