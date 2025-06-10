@@ -55,7 +55,7 @@ export default function AccountCard({
   }
 
   if (currentUserPending || followerPending || followingPending) {
-    return;
+    <div className="relative bg-white p-10 flex flex-col md:mt-5 w-full rounded-2xl shadow-xl h-[83vh]"></div>;
   }
 
   if (currentUserError || followerError || followingError) {
