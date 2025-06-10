@@ -15,9 +15,7 @@ export default function ReceivedRequestCard({
   const queryClient = useQueryClient();
   const requestStatusMutation = useMutation({
     mutationFn: (request: { id: string; status: string }) => {
-      return api.patch("/api/requests/" + request.id + "/", {
-        status: request.status,
-      });
+      return api.patch("/api/requests/" + request.status + "/" + request.id + "/");
     },
     onSuccess: async () => {
       await Promise.all([
