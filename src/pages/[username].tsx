@@ -13,6 +13,8 @@ import AccountSentRequests from "@/components/Account/AccountSentRequests";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import UserFollowing from "@/components/Users/UserFollowing";
+import UserFollowers from "@/components/Users/UserFollowers";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -23,7 +25,6 @@ export default function AccountPage() {
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
-
   const {
     data: accountData,
     isPending,
@@ -37,12 +38,26 @@ export default function AccountPage() {
     enabled: !!username,
   });
 
+  enum ViewMode {
+    None,
+    Following,
+    Followers,
+  }
+  
+  const [mode, setMode] = useState<ViewMode>(ViewMode.None);
+  
+  const ViewComponents = {
+    [ViewMode.None]: <></>,
+    [ViewMode.Following]: <UserFollowing setMode={setMode}/>,
+    [ViewMode.Followers]: <UserFollowers setMode={setMode}/>,
+  } as const;
+
   if (isPending || currentUserPending) {
     return (
       <div className="max-h-[85vh]">
         <NotificationBanner />
         <Topbar />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mb-20 h-[94vh]">
+        <div className={"grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mb-20 h-[94vh]"}>
           <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
             <Image
               src={"/profile.jpg"}
@@ -76,9 +91,10 @@ export default function AccountPage() {
       <NotificationBanner />
       <Topbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:px-20 text-black md:mx-20 mb-20 ">
-        <AccountCard accountData={accountData} />
+        {ViewComponents[mode]}
+        <AccountCard accountData={accountData} setMode={setMode} />
         {currentUserData?.id == accountData.id || !currentUserData ? (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[75vh] overflow-auto mt-5 rounded-2xl shadow-xl">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[83vh] overflow-auto mt-5 rounded-2xl shadow-xl">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
               {[

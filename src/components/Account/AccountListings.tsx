@@ -26,7 +26,6 @@ export default function AccountListings({
   if (isPending) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] m-5 mt-20 md:m-20 md:gap-20 h-fit">
-        <p>LOADING...</p>
       </div>
     );
   }

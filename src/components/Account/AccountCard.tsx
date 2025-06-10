@@ -1,12 +1,23 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { IUser } from "@/@types";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useFollow from "@/hooks/useFollow";
 
-export default function AccountCard({ accountData }: { accountData: IUser }) {
+enum ViewMode {
+  None,
+  Following,
+  Followers,
+}
+
+export default function AccountCard({
+  accountData,
+  setMode,
+}: {
+  accountData: IUser;
+  setMode: React.Dispatch<SetStateAction<ViewMode>>;
+}) {
   // Hooks
   const router = useRouter();
   const {
@@ -24,7 +35,6 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
     isPending: followingPending,
     error: followingError,
   } = useFollow()[1];
-  
 
   const editProfile = () => {
     const editUrl = "/" + accountData.username + "/edit";
@@ -38,6 +48,12 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
     return null;
   };
 
+  enum ViewMode {
+    None,
+    Following,
+    Followers,
+  }
+
   if (currentUserPending || followerPending || followingPending) {
     return;
   }
@@ -47,7 +63,7 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
   }
 
   return (
-    <div className="relative bg-white p-10 flex flex-col md:mt-5 w-full rounded-2xl shadow-xl">
+    <div className="relative bg-white p-10 flex flex-col md:mt-5 w-full rounded-2xl shadow-xl h-[83vh]">
       {currentUserData?.id == accountData.id && (
         <button className="cursor-pointer" onClick={editProfile}>
           <Image
@@ -55,7 +71,7 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
             width={100}
             height={100}
             alt="profile"
-            className="absolute top-5 right-5 w-8 h-8"
+            className="absolute top-5 right-5 w-5 h-5 hover:opacity-70 trasition duration-150"
           />
         </button>
       )}
@@ -70,21 +86,33 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
         alt="profile"
         className="w-30 h-30 flex rounded-full bg-white"
       />
-      <p className="text-4xl font-bold mt-5">
+      <p className="text-2xl font-bold mt-5 text-nowrap">
         {accountData?.first_name} {accountData?.last_name}
       </p>
-      <p className="italics">@{accountData?.username}</p>
+      <p className="italic gray-800 -mt-1">{accountData?.username}</p>
       <div className="mt-1">
-        <Link href="/followers" className="hover:underline cursor-pointer mr-3">
-          <span className="font-bold">{followerData ? followerData.length : '0'}</span>  Followers
-        </Link>
-        <Link href="/following" className="hover:underline cursor-pointer">
-          <span className="font-bold">{followingData ? followingData.length : '0'}</span> Following
-        </Link>
+        <button
+          onClick={() => setMode(ViewMode.Followers)}
+          className="hover:underline cursor-pointer mr-3"
+        >
+          <span className="font-bold">
+            {followerData ? followerData.length : "0"}
+          </span>{" "}
+          Followers
+        </button>
+        <button
+          onClick={() => setMode(ViewMode.Following)}
+          className="hover:underline cursor-pointer"
+        >
+          <span className="font-bold">
+            {followingData ? followingData.length : "0"}
+          </span>{" "}
+          Following
+        </button>
       </div>
       <p className="italics text-sms text-gray-500">
         {accountData?.verified ? (
-          'Verified UGA Student'
+          "Verified UGA Student"
         ) : (
           <p className="text-sm">
             Unverified - Verify{" "}
