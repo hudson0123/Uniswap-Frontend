@@ -90,26 +90,28 @@ export default function AccountCard({
         {accountData?.first_name} {accountData?.last_name}
       </p>
       <p className="italic gray-800 -mt-1">{accountData?.username}</p>
-      <div className="mt-1">
-        <button
-          onClick={() => setMode(ViewMode.Followers)}
-          className="hover:underline cursor-pointer mr-3"
-        >
-          <span className="font-bold">
-            {followerData ? followerData.length : "0"}
-          </span>{" "}
-          Followers
-        </button>
-        <button
-          onClick={() => setMode(ViewMode.Following)}
-          className="hover:underline cursor-pointer"
-        >
-          <span className="font-bold">
-            {followingData ? followingData.length : "0"}
-          </span>{" "}
-          Following
-        </button>
-      </div>
+      {accountData?.id == currentUserData?.id && (
+        <div className="mt-1">
+          <button
+            onClick={() => setMode(ViewMode.Followers)}
+            className="hover:underline cursor-pointer mr-3"
+          >
+            <span className="font-bold">
+              {followerData ? followerData.length : "0"}
+            </span>{" "}
+            Followers
+          </button>
+          <button
+            onClick={() => setMode(ViewMode.Following)}
+            className="hover:underline cursor-pointer"
+          >
+            <span className="font-bold">
+              {followingData ? followingData.length : "0"}
+            </span>{" "}
+            Following
+          </button>
+        </div>
+      )}
       <p className="italics text-sms text-gray-500">
         {accountData?.verified ? (
           "Verified UGA Student"

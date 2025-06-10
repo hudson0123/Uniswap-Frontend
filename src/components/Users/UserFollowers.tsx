@@ -1,11 +1,11 @@
 import React from "react";
 import useFollow from "@/hooks/useFollow";
-import Link from "next/link";
 import Image from "next/image";
 import api from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNotifyStore } from "@/lib/store";
 import { IUser } from "@/@types";
+import { useRouter } from "next/router";
 
 enum ViewMode {
   None,
@@ -23,12 +23,12 @@ export default function UserFollowers({
     isPending: followerPending,
     error: followerError,
   } = useFollow()[0];
-  const setNotification = useNotifyStore((state) => state.setNotification)
-  const queryClient = useQueryClient()
+  const setNotification = useNotifyStore((state) => state.setNotification);
+  const queryClient = useQueryClient();
   const removeFollowerMutation = useMutation({
     mutationFn: (user: IUser) => {
       return api.patch("/api/requests/" + user.id + "/", {
-        status: "rejected"
+        status: "rejected",
       });
     },
     onError: (error) => {
@@ -36,9 +36,10 @@ export default function UserFollowers({
     },
     onSuccess: () => {
       setNotification("success", "Sent Request.");
-      queryClient.invalidateQueries({queryKey: ['followers']})
+      queryClient.invalidateQueries({ queryKey: ["followers"] });
     },
   });
+  const router = useRouter();
 
   if (followerPending) {
     return;
@@ -66,12 +67,21 @@ export default function UserFollowers({
             alt="profile"
             className="w-10 h-10 flex rounded-full bg-white"
           />
-          <Link href={"/" + user.username} className="hover:underline my-auto">
+          <button
+            onClick={() => {
+              setMode(ViewMode.None);
+              router.push("/" + user.username);
+            }}
+            className="hover:underline my-auto"
+          >
             {user.username}
-          </Link>
-          <button onClick={() => {
-            removeFollowerMutation.mutate(user)
-          }} className="ml-auto bg-gray-300 px-5 text-sm rounded-full cursor-pointer hover:opacity-70">
+          </button>
+          <button
+            onClick={() => {
+              removeFollowerMutation.mutate(user);
+            }}
+            className="ml-auto bg-gray-300 px-5 text-sm rounded-full cursor-pointer hover:opacity-70"
+          >
             Remove
           </button>
         </div>

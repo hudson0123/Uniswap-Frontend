@@ -49,7 +49,7 @@ export default function AccountListings({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-5 mt-5 max-h-[70vh] overflow-y-scroll">
+        <div className="grid grid-cols-1 gap-5 mt-5 max-h-[60vh] overflow-y-scroll">
           {listings_data.map((listing) => (
             <PostCard key={listing.id} post={listing} />
           ))}

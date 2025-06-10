@@ -1,6 +1,6 @@
 import React from "react";
 import useFollow from "@/hooks/useFollow";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import api from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,12 +23,12 @@ export default function UserFollowing({
     isPending: followingPending,
     error: followingError,
   } = useFollow()[1];
-  const setNotification = useNotifyStore((state) => state.setNotification)
-  const queryClient = useQueryClient()
+  const setNotification = useNotifyStore((state) => state.setNotification);
+  const queryClient = useQueryClient();
   const removeFollowingMutation = useMutation({
     mutationFn: (user: IUser) => {
       return api.patch("/api/requests/" + user.id + "/", {
-        status: "rejected"
+        status: "rejected",
       });
     },
     onError: (error) => {
@@ -36,9 +36,10 @@ export default function UserFollowing({
     },
     onSuccess: () => {
       setNotification("success", "Sent Request.");
-      queryClient.invalidateQueries({queryKey: ['following']})
+      queryClient.invalidateQueries({ queryKey: ["following"] });
     },
   });
+  const router = useRouter();
 
   if (followingPending) {
     return;
@@ -66,12 +67,21 @@ export default function UserFollowing({
             alt="profile"
             className="w-10 h-10 flex rounded-full bg-white"
           />
-          <Link href={"/" + user.username} className="hover:underline my-auto">
+          <button
+            onClick={() => {
+              setMode(ViewMode.None);
+              router.push("/" + user.username);
+            }}
+            className="hover:underline my-auto"
+          >
             {user.username}
-          </Link>
-          <button onClick={() => {
-            removeFollowingMutation.mutate(user)
-          }} className="ml-auto bg-gray-300 px-5 text-sm rounded-full cursor-pointer hover:opacity-70">
+          </button>
+          <button
+            onClick={() => {
+              removeFollowingMutation.mutate(user);
+            }}
+            className="ml-auto bg-gray-300 px-5 text-sm rounded-full cursor-pointer hover:opacity-70"
+          >
             Unfollow
           </button>
         </div>

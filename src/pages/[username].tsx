@@ -152,7 +152,7 @@ export default function AccountPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[85vh] overflow-auto mt-5">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[83vh] overflow-auto mt-5">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
               {[["Active Listings", 1]].map(([label, id]) => (
