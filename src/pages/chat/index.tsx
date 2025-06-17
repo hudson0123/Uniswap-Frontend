@@ -1,9 +1,9 @@
 import Topbar from "@/components/Navigation/Topbar";
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { IConversation } from "@/@types/models/conversation";
-import ChatGrid from "@/components/Chat/ChatGrid";
+import ChatBox from "@/components/Chat/ChatBox";
 import ChatSidebar from "@/components/Chat/ChatSidebar";
 
 export default function Chat() {
@@ -18,6 +18,7 @@ export default function Chat() {
       return res.data;
     },
   });
+  const [selectedChat, setSelectedChat] = useState(0)
 
   if (isPending) {
     return;
@@ -31,8 +32,14 @@ export default function Chat() {
     <div>
       <Topbar />
       <div className="flex flex-col-2">
-        <ChatSidebar chats={conversationData} />
-        <ChatGrid chats={conversationData} />
+        <ChatSidebar 
+          chats={conversationData}
+          selectedChat={selectedChat}
+          setSelectedChat={setSelectedChat}
+        />
+        <ChatBox
+          selectedChat={selectedChat}
+        />
       </div>
     </div>
   );
