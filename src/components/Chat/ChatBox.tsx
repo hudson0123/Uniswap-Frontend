@@ -45,6 +45,23 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     },
   });
 
+    const conversationMutation = useMutation({
+    mutationFn: (conversation: {
+      conversation_id: string;
+      name: string;
+    }) => {
+      return api.patch("/api/conversations/" + conversation.conversation_id + "/", {
+        name: conversation.name,
+      });
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
+        queryClient.invalidateQueries({ queryKey: ["conversations"] }),
+      ]);
+    },
+  });
+
   if (isPending || currentUserPending) {
     return;
   }
@@ -59,9 +76,22 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
 
   return (
     <div className="relative w-3/5 m-5 space-y-4 bg-white rounded-xl h-[85vh] overflow-y-auto">
-      <div className="p-2">
-        <p className="text-xl font-semibold text-black">{chatData?.name}</p>
-      </div>
+      <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+          const inputElement = document.getElementById('chatName') as HTMLInputElement;
+          conversationMutation.mutate({conversation_id: chatData.id.toString(), name: inputElement.value})
+          inputElement.blur()
+        }}
+      >
+        <div className="group p-2">
+          <input
+            id="chatName"
+            className="text-xl bg-white focus:bg-white font-semibold text-black"
+            defaultValue={chatData?.name}
+          />
+        </div>
+      </form>
 
       <div className="flex flex-col gap-2 p-5">
         {chatData?.latest_messages?.toReversed().map((message) => {
@@ -104,13 +134,15 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            const inputElement = document.getElementById("message") as HTMLInputElement
+            const inputElement = document.getElementById(
+              "message"
+            ) as HTMLInputElement;
             messageMutation.mutate({
               content: inputElement.value,
               conversation: chatData.id.toString(),
               sender_id: currentUserData!.id.toString(),
             });
-            inputElement.value = ''
+            inputElement.value = "";
           }}
         >
           <div className="flex">

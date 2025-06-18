@@ -38,6 +38,9 @@ export default function ChatSidebar({
           className="border-b-1 border-gray-300 bg-white h-20 flex p-3 hover:bg-gray-100 transition duration-150"
           key={chat.id}
         >
+          {
+            
+          }
           <p className="my-auto">{chat.name}</p>
           {chat.latest_message.sender.id == currentUserData!.id ? (
             <p className="my-auto ml-auto text-gray-400 text-xs">
