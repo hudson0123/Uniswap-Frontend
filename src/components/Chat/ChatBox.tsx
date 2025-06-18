@@ -40,6 +40,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
+        queryClient.invalidateQueries({ queryKey: ["conversations"] }),
       ]);
     },
   });

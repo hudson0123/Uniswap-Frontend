@@ -1,7 +1,9 @@
+import { IMessage } from "./message";
+
 export interface IConversation {
   id: number,
   name: string,
   participants: number[],
-  last_message: string,
+  latest_message: IMessage,
   created_at: string,
 }

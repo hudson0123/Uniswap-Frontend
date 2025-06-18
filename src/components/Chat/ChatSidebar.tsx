@@ -1,9 +1,11 @@
 import { IConversation } from "@/@types/models/conversation";
 import React from "react";
+import moment from "moment";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function ChatSidebar({
   chats,
-  selectedChat,
+  // selectedChat,
   setSelectedChat,
 }: {
   chats: IConversation[];
@@ -12,6 +14,20 @@ export default function ChatSidebar({
 }) {
   function handleSelectChat(id: number) {
     setSelectedChat(id);
+  }
+
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
+
+  if (currentUserPending) {
+    return;
+  }
+
+  if (currentUserError) {
+    return;
   }
 
   return (
@@ -23,8 +39,20 @@ export default function ChatSidebar({
           key={chat.id}
         >
           <p className="my-auto">{chat.name}</p>
-          <p className="my-auto">{chat.last_message}</p>
-          {selectedChat == chat.id && <p className="ml-auto my-auto text-4xl">&#183;</p>}
+          {chat.latest_message.sender.id == currentUserData!.id ? (
+            <p className="my-auto ml-auto text-gray-400 text-xs">
+              sent message{" "}
+              {moment(new Date(chat.latest_message.timestamp)).fromNow()}
+            </p>
+          ) : (
+            <p className="my-auto ml-auto text-gray-400 text-xs">
+              new message{" "}
+              {moment(new Date(chat.latest_message.timestamp)).fromNow()}
+            </p>
+          )}
+          {/* {selectedChat == chat.id && (
+            <p className="ml-auto my-auto text-4xl">&#183;</p>
+          )} */}
         </div>
       ))}
     </div>
