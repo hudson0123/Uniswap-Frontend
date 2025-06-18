@@ -5,9 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import { IPost, ICreatePost } from "@/@types";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function PostCard({ post }: { post: IPost }) {
   // Hooks
+  const router = useRouter()
   const setNotification = useNotifyStore((state) => state.setNotification);
   const createRequestMutation = useMutation({
     mutationFn: async (request: ICreatePost) => {
@@ -54,7 +56,7 @@ export default function PostCard({ post }: { post: IPost }) {
         <p className="w-5/5 mt-2">{post.description}</p>
       </div>
       <button
-        className="absolute bottom-5 left-2 border-1 px-2 py-1 rounded bg-blue-300 cursor-pointer hover:bg-gray-200 transform duration-200"
+        className="absolute bottom-2 left-2 border-1 px-2 py-1 rounded bg-blue-300 cursor-pointer hover:bg-blue-200 transform duration-200"
         onClick={() => {
           createRequestMutation.mutate({
             sender_id: post.author.id,
@@ -63,6 +65,18 @@ export default function PostCard({ post }: { post: IPost }) {
         }}
       >
         Request
+      </button>
+      <button
+        className="absolute bottom-2 left-23 border-1 px-2 py-1 rounded bg-blue-300 cursor-pointer hover:bg-blue-200 transform duration-200"
+        onClick={async () => {
+          await api.post('/api/conversations/', {
+            name: "New Chat",
+            participants: [post.author.id]
+          })
+          router.push('/chat')
+        }}
+      >
+        Message
       </button>
     </div>
   );
