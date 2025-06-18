@@ -1,11 +1,12 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { IDetailConversation } from "@/@types/models/detailconversation";
 import api from "@/lib/api";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function Chat({ selectedChat }: { selectedChat: number }) {
+  const queryClient = useQueryClient();
   const {
     data: chatData,
     isPending,
@@ -24,24 +25,41 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
-  
+  const messageMutation = useMutation({
+    mutationFn: (message: {
+      content: string;
+      conversation: string;
+      sender_id: string;
+    }) => {
+      return api.post("/api/messages/", {
+        conversation: message.conversation,
+        sender_id: message.sender_id,
+        content: message.content,
+      });
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
+      ]);
+    },
+  });
 
   if (isPending || currentUserPending) {
     return;
   }
 
   if (error || currentUserError) {
-    return;
+    <p className="text-red-600">{error?.message}</p>;
   }
 
-  function handleSend() {
-    console.log("SENDING");
+  if (!chatData) {
+    return;
   }
 
   return (
     <div className="relative w-3/5 m-5 space-y-4 bg-white rounded-xl h-[85vh] overflow-y-auto">
       <div className="p-2">
-        <p className="text-xl font-semibold text-black">{chatData.name}</p>
+        <p className="text-xl font-semibold text-black">{chatData?.name}</p>
       </div>
 
       <div className="flex flex-col gap-2 p-5">
@@ -82,13 +100,27 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             </div>
           );
         })}
-        <form onSubmit={handleSend}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            const inputElement = document.getElementById("message") as HTMLInputElement
+            messageMutation.mutate({
+              content: inputElement.value,
+              conversation: chatData.id.toString(),
+              sender_id: currentUserData!.id.toString(),
+            });
+            inputElement.value = ''
+          }}
+        >
           <div className="flex">
             <input
               type="text"
+              id="message"
               className="absolute border-1 bottom-3 w-13/16 flex justify-center px-3 py-2 rounded-lg"
             />
-            <button className="absolute w-2/16 bottom-3 right-4 border-1 rounded-lg bg-blue-300 px-3 py-2 cursor-pointer hover:opacity-70 transition duration-150 font-bold">Send</button>
+            <button className="absolute w-2/16 bottom-3 right-4 border-1 rounded-lg bg-blue-300 px-3 py-2 cursor-pointer hover:opacity-70 transition duration-150 font-bold">
+              Send
+            </button>
           </div>
         </form>
       </div>
