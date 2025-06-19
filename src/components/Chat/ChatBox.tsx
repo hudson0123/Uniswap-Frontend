@@ -7,6 +7,13 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function Chat({ selectedChat }: { selectedChat: number }) {
   const queryClient = useQueryClient();
+
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
+
   const {
     data: chatData,
     isPending,
@@ -20,11 +27,8 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
       }
     },
   });
-  const {
-    data: currentUserData,
-    error: currentUserError,
-    isPending: currentUserPending,
-  } = useCurrentUser();
+
+
   const messageMutation = useMutation({
     mutationFn: (message: {
       content: string;
@@ -37,6 +41,34 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         content: message.content,
       });
     },
+    // When mutate is called:
+    onMutate: async (newTodo) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ['conversationDetail', selectedChat] })
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(['conversationDetail', selectedChat], (old: IDetailConversation | undefined) => {
+      if (!old) return old;
+
+      return {
+        ...old,
+        latest_messages: [
+          {
+            id: `temp-${Date.now()}`, // use a temp ID to avoid React key issues
+            content: newTodo.content,
+            sender: {
+              id: currentUserData?.id,
+              profile_picture: currentUserData?.profile_picture || null,
+              username: currentUserData?.username || "",
+            },
+            created_at: new Date().toISOString(),
+          },
+          ...(old.latest_messages ?? [])
+        ],
+      };
+    });
+    },
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
@@ -45,7 +77,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     },
   });
 
-    const conversationMutation = useMutation({
+  const conversationMutation = useMutation({
     mutationFn: (conversation: {
       conversation_id: string;
       name: string;
