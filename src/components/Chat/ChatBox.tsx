@@ -28,7 +28,6 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     },
   });
 
-
   const messageMutation = useMutation({
     mutationFn: (message: {
       content: string;
@@ -44,29 +43,34 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries({ queryKey: ['conversationDetail', selectedChat] })
+      await queryClient.cancelQueries({
+        queryKey: ["conversationDetail", selectedChat],
+      });
 
       // Optimistically update to the new value
-      queryClient.setQueryData(['conversationDetail', selectedChat], (old: IDetailConversation | undefined) => {
-      if (!old) return old;
+      queryClient.setQueryData(
+        ["conversationDetail", selectedChat],
+        (old: IDetailConversation | undefined) => {
+          if (!old) return old;
 
-      return {
-        ...old,
-        latest_messages: [
-          {
-            id: `temp-${Date.now()}`, // use a temp ID to avoid React key issues
-            content: newTodo.content,
-            sender: {
-              id: currentUserData?.id,
-              profile_picture: currentUserData?.profile_picture || null,
-              username: currentUserData?.username || "",
-            },
-            created_at: new Date().toISOString(),
-          },
-          ...(old.latest_messages ?? [])
-        ],
-      };
-    });
+          return {
+            ...old,
+            latest_messages: [
+              {
+                id: `temp-${Date.now()}`, // use a temp ID to avoid React key issues
+                content: newTodo.content,
+                sender: {
+                  id: currentUserData?.id,
+                  profile_picture: currentUserData?.profile_picture || null,
+                  username: currentUserData?.username || "",
+                },
+                created_at: new Date().toISOString(),
+              },
+              ...(old.latest_messages ?? []),
+            ],
+          };
+        }
+      );
     },
     onSuccess: async () => {
       await Promise.all([
@@ -77,13 +81,13 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
   });
 
   const conversationMutation = useMutation({
-    mutationFn: (conversation: {
-      conversation_id: string;
-      name: string;
-    }) => {
-      return api.patch("/api/conversations/" + conversation.conversation_id + "/", {
-        name: conversation.name,
-      });
+    mutationFn: (conversation: { conversation_id: string; name: string }) => {
+      return api.patch(
+        "/api/conversations/" + conversation.conversation_id + "/",
+        {
+          name: conversation.name,
+        }
+      );
     },
     onSuccess: async () => {
       await Promise.all([
@@ -106,13 +110,18 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
   }
 
   return (
-    <div className="relative w-3/5 m-5 space-y-4 bg-white rounded-xl h-[85vh] overflow-y-auto">
+    <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[91vh] ">
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          const inputElement = document.getElementById('chatName') as HTMLInputElement;
-          conversationMutation.mutate({conversation_id: chatData.id.toString(), name: inputElement.value})
-          inputElement.blur()
+          const inputElement = document.getElementById(
+            "chatName"
+          ) as HTMLInputElement;
+          conversationMutation.mutate({
+            conversation_id: chatData.id.toString(),
+            name: inputElement.value,
+          });
+          inputElement.blur();
         }}
       >
         <div className="group p-2">
@@ -124,7 +133,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         </div>
       </form>
 
-      <div className="flex flex-col gap-2 p-5">
+      <div className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2">
         {chatData?.latest_messages?.toReversed().map((message) => {
           const isCurrentUser = currentUserData?.id === message.sender.id;
           return (
@@ -162,6 +171,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             </div>
           );
         })}
+      </div>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -176,18 +186,21 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             inputElement.value = "";
           }}
         >
-          <div className="flex">
+          <div className="flex gap-2 p-5 bg-gray-50">
             <input
               type="text"
               id="message"
-              className="absolute border-1 bottom-3 w-13/16 flex justify-center px-3 py-2 rounded-lg"
+              className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
+              placeholder="Type a message..."
             />
-            <button className="absolute w-2/16 bottom-3 right-4 border-1 rounded-lg bg-blue-300 px-3 py-2 cursor-pointer hover:opacity-70 transition duration-150 font-bold">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:opacity-80 transition font-semibold"
+            >
               Send
             </button>
           </div>
         </form>
-      </div>
     </div>
   );
 }
