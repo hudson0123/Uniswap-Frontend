@@ -41,7 +41,6 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         content: message.content,
       });
     },
-    // When mutate is called:
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)

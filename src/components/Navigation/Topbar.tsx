@@ -13,9 +13,9 @@ function Topbar() {
 
   if (currentUserPending) {
     return (
-      <div className="">
+      <div className="h-[7vh]">
         <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm">
-          <div className="flex flex-wrap mx-auto h-10">
+          <div className="flex flex-wrap mx-auto my-auto h-10">
             <Link
               href="/home"
               className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -38,10 +38,9 @@ function Topbar() {
   }
 
   return (
-    <div className="">
-      <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm">
+      <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm h-[7vh]">
         <div className="flex flex-wrap w-full mx-auto h-10">
-          <div>
+          <div className="my-auto">
             <Link
               href="/home"
               className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -51,7 +50,7 @@ function Topbar() {
               </span>
             </Link>
           </div>
-          <div className="relative flex ml-auto justify-end items-center">
+          <div className="relative flex ml-auto my-auto justify-end items-center">
             <Link
               href="/chat"
               className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -81,7 +80,6 @@ function Topbar() {
           </div>
         </div>
       </nav>
-    </div>
   );
 }
 

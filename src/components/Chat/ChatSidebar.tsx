@@ -2,6 +2,7 @@ import { IConversation } from "@/@types/models/conversation";
 import React from "react";
 import moment from "moment";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import Link from "next/link";
 
 export default function ChatSidebar({
   chats,
@@ -31,16 +32,14 @@ export default function ChatSidebar({
   }
 
   return (
-    <div className="h-[90vh] bg-white border-t-1 w-2/5">
+    <div className="relative h-[93vh] bg-white border-t-1 w-2/5">
       {chats?.map((chat) => (
         <div
           onClick={() => handleSelectChat(chat.id)}
           className="border-b-1 border-gray-300 bg-white h-20 flex p-3 hover:bg-gray-100 transition duration-150"
           key={chat.id}
         >
-          {
-            
-          }
+          {}
           <p className="my-auto">{chat.name}</p>
           {chat.latest_message.sender.id == currentUserData!.id ? (
             <p className="my-auto ml-auto text-gray-400 text-xs">
@@ -58,6 +57,14 @@ export default function ChatSidebar({
           )} */}
         </div>
       ))}
+      {chats.length == 0 && (
+        <div className="grid">
+          <h1 className="text-black text-2xl font-semibold mx-auto mt-50">
+            No Conversations
+          </h1>
+          <p className="mx-auto text-sm">Connect with others <Link href="/home" className="italic cursor-pointer">here.</Link></p>
+        </div>
+      )}
     </div>
   );
 }
