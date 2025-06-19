@@ -8,8 +8,6 @@ import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
 import NotificationBanner from "@/components/NotificationBanner";
 import SearchUsers from "@/components/Users/SearchUsers";
-import useWebSocket from "@/hooks/useWebSocket";
-import useCurrentUser from "@/hooks/useCurrentUser";
 
 const queryPosts = async ({ pageParam }: { pageParam: number }) => {
   const res = await api.get<PaginatedResponse<IPost>>(
@@ -35,11 +33,6 @@ export default function Home() {
       return lastPageParam + 1;
     },
   });
-  const {
-    data: currentUserData,
-  } = useCurrentUser();
-
-  useWebSocket(currentUserData?.id.toString() || "");
 
   useEffect(() => {
     if (inView) {

@@ -69,12 +69,17 @@ export default function PostCard({ post }: { post: IPost }) {
       <button
         className="absolute bottom-2 left-23 border-1 px-2 py-1 rounded bg-blue-300 cursor-pointer hover:bg-blue-200 transform duration-200"
         onClick={async () => {
-          await api.post('/api/conversations/', {
-            name: "New Chat",
-            participants: [post.author.id]
-          })
-          router.push('/chat')
-        }}
+          try {
+            await api.post('/api/conversations/', {
+              name: "New Chat",
+              participants_id: [post.author.id]
+            })
+            router.push('/chat')
+          } catch (e) {
+            console.log(e)
+          }
+        }
+          }
       >
         Message
       </button>
