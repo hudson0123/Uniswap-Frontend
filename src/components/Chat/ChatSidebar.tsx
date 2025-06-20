@@ -1,6 +1,5 @@
 import { IConversation } from "@/@types/models/conversation";
 import React from "react";
-import useCurrentUser from "@/hooks/useCurrentUser";
 import Link from "next/link";
 import ChatSidebarBox from "./ChatSidebarBox";
 
@@ -14,27 +13,12 @@ export default function ChatSidebar({
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }) {
 
-  const {
-    data: currentUserData,
-    error: currentUserError,
-    isPending: currentUserPending,
-  } = useCurrentUser();
-
-  if (currentUserPending) {
-    return;
-  }
-
-  if (currentUserError) {
-    return;
-  }
-
   return (
-    <div className="relative h-[93vh] bg-white border-t-1 min-w-1/10 resize-x overflow-auto">
+    <div className="relative h-[93vh] bg-white border-t-1 min-w-3/10 overflow-auto">
       {chats?.map((chat) => (
         <ChatSidebarBox 
           key={chat.id}
           chat={chat}
-          currentUserData={currentUserData}
           setSelectedChat={setSelectedChat}
         />
       ))}
