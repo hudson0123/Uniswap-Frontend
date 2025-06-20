@@ -4,82 +4,50 @@ import TopbarProfileDropdown from "./TopbarProfileDropdown";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 function Topbar() {
-  // Hooks
   const {
     data: currentUserData,
     error: currentUserError,
-    isPending: currentUserPending,
   } = useCurrentUser();
 
-  if (currentUserPending) {
-    return (
-      <div className="h-[7vh]">
-        <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm">
-          <div className="flex flex-wrap mx-auto my-auto h-10">
-            <Link
-              href="/home"
-              className="flex items-center space-x-3 rtl:space-x-reverse"
-            >
-              <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
-                UniSwap
-              </span>
-            </Link>
-            <div className="group relative flex justify-end items-center">
-              <TopbarProfileDropdown />
-            </div>
-          </div>
-        </nav>
-      </div>
-    );
-  }
+  if (currentUserError) return null;
 
-  if (currentUserError) {
-    return;
-  }
+  const profileImage = currentUserData?.profile_picture || "/profile.jpg";
 
   return (
-      <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm h-[9vh]">
-        <div className="flex flex-wrap w-full mx-auto h-10">
-          <div className="my-auto">
-            <Link
-              href="/home"
-              className="flex items-center space-x-3 rtl:space-x-reverse"
-            >
-              <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
-                UniSwap
-              </span>
-            </Link>
-          </div>
-          <div className="relative flex ml-auto my-auto justify-end items-center">
-            <Link
-              href="/chat"
-              className="flex items-center space-x-3 rtl:space-x-reverse"
-            >
+    <nav className="w-full bg-white shadow-sm z-10 px-10 py-4 h-[9vh]">
+      <div className="flex items-center justify-between h-full">
+        {/* Logo */}
+        <Link href="/home" className="text-2xl font-semibold text-black">
+          UniSwap
+        </Link>
+
+        {/* Right-side icons */}
+        <div className="flex items-center gap-4">
+          {/* Chat Icon */}
+            <Link href="/chat">
               <Image
-                width={100}
-                height={100}
-                className="w-10 h-10 my-auto ml-2 hover:ring-1 ring-white transform duration-100"
-                src={"message.svg"}
-                alt="user-profile"
+                src="/message.svg"
+                alt="Chat"
+                width={40}
+                height={40}
+                className="w-10 h-10 transition duration-150"
               />
             </Link>
-            <div className="group">
-              <Image
-                width={100}
-                height={100}
-                className="w-12 h-12 ml-2 rounded-full hover:ring-1 ring-white transform duration-100"
-                src={
-                  currentUserData?.profile_picture
-                    ? currentUserData?.profile_picture
-                    : "/profile.jpg"
-                }
-                alt="user-profile"
-              />
-              <TopbarProfileDropdown />
-            </div>
+
+          {/* Profile */}
+          <div className="relative group">
+            <Image
+              src={profileImage}
+              alt="User profile"
+              width={48}
+              height={48}
+              className="w-12 h-12 rounded-full hover:ring-2 cursor-pointer transition duration-150"
+            />
+            <TopbarProfileDropdown />
           </div>
         </div>
-      </nav>
+      </div>
+    </nav>
   );
 }
 

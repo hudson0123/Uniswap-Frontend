@@ -22,7 +22,9 @@ export default function Chat() {
   const [selectedChat, setSelectedChat] = useState(0);
 
   if (isPending) {
-    return;
+    return (
+      <Topbar />
+    )
   }
 
   if (error) {
