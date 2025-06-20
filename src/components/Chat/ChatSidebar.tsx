@@ -14,7 +14,7 @@ export default function ChatSidebar({
 }) {
 
   return (
-    <div className="relative h-[93vh] bg-white border-t-1 min-w-3/10 overflow-auto">
+    <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
       {chats?.map((chat) => (
         <ChatSidebarBox 
           key={chat.id}

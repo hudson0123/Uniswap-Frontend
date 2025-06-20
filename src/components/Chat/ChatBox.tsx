@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { IDetailConversation } from "@/@types/models/detailconversation";
 import api from "@/lib/api";
@@ -7,6 +7,7 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function Chat({ selectedChat }: { selectedChat: number }) {
   const queryClient = useQueryClient();
+  const chatBoxRef = useRef<HTMLDivElement>(null);
 
   const {
     data: currentUserData,
@@ -23,6 +24,8 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     queryFn: async () => {
       if (selectedChat != 0) {
         const res = await api.get(`/api/conversations/${selectedChat}/`);
+        // const chatBox = document.getElementById('chatBox') as HTMLDivElement
+        // chatBox.scrollTop = chatBox.scrollHeight
         return res.data;
       }
     },
@@ -97,6 +100,12 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     },
   });
 
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [chatData?.latest_messages]);
+
   if (isPending || currentUserPending) {
     return;
   }
@@ -110,7 +119,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
   }
 
   return (
-    <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[91vh] ">
+    <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[90vh] ">
       <form
         onSubmit={async (event) => {
           event.preventDefault();
@@ -133,7 +142,10 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         </div>
       </form>
 
-      <div className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2">
+      <div
+        ref={chatBoxRef}
+        className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2"
+      >
         {chatData?.latest_messages?.toReversed().map((message) => {
           const isCurrentUser = currentUserData?.id === message.sender.id;
           return (
@@ -153,8 +165,8 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
                 />
               )}
               <div
-                className={`max-w-xs px-4 py-2 rounded-lg text-white ${
-                  isCurrentUser ? "bg-blue-500" : "bg-gray-500"
+                className={`max-w-xs px-4 py-2 rounded-4xl ${
+                  isCurrentUser ? "bg-blue-500 text-white" : "bg-blue-100 text-black"
                 }`}
               >
                 <p>{message.content}</p>
@@ -172,35 +184,35 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
           );
         })}
       </div>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const inputElement = document.getElementById(
-              "message"
-            ) as HTMLInputElement;
-            messageMutation.mutate({
-              content: inputElement.value,
-              conversation: chatData.id.toString(),
-              sender_id: currentUserData!.id.toString(),
-            });
-            inputElement.value = "";
-          }}
-        >
-          <div className="flex gap-2 p-5 bg-gray-50">
-            <input
-              type="text"
-              id="message"
-              className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
-              placeholder="Type a message..."
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:opacity-80 transition font-semibold"
-            >
-              Send
-            </button>
-          </div>
-        </form>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          const inputElement = document.getElementById(
+            "message"
+          ) as HTMLInputElement;
+          messageMutation.mutate({
+            content: inputElement.value,
+            conversation: chatData.id.toString(),
+            sender_id: currentUserData!.id.toString(),
+          });
+          inputElement.value = "";
+        }}
+      >
+        <div className="flex gap-2 p-5 bg-gray-50">
+          <input
+            type="text"
+            id="message"
+            className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
+            placeholder="Type a message..."
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:opacity-80 transition font-semibold"
+          >
+            Send
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -1,13 +1,14 @@
 import React from "react";
 import { useEffect, useRef } from "react";
 import useCurrentUser from "@/hooks/useCurrentUser";
-
+import { useQueryClient } from "@tanstack/react-query";
 export default function WebSocketProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const socketRef = useRef<WebSocket | null>(null);
+  const queryClient = useQueryClient()
   const { data: currentUserData } = useCurrentUser();
 
   useEffect(() => {
@@ -23,8 +24,11 @@ export default function WebSocketProvider({
     };
 
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log("WebSocket: Message - " + data);
+
+      console.log("WebSocket message received:", event.data);
+
+      queryClient.invalidateQueries({ queryKey: ["conversationDetail"] });
+      queryClient.invalidateQueries({ queryKey: ["conversations"] });
     };
 
     ws.onclose = () => {
@@ -34,7 +38,7 @@ export default function WebSocketProvider({
     return () => {
       ws.close();
     };
-  }, [currentUserData?.id]);
+  }, [currentUserData?.id, queryClient]);
 
   return <div>{children}</div>;
 }
