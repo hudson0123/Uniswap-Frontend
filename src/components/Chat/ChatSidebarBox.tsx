@@ -10,10 +10,13 @@ export default function chatSidebarBox({
   chat: IConversation | undefined;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }) {
+
   return (
     <div
-      onClick={() => setSelectedChat(chat!.id)}
-      className="relative min-w-70 border-b-1 border-gray-300 bg-white h-20 px-3 py-2 hover:bg-gray-100 transition duration-150 "
+      onClick={() => {
+        setSelectedChat(chat!.id);
+      }}
+      className={`relative min-w-70 border-b-1 border-gray-300 bg-white h-20 px-3 py-2 hover:bg-gray-100 transition duration-150`}
       key={chat?.id}
     >
       <div className="flex">

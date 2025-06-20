@@ -5,11 +5,9 @@ import ChatSidebarBox from "./ChatSidebarBox";
 
 export default function ChatSidebar({
   chats,
-  // selectedChat,
   setSelectedChat,
 }: {
   chats: IConversation[];
-  selectedChat: number;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }) {
 

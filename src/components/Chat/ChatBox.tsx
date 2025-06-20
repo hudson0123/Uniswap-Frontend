@@ -166,7 +166,9 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
               )}
               <div
                 className={`max-w-xs px-4 py-2 rounded-4xl ${
-                  isCurrentUser ? "bg-blue-500 text-white" : "bg-blue-100 text-black"
+                  isCurrentUser
+                    ? "bg-blue-500 text-white"
+                    : "bg-blue-100 text-black"
                 }`}
               >
                 <p>{message.content}</p>

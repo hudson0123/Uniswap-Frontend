@@ -5,6 +5,7 @@ import api from "@/lib/api";
 import { IConversation } from "@/@types/models/conversation";
 import ChatBox from "@/components/Chat/ChatBox";
 import ChatSidebar from "@/components/Chat/ChatSidebar";
+import Image from "next/image";
 
 export default function Chat() {
   const {
@@ -18,7 +19,7 @@ export default function Chat() {
       return res.data;
     },
   });
-  const [selectedChat, setSelectedChat] = useState(0)
+  const [selectedChat, setSelectedChat] = useState(0);
 
   if (isPending) {
     return;
@@ -32,14 +33,20 @@ export default function Chat() {
     <div>
       <Topbar />
       <div className="flex flex-col-2">
-        <ChatSidebar 
+        <ChatSidebar
           chats={conversationData}
-          selectedChat={selectedChat}
           setSelectedChat={setSelectedChat}
         />
-        <ChatBox
-          selectedChat={selectedChat}
-        />
+        <ChatBox selectedChat={selectedChat} />
+        {selectedChat == 0 && (
+          <Image
+            width={100}
+            height={100}
+            className="w-30 h-30 m-auto transform duration-100 text-white"
+            src="/no-messages.svg"
+            alt="no-messages"
+          />
+        )}
       </div>
     </div>
   );

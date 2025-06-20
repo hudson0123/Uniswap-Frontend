@@ -67,7 +67,7 @@ export default function PostCard({ post }: { post: IPost }) {
         Request
       </button>
       <button
-        className="absolute bottom-2 left-23 border-1 px-2 py-1 rounded bg-blue-300 cursor-pointer hover:bg-blue-200 transform duration-200"
+        className="absolute bottom-2 left-23 px-2 py-1 cursor-pointer ml-autp"
         onClick={async () => {
           try {
             await api.post('/api/conversations/', {
@@ -81,7 +81,13 @@ export default function PostCard({ post }: { post: IPost }) {
         }
           }
       >
-        Message
+        <Image
+            width={100}
+            height={100}
+            className="w-10 h-10 ml-2 transform duration-100"
+            src="/start-conversation.svg"
+            alt="user-profile"
+          />
       </button>
     </div>
   );
