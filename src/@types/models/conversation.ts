@@ -7,4 +7,5 @@ export interface IConversation {
   participants: IUser[],
   latest_message: IMessage,
   created_at: string,
+  read: boolean
 }

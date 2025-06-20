@@ -38,7 +38,7 @@ function Topbar() {
   }
 
   return (
-      <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm h-[7vh]">
+      <nav className="p-4 px-10 w-full bg-white z-10 shadow-sm h-[9vh]">
         <div className="flex flex-wrap w-full mx-auto h-10">
           <div className="my-auto">
             <Link
