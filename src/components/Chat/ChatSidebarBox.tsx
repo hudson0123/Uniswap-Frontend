@@ -55,16 +55,6 @@ export default function chatSidebarBox({
             {chat?.latest_message?.content}
           </p>
         )}
-
-        {chat?.read == false && (
-          <Image
-            width={30}
-            height={30}
-            className="absolute bottom-0 right-0"
-            alt="unread-indicator"
-            src="/red-dot.svg"
-          />
-        )}
       </div>
     </div>
   );
