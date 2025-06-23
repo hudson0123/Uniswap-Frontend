@@ -1,23 +1,10 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import { IUser } from "@/@types";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import useFollow from "@/hooks/useFollow";
 
-enum ViewMode {
-  None,
-  Following,
-  Followers,
-}
-
-export default function AccountCard({
-  accountData,
-  setMode,
-}: {
-  accountData: IUser;
-  setMode: React.Dispatch<SetStateAction<ViewMode>>;
-}) {
+export default function AccountCard({ accountData }: { accountData: IUser }) {
   // Hooks
   const router = useRouter();
   const {
@@ -25,16 +12,6 @@ export default function AccountCard({
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
-  const {
-    data: followerData,
-    isPending: followerPending,
-    error: followerError,
-  } = useFollow()[0];
-  const {
-    data: followingData,
-    isPending: followingPending,
-    error: followingError,
-  } = useFollow()[1];
 
   const editProfile = () => {
     const editUrl = "/" + accountData.username + "/edit";
@@ -48,17 +25,11 @@ export default function AccountCard({
     return null;
   };
 
-  enum ViewMode {
-    None,
-    Following,
-    Followers,
+  if (currentUserPending) {
+    return;
   }
 
-  if (currentUserPending || followerPending || followingPending) {
-    <div className="relative bg-white p-10 flex flex-col md:mt-5 w-full rounded-2xl shadow-xl h-[83vh]"></div>;
-  }
-
-  if (currentUserError || followerError || followingError) {
+  if (currentUserError) {
     return;
   }
 
@@ -90,28 +61,6 @@ export default function AccountCard({
         {accountData?.first_name} {accountData?.last_name}
       </p>
       <p className="italic gray-800 -mt-1">{accountData?.username}</p>
-      {accountData?.id == currentUserData?.id && (
-        <div className="mt-1">
-          <button
-            onClick={() => setMode(ViewMode.Followers)}
-            className="hover:underline cursor-pointer mr-3"
-          >
-            <span className="font-bold">
-              {followerData ? followerData.length : "0"}
-            </span>{" "}
-            Followers
-          </button>
-          <button
-            onClick={() => setMode(ViewMode.Following)}
-            className="hover:underline cursor-pointer"
-          >
-            <span className="font-bold">
-              {followingData ? followingData.length : "0"}
-            </span>{" "}
-            Following
-          </button>
-        </div>
-      )}
       <p className="italics text-sms text-gray-500">
         {accountData?.verified ? (
           "Verified UGA Student"
@@ -131,86 +80,6 @@ export default function AccountCard({
         Member since{" "}
         {new Date(accountData?.date_joined).toDateString().substring(4)}
       </p>
-      <div className="mt-8">
-        {accountData.phone_number && (
-          <div className="flex justify-start mb-2">
-            <Image
-              src="/phone.svg"
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-12 h-12 mr-5"
-            />
-            <p className="mt-auto mb-auto">
-              {accountData?.phone_number.slice(0, 3) +
-                "-" +
-                accountData?.phone_number.slice(3, 6) +
-                "-" +
-                accountData?.phone_number.slice(6, 10)}
-            </p>
-          </div>
-        )}
-        {accountData.email && (
-          <div className="flex justify-start mb-2">
-            <Image
-              src="/gmail.svg"
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-12 h-12 mr-5"
-            />
-            <p className="mt-auto mb-auto text-sm">{accountData?.email}</p>
-          </div>
-        )}
-        {accountData.snapchat && (
-          <div className="flex justify-start mb-2">
-            <Image
-              src="/snapchat.svg"
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-10 h-10 mr-5"
-            />
-            <p className="mt-auto mb-auto text-sm">@{accountData?.snapchat}</p>
-          </div>
-        )}
-        {accountData.instagram && (
-          <div className="flex justify-start mb-2">
-            <Image
-              src="/instagram.svg"
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-10 h-10 mr-5"
-            />
-            <p className="mt-auto mb-auto text-sm">@{accountData?.instagram}</p>
-          </div>
-        )}
-        {accountData.groupme && (
-          <div className="flex justify-start mb-2">
-            <Image
-              src="/groupme.jpeg"
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-10 h-10 rounded-full mr-5"
-            />
-            <p className="mt-auto mb-auto text-sm">@{accountData?.groupme}</p>
-          </div>
-        )}
-        {accountData.discord && (
-          <div className="flex justify-start mb-2">
-            <Image
-              src="/discord.svg"
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-12 h-12 mr-5"
-            />
-            <p className="mt-auto mb-auto text-sm">@{accountData?.discord}</p>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
