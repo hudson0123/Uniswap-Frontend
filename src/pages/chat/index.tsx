@@ -42,8 +42,8 @@ export default function Chat() {
         <ChatBox selectedChat={selectedChat} />
         {selectedChat == 0 && (
           <Image
-            width={100}
-            height={100}
+            width={10}
+            height={10}
             className="w-30 h-30 m-auto transform duration-100 text-white"
             src="/no-messages.svg"
             alt="no-messages"
