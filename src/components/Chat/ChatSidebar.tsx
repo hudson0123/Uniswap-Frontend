@@ -46,7 +46,7 @@ export default function ChatSidebar({
   if (errorBuying || errorSelling) {
     return;
   }
-  
+
   return (
     <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
       <div className="flex flex-col-2 justify-evenly border-b-1">
