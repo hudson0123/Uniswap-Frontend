@@ -8,13 +8,9 @@ import Topbar from "@/components/Navigation/Topbar";
 import AccountCard from "@/components/Account/AccountCard";
 import AccountListings from "@/components/Account/AccountListings";
 import AccountSettings from "@/components/Account/AccountSettings";
-import AccountReceivedRequests from "@/components/Account/AccountReceivedRequests";
-import AccountSentRequests from "@/components/Account/AccountSentRequests";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import UserFollowing from "@/components/Users/UserFollowing";
-import UserFollowers from "@/components/Users/UserFollowers";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -38,31 +34,20 @@ export default function AccountPage() {
     enabled: !!username,
   });
 
-  enum ViewMode {
-    None,
-    Following,
-    Followers,
-  }
-
   enum AccountViewMode {
-    Received,
-    Sent,
     Create,
     Listings,
     Settings,
   }
 
   const accountTabs = [
-  { key: AccountViewMode.Received, label: 'Received Requests' },
-  { key: AccountViewMode.Sent, label: 'Sent Requests' },
   { key: AccountViewMode.Create, label: 'Create Post' },
   { key: AccountViewMode.Listings, label: 'My Listings' },
   { key: AccountViewMode.Settings, label: 'Settings' },
 ];
 
-  const [mode, setMode] = useState<ViewMode>(ViewMode.None);
   const [accountViewMode, setAccountViewMode] =
-    useState<AccountViewMode>(AccountViewMode.Received);
+    useState<AccountViewMode>(AccountViewMode.Create);
 
   if (isPending || currentUserPending) {
     return (
@@ -102,15 +87,7 @@ export default function AccountPage() {
     );
   }
 
-  const ViewComponents = {
-    [ViewMode.None]: <></>,
-    [ViewMode.Following]: <UserFollowing setMode={setMode} />,
-    [ViewMode.Followers]: <UserFollowers setMode={setMode} />,
-  } as const;
-
   const AccountViewComponents = {
-    [AccountViewMode.Received]: <AccountReceivedRequests />,
-    [AccountViewMode.Sent]: <AccountSentRequests />,
     [AccountViewMode.Create]: <CreatePostForm />,
     [AccountViewMode.Listings]: (
       <AccountListings currentUser_data={accountData} />
@@ -123,8 +100,7 @@ export default function AccountPage() {
       <NotificationBanner />
       <Topbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:px-20 text-black md:mx-20 mb-20 ">
-        {ViewComponents[mode]}
-        <AccountCard accountData={accountData} setMode={setMode} />
+        <AccountCard accountData={accountData} />
         {currentUserData?.id == accountData.id || !currentUserData ? (
           <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[83vh] overflow-auto mt-5 rounded-2xl shadow-xl">
             {/* Responsive tabs */}

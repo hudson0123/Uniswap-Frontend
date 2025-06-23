@@ -24,7 +24,7 @@ export default function PostCard({ post }: { post: IPost }) {
           <Image
             width={100}
             height={100}
-            className="w-12 h-12 ml-2 rounded-full border-1 border-gray-300 hover:ring-1 ring-white transform duration-100"
+            className="w-12 h-12 ml-2 rounded-full transform duration-100"
             src={
               post.author.profile_picture
                 ? post.author.profile_picture
