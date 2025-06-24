@@ -2,7 +2,6 @@ import Topbar from "@/components/Navigation/Topbar";
 import React, { useState } from "react";
 import ChatBox from "@/components/Chat/ChatBox";
 import ChatSidebar from "@/components/Chat/ChatSidebar";
-import Image from "next/image";
 
 export default function Chat() {
   const [selectedChat, setSelectedChat] = useState(0);

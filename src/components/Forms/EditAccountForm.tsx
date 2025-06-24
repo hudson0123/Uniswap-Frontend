@@ -12,11 +12,6 @@ import { useQueryClient } from "@tanstack/react-query";
 const schema = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  phone_number: z.string().min(10).max(10),
-  snapchat: z.string(),
-  instagram: z.string(),
-  groupme: z.string(),
-  discord: z.string(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -57,17 +52,12 @@ export default function EditAccountForm({
       await api.patch("/api/users/" + currentUserData?.id + "/", {
         first_name: data.first_name,
         last_name: data.last_name,
-        phone_number: data.phone_number,
-        snapchat: data.snapchat,
-        instagram: data.instagram,
-        groupme: data.groupme,
-        discord: data.discord,
       });
       queryClient.invalidateQueries({ queryKey: ['currentUser']})
       router.push("/" + currentUserData?.username + "/");
       return null;
     } catch {
-      setNotification("error", "Unable to Update User");
+      setNotification("error", "Error Updating User.");
     }
   };
 
@@ -137,96 +127,6 @@ export default function EditAccountForm({
           />
           <p className="mt-auto mb-auto">{currentUserData?.email}</p>
         </div>
-        <div className="flex justify-start mb-2">
-          <Image
-            src="/phone.svg"
-            width={100}
-            height={100}
-            alt="profile"
-            className="w-12 h-12 mr-2"
-          />
-          <input
-            id="phone_number"
-            type="phone_number"
-            defaultValue={currentUserData?.phone_number}
-            className="block px-2.5 pb-2 pt-2 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("phone_number")}
-          />
-        </div>
-        <p className="text-red-500 text-xs">{errors.phone_number?.message}</p>
-        <div className="flex justify-start mb-2">
-          <Image
-            src="/snapchat.svg"
-            width={100}
-            height={100}
-            alt="profile"
-            className="w-10 h-10 mr-5"
-          />
-          <p className="my-auto mr-2">@</p>
-          <input
-            id="snapchat"
-            type="snapchat"
-            defaultValue={currentUserData?.snapchat}
-            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("snapchat")}
-          />
-        </div>
-        <p className="text-red-500 text-xs">{errors.snapchat?.message}</p>
-        <div className="flex justify-start mb-2">
-          <Image
-            src="/instagram.svg"
-            width={100}
-            height={100}
-            alt="profile"
-            className="w-10 h-10 mr-5"
-          />
-          <p className="my-auto mr-2">@</p>
-          <input
-            id="instagram"
-            type="instagram"
-            defaultValue={currentUserData?.instagram}
-            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("instagram")}
-          />{" "}
-        </div>
-        <p className="text-red-500 text-xs">{errors.instagram?.message}</p>
-        <div className="flex justify-start mb-2">
-          <Image
-            src="/groupme.jpeg"
-            width={100}
-            height={100}
-            alt="profile"
-            className="w-10 h-10 rounded-1/2 mr-5"
-          />
-          <p className="my-auto mr-2">@</p>
-          <input
-            id="groupme"
-            type="groupme"
-            defaultValue={currentUserData?.groupme}
-            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("groupme")}
-          />{" "}
-        </div>
-        <p className="text-red-500 text-xs">{errors.groupme?.message}</p>
-        <div className="flex justify-start mb-2">
-          <Image
-            src="/discord.svg"
-            width={100}
-            height={100}
-            alt="profile"
-            className="w-10 h-10 mr-5"
-          />
-          <p className="my-auto mr-2">@</p>
-          <input
-            id="discord"
-            type="discord"
-            defaultValue={currentUserData?.discord}
-            className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("discord")}
-          />{" "}
-        </div>
-        <p className="text-red-500 text-xs">{errors.discord?.message}</p>
-      </div>
       <button
         type="submit"
         disabled={isSubmitting}
@@ -234,6 +134,7 @@ export default function EditAccountForm({
       >
         Save
       </button>
+      </div>
     </form>
   );
 }
