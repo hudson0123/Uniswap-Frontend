@@ -4,7 +4,8 @@ import { IUser } from "./user";
 export interface IDetailConversation {
   id: number,
   name: string,
-  participants: IUser[],
+  buyer: IUser,
+  seller: IUser, 
   latest_messages: IMessage[],
   created_at: string,
 }

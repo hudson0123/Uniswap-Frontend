@@ -83,23 +83,6 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     },
   });
 
-  const conversationMutation = useMutation({
-    mutationFn: (conversation: { conversation_id: string; name: string }) => {
-      return api.patch(
-        "/api/conversations/" + conversation.conversation_id + "/",
-        {
-          name: conversation.name,
-        }
-      );
-    },
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
-        queryClient.invalidateQueries({ queryKey: ["conversations"] }),
-      ]);
-    },
-  });
-
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -120,28 +103,35 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
 
   return (
     <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[90vh] ">
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
-          const inputElement = document.getElementById(
-            "chatName"
-          ) as HTMLInputElement;
-          conversationMutation.mutate({
-            conversation_id: chatData.id.toString(),
-            name: inputElement.value,
-          });
-          inputElement.blur();
-        }}
-      >
-        <div className="group p-2">
-          <input
-            id="chatName"
-            className="text-xl bg-white focus:bg-white font-semibold text-black"
-            defaultValue={chatData?.name}
-          />
-        </div>
-      </form>
-
+      <div className="p-3 text-lg font-bold">
+        {chatData.buyer.id == currentUserData?.id ? (
+          <div className="flex">
+            <Image
+              width={50}
+              height={50}
+              className="rounded-full"
+              alt="unread-indicator"
+              src={chatData?.seller?.profile_picture || "/profile.jpg"}
+            />
+            <p className="my-auto ml-3 text-2xl">
+              {chatData?.seller.first_name} {chatData?.seller.last_name}
+            </p>
+          </div>
+        ) : (
+          <div className="flex">
+            <Image
+              width={50}
+              height={50}
+              className="rounded-full"
+              alt="unread-indicator"
+              src={chatData?.seller?.profile_picture || "/profile.jpg"}
+            />
+            <p className="my-auto ml-3 text-2xl">
+              {chatData?.buyer.first_name} {chatData?.buyer.last_name}
+            </p>
+          </div>
+        )}
+      </div>
       <div
         ref={chatBoxRef}
         className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2"

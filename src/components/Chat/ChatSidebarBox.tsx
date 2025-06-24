@@ -2,14 +2,29 @@ import React from "react";
 import moment from "moment";
 import { IConversation } from "@/@types/models/conversation";
 import Image from "next/image";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
-export default function chatSidebarBox({
+export default function ChatSidebarBox({
   chat,
   setSelectedChat,
 }: {
   chat: IConversation | undefined;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }) {
+
+  const {
+    data: currentUserData,
+    error: currentUserError,
+    isPending: currentUserPending,
+  } = useCurrentUser();
+
+  if (currentUserPending) {
+    return;
+  }
+
+  if (currentUserError) {
+    return;
+  }
   return (
     <div
       onClick={() => {
@@ -30,9 +45,15 @@ export default function chatSidebarBox({
       <div className="flex-1">
         <div className="flex">
           <div>
-            <p className="text-nowrap text-xl font-sans font-semibold">
-              {chat?.buyer.first_name + " " + chat?.buyer.last_name}
-            </p>
+            {chat?.buyer.id == currentUserData?.id ? (
+              <p>
+                {chat?.seller.first_name} {chat?.seller.last_name}
+              </p>
+            ) : (
+              <p>
+                {chat?.buyer.first_name} {chat?.buyer.last_name}
+              </p>
+            )}
           </div>
           {chat?.latest_message?.timestamp &&
             (new Date(chat.latest_message.timestamp) <

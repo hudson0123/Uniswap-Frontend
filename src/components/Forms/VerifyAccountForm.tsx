@@ -63,10 +63,10 @@ export default function VerifyAccountForm({
   };
 
   return (
-    <div>
+    <div className="bg-gray-200 p-40 shadow-xl rounded-2xl h-screen flex flex-col">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative bg-white p-40 flex flex-col rounded-2xl shadow-xl w-200 m-auto mt-20"
+        className="relative flex flex-col bg-white py-10 rounded-2xl shadow-xl"
       >
         <label className="m-auto text-3xl">Verification Code</label>
         <input
@@ -76,7 +76,7 @@ export default function VerifyAccountForm({
           placeholder="123456"
           {...register("code")}
         />
-        <p className="text-red-500">{errors.code?.message}</p>
+        <p className="text-red-500 mx-auto">{errors.code?.message}</p>
         <button
           type="submit"
           disabled={isSubmitting}
@@ -84,8 +84,8 @@ export default function VerifyAccountForm({
         >
           Verify
         </button>
-      <button className="font-bold mt-5 cursor-pointer hover:text-gray-700 text-xl" onClick={resendVerificationCode}>Resend Code</button>
       </form>
+      <button className="font-bold mt-5 cursor-pointer hover:text-gray-700 text-xl" onClick={resendVerificationCode}>Resend Code</button>
     </div>
   );
 }
