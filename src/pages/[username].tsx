@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { IUser } from "@/@types";
-import NotificationBanner from "@/components/NotificationBanner";
 import Topbar from "@/components/Navigation/Topbar";
 import AccountCard from "@/components/Account/AccountCard";
 import AccountListings from "@/components/Account/AccountListings";
@@ -52,7 +51,6 @@ export default function AccountPage() {
   if (isPending || currentUserPending) {
     return (
       <div className="max-h-[85vh]">
-        <NotificationBanner />
         <Topbar />
               <div className="flex items-center justify-center h-screen w-full">
                 <Image
@@ -87,7 +85,6 @@ export default function AccountPage() {
 
   return (
     <div className="max-h-[85vh]">
-      <NotificationBanner />
       <Topbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:px-20 text-black md:mx-20 mb-20 ">
         <AccountCard accountData={accountData} />

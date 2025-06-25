@@ -6,7 +6,6 @@ import { PaginatedResponse } from "@/@types/api";
 import { IPost } from "@/@types";
 import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
-import NotificationBanner from "@/components/NotificationBanner";
 import SearchUsers from "@/components/Users/SearchUsers";
 import Image from "next/image";
 
@@ -44,7 +43,6 @@ export default function Home() {
   if (postPending) {
     return (
       <div className="">
-        <NotificationBanner />
         <Topbar />
         <div className="flex items-center justify-center h-screen w-full">
           <Image
@@ -65,7 +63,6 @@ export default function Home() {
 
   return (
     <>
-      <NotificationBanner />
       <Topbar />
       <div className="pt-10 px-20 flex flex-col-2 w-full min-h-[85vh] gap-10">
         <div className="bg-white p-10 w-2/3 rounded-2xl shadow-xl sticky top-10 self-start">

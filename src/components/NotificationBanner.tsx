@@ -21,10 +21,10 @@ export default function NotificationBanner() {
     return (
         <>
             {notification.message !== null ? (
-                <div className='fixed bottom-0 w-screen z-10'>
-                    <div className={`flex flex-col-2 justify-center align-middle h-10 px-5 py-2 ${color}`}>
+                <div className='fixed bottom-2 right-2 w-fit max-w-80 z-10'>
+                    <div className={`flex flex-col-2 h-fit justify-start align-middle px-10 py-3 relative rounded-xl ${color}`}>
                         <p className='text-black font-bold'>{notification.message}</p>
-                        <p className='ml-auto text-black font-bold cursor-pointer' onClick={notification.clearNotification}>x</p>
+                        <p className='ml-auto text-black font-bold cursor-pointer absolute top-1 right-2' onClick={notification.clearNotification}>x</p>
                     </div>
                 </div>
             ) : (
