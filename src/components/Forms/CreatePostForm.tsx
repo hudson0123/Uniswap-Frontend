@@ -9,9 +9,7 @@ import { useRouter } from "next/router";
 const schema = z.object({
   ticket_title: z.string(),
   ticket_price: z.string(),
-  description: z
-    .string()
-    .max(100, "Keep the description under 50 characters."),
+  description: z.string().max(100, "Keep the description under 50 characters."),
   category: z.string(),
   meetup_time: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Invalid datetime format",
@@ -22,6 +20,22 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function CreatePostForm() {
+  enum categories {
+    "Football" = "FB",
+    "Basketball" = "BB",
+    "Baseball" = "BSB",
+    "Soccer" = "SOC",
+    "Volleyball" = "VB",
+    "Sorority Event" = "SOR",
+    "Fraternity Event" = "FRA",
+    "Concert" = "CON",
+    "Swimming & Diving" = "SW",
+    "Track & Field" = "TR",
+    "Tennis" = "TN",
+    "Golf" = "GF",
+    "Gymnastics" = "GYM",
+    "Other" = "OTH",
+  }
 
   // Hooks
   const setNotification = useNotifyStore((state) => state.setNotification);
@@ -54,53 +68,104 @@ export default function CreatePostForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto border border-white p-5 rounded"
+      className="mx-auto border border-white pt-5 rounded max-w-md"
     >
-      <h1 className="text-white font-bold mb-5 text-2xl">Create Post</h1>
-      <p className="text-red-400">{errors.ticket_title?.message}</p>
-      <input
-        type="text"
-        placeholder="Ticket Title"
-        className="border border-black bg-white rounded block mb-5 py-1 px-2 w-full"
-        {...register("ticket_title")}
-      />
+      {/* Ticket Title */}
+      <div className="relative mt-8">
+        <p className="text-red-400">{errors.ticket_title?.message}</p>
+        <input
+          type="text"
+          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
+          placeholder=" "
+          {...register("ticket_title")}
+        />
+        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+          Ticket Title
+        </label>
+      </div>
+
+      {/* Ticket Price */}
+      <div className="relative mt-8">
         <p className="text-red-400">{errors.ticket_price?.message}</p>
-      <input
-        type="number"
-        placeholder="Price"
-        className="border border-black bg-white rounded block mb-5 py-1 px-2 w-full"
-        {...register("ticket_price")}
-      />
+        <input
+          type="number"
+          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
+          placeholder=" "
+          {...register("ticket_price")}
+        />
+        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+          Ticket Price
+        </label>
+      </div>
+
+      {/* Description */}
+      <div className="relative mt-8">
         <p className="text-red-400">{errors.description?.message}</p>
-      <textarea
-        placeholder="Description"
-        className="border border-black bg-white rounded block mb-5 py-1 px-2 w-full"
-        {...register("description")}
-      />
-      <p className="text-red-400">{errors.category?.message}</p>
-      <input
-        type="text"
-        placeholder="Category"
-        className="border border-black bg-white rounded block mb-5 py-1 px-2 w-full"
-        {...register("category")}
-      />
-      <p className="text-red-400">{errors.meetup_time?.message}</p>
-      <input
-        type="datetime-local"
-        className="border border-black bg-white rounded block mb-5 py-1 px-2 w-full"
-        {...register("meetup_time")}
-      />
-      <p className="text-red-400">{errors.meetup_location?.message}</p>
-      <input
-        type="text"
-        placeholder="Location"
-        className="border border-black bg-white rounded block mb-5 py-1 px-2 w-full"
-        {...register("meetup_location")}
-      />
+        <textarea
+          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
+          placeholder=" "
+          {...register("description")}
+        />
+        <label className="absolute text-md text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+          Description
+        </label>
+      </div>
+
+      {/* Category */}
+      <div className="relative mt-8">
+        <p className="text-red-400">{errors.category?.message}</p>
+        <select
+          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
+          {...register("category")}
+          defaultValue=""
+        >
+          <option disabled value="">
+            Select a Category
+          </option>
+          {Object.entries(categories).map(([label, value]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+          Category
+        </label>
+      </div>
+
+      {/* Meetup Time */}
+      <div className="relative mt-8">
+        <p className="text-red-400">{errors.meetup_time?.message}</p>
+        <input
+          type="datetime-local"
+          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
+          placeholder=" "
+          {...register("meetup_time")}
+        />
+        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+          Meetup Time
+        </label>
+      </div>
+
+      {/* Meetup Location */}
+      <div className="relative mt-8">
+        <p className="text-red-400">{errors.meetup_location?.message}</p>
+        <input
+          type="text"
+          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
+          placeholder=" "
+          {...register("meetup_location")}
+        />
+        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+          Meetup Location
+        </label>
+      </div>
+
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="text-black bg-gray-300 rounded border-1 mb-3 black py-1 px-2 hover:border-gray-300 transition duration-200"
+        className="mt-8 text-white bg-cyan-950 cursor-pointer hover:bg-cyan-700 rounded border border-gray-400 py-2 px-4 hover:border-gray-500 transition duration-200"
       >
         Create Post
       </button>
