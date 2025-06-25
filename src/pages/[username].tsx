@@ -9,7 +9,6 @@ import AccountCard from "@/components/Account/AccountCard";
 import AccountListings from "@/components/Account/AccountListings";
 import AccountSettings from "@/components/Account/AccountSettings";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
-import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function AccountPage() {
@@ -54,25 +53,6 @@ export default function AccountPage() {
       <div className="max-h-[85vh]">
         <NotificationBanner />
         <Topbar />
-        <div
-          className={
-            "grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mb-20 h-[94vh]"
-          }
-        >
-          <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
-            <Image
-              src={"/profile.jpg"}
-              width={100}
-              height={100}
-              alt="profile"
-              className="w-30 h-30 flex rounded-full bg-white"
-            />
-          </div>
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 overflow-auto mt-5">
-            {/* Responsive tabs */}
-            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between"></div>
-          </div>
-        </div>
       </div>
     );
   }
