@@ -4,9 +4,24 @@ import { IPost } from "@/@types";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function PostCard({ post }: { post: IPost }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { mutate: deletePost } = useMutation({
+    mutationFn: async () => {
+      await api.delete("/api/posts/" + post.id + "/");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["account_listings"],
+      });
+    },
+  });
+
+  const { data: currentUserData } = useCurrentUser();
 
   return (
     <div className="relative px-3 pb-3 w-full h-50 border-0 border-b-1">
@@ -37,15 +52,34 @@ export default function PostCard({ post }: { post: IPost }) {
       <div>
         <p className="w-5/5 mt-2">{post.description}</p>
       </div>
+      <button
+        className="px-2 py-1 cursor-pointer absolute bottom-0 right-0"
+        onClick={async () => {
+          try {
+            await api.post("/api/conversations/", {
+              name: "New Chat",
+              seller_id: post.author.id,
+            });
+            router.push("/chat");
+          } catch (e) {
+            console.log(e);
+          }
+        }}
+      >
+        <Image
+          width={100}
+          height={100}
+          className="w-10 h-10 ml-2 transform duration-100"
+          src="/start-conversation.svg"
+          alt="user-profile"
+        />
+      </button>
+      {currentUserData?.id == post.author.id && (
         <button
-          className="px-2 py-1 cursor-pointer absolute bottom-0 right-0"
+          className="px-2 py-1 cursor-pointer absolute bottom-0 right-12"
           onClick={async () => {
             try {
-              await api.post("/api/conversations/", {
-                name: "New Chat",
-                seller_id: post.author.id,
-              });
-              router.push("/chat");
+              deletePost();
             } catch (e) {
               console.log(e);
             }
@@ -55,10 +89,11 @@ export default function PostCard({ post }: { post: IPost }) {
             width={100}
             height={100}
             className="w-10 h-10 ml-2 transform duration-100"
-            src="/start-conversation.svg"
+            src="/trash.svg"
             alt="user-profile"
           />
         </button>
+      )}
     </div>
   );
 }
