@@ -8,6 +8,7 @@ import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
 import NotificationBanner from "@/components/NotificationBanner";
 import SearchUsers from "@/components/Users/SearchUsers";
+import Image from "next/image";
 
 const queryPosts = async ({ pageParam }: { pageParam: number }) => {
   const res = await api.get<PaginatedResponse<IPost>>(
@@ -45,6 +46,15 @@ export default function Home() {
       <div className="">
         <NotificationBanner />
         <Topbar />
+        <div className="flex items-center justify-center h-screen w-full">
+          <Image
+            width={50}
+            height={50}
+            className="my-auto mx-auto mt-20"
+            alt="loading"
+            src={"/loading.svg"}
+          />
+        </div>
       </div>
     );
   }

@@ -90,7 +90,17 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
   }, [chatData?.latest_messages]);
 
   if (isPending || currentUserPending) {
-    return;
+    return (
+      <div className="flex items-center justify-center h-screen w-full">
+        <Image
+          width={50}
+          height={50}
+          className="my-auto mx-auto mt-20"
+          alt="loading"
+          src={"/loading.svg"}
+        />
+      </div>
+    );
   }
 
   if (error || currentUserError) {

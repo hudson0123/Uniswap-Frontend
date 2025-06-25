@@ -10,6 +10,7 @@ import AccountListings from "@/components/Account/AccountListings";
 import AccountSettings from "@/components/Account/AccountSettings";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import Image from "next/image";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -53,6 +54,15 @@ export default function AccountPage() {
       <div className="max-h-[85vh]">
         <NotificationBanner />
         <Topbar />
+              <div className="flex items-center justify-center h-screen w-full">
+                <Image
+                  width={50}
+                  height={50}
+                  className="my-auto mx-auto mt-20"
+                  alt="loading"
+                  src={"/loading.svg"}
+                />
+              </div>
       </div>
     );
   }

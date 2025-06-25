@@ -18,19 +18,25 @@ function Topbar() {
       <div className="flex items-center justify-between h-full">
         {/* Logo */}
         <Link href="/home" className="text-2xl font-semibold text-black">
-          UniSwap
+          <Image
+                src="/uniswap.png"
+                alt="Chat"
+                width={150}
+                height={150}
+                className="mt-2 bg-transparent transition duration-150 hover:scale-105"
+              />
         </Link>
 
         {/* Right-side icons */}
         <div className="flex items-center gap-4">
           {/* Chat Icon */}
-            <Link href="/chat">
+            <Link href="/chat" className="cursor-pointer">
               <Image
                 src="/message.svg"
                 alt="Chat"
                 width={40}
                 height={40}
-                className="w-10 h-10 transition duration-150"
+                className="w-10 h-10 transition duration-150 mt-2"
               />
             </Link>
 
