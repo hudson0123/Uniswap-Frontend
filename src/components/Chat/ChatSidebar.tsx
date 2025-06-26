@@ -1,7 +1,7 @@
 import { IConversation } from "@/@types/models/conversation";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ChatSidebarBox from "./ChatSidebarBox";
 
@@ -10,8 +10,6 @@ export default function ChatSidebar({
 }: {
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }) {
-
-
   const {
     data: buyingData,
     isPending: isPendingBuying,
@@ -36,9 +34,14 @@ export default function ChatSidebar({
     },
   });
 
-  const [chatData, setChatData] = useState(buyingData)
- 
- 
+  const [chatData, setChatData] = useState<IConversation[]>();
+
+  useEffect(() => {
+    if (buyingData) {
+      setChatData(buyingData);
+    }
+  }, [buyingData]);
+
   if (isPendingBuying || isPendingSelling) {
     return;
   }
@@ -50,10 +53,24 @@ export default function ChatSidebar({
   return (
     <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
       <div className="flex flex-col-2 justify-evenly border-b-1">
-        <button onClick={ () => setChatData(buyingData)} className="hover:bg-gray-100 w-full py-2">
+        <button
+          onClick={() => setChatData(buyingData)}
+          className={
+            chatData === buyingData
+              ? "bg-gray-300 w-full py-2"
+              : "bg-white w-full py-2"
+          }
+        >
           Buying
         </button>
-        <button onClick={ () => setChatData(sellingData)} className="hover:bg-gray-100 w-full py-2">
+        <button
+          onClick={() => setChatData(sellingData)}
+          className={
+            chatData === sellingData
+              ? "bg-gray-300 w-full py-2"
+              : "bg-white w-full py-2"
+          }
+        >
           Selling
         </button>
       </div>

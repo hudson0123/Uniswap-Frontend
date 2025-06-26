@@ -4,56 +4,49 @@ import TopbarProfileDropdown from "./TopbarProfileDropdown";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 function Topbar() {
-  const {
-    data: currentUserData,
-    error: currentUserError,
-  } = useCurrentUser();
+  const { data: currentUserData, error: currentUserError } = useCurrentUser();
 
   if (currentUserError) return null;
 
   const profileImage = currentUserData?.profile_picture || "/profile.jpg";
 
   return (
-    <nav className="w-full bg-white shadow-sm z-10 px-10 py-4 h-[9vh]">
-      <div className="flex items-center justify-between h-full">
-        {/* Logo */}
-        <Link href="/home" className="text-2xl font-semibold text-black">
-          <Image
-                src="/uniswap.png"
-                alt="Chat"
-                width={150}
-                height={150}
-                className="mt-2 bg-transparent transition duration-150 hover:scale-105"
-              />
-        </Link>
+      <nav className="w-full bg-white shadow-sm z-10 py-4 h-[9vh]">
+        <div className="max-w-screen-3xl mx-auto flex items-center justify-between px-4 sm:px-10 h-full">
+          {/* Logo */}
+          <Link href="/home" className="text-2xl font-semibold text-black">
+            <Image
+              src="/uniswap.png"
+              alt="Chat"
+              width={150}
+              height={150}
+              className="mt-2 bg-transparent transition duration-150 hover:scale-105"
+            />
+          </Link>
 
-        {/* Right-side icons */}
-        <div className="flex items-center gap-4">
-          {/* Chat Icon */}
+          {/* Right-side icons */}
+          <div className="flex items-center gap-4">
+            {/* Chat Icon */}
             <Link href="/chat" className="cursor-pointer">
-              <Image
-                src="/message.svg"
-                alt="Chat"
-                width={40}
-                height={40}
-                className="w-10 h-10 transition duration-150 mt-2"
-              />
+              <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-5">
+                Messages
+              </h2>
             </Link>
 
-          {/* Profile */}
-          <div className="relative group">
-            <Image
-              src={profileImage}
-              alt="User profile"
-              width={48}
-              height={48}
-              className="w-12 h-12 rounded-full hover:ring-2 cursor-pointer transition duration-150"
-            />
-            <TopbarProfileDropdown />
+            {/* Profile */}
+            <div className="relative group">
+              <Image
+                src={profileImage}
+                alt="User profile"
+                width={48}
+                height={48}
+                className="w-12 h-12 rounded-full hover:ring-2 cursor-pointer transition duration-150"
+              />
+              <TopbarProfileDropdown />
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
   );
 }
 

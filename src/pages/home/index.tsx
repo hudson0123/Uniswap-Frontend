@@ -62,23 +62,23 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div>
       <Topbar />
-      <div className="pt-10 px-20 flex flex-col-2 w-full min-h-[85vh] gap-10">
-        <div className="bg-white p-10 w-2/3 rounded-2xl shadow-xl sticky top-10 self-start">
+      <div className="pt-10 sm:px-20 flex flex-col md:flex-row w-full min-h-[85vh] gap-10 max-w-screen-2xl mx-auto">
+        <div className="bg-white p-10 w-screen mx-auto md:w-2/3 md:rounded-2xl shadow-xl sticky top-10 self-start">
           <div>
             {postData.pages.map((page) => {
               return <PostCardChunk key={page.next} posts={page.results} />;
             })}
           </div>
         </div>
-        <div className="invisible md:visible sticky top-10 self-start w-1/3">
+        <div className="hidden md:block sticky top-10 self-start w-full md:w-1/3">
           <SearchUsers />
         </div>
       </div>
       <div className="relative pb-10">
         <div ref={ref} className="absolute top-[-300px]"></div>
       </div>
-    </>
+    </div>
   );
 }
