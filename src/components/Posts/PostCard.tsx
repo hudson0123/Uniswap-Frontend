@@ -59,6 +59,7 @@ export default function PostCard({ post }: { post: IPost }) {
             await api.post("/api/conversations/", {
               name: "New Chat",
               seller_id: post.author.id,
+              post_id: post.id,
             });
             router.push("/chat");
           } catch (e) {

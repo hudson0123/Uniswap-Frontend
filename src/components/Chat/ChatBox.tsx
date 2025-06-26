@@ -126,6 +126,9 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             <p className="my-auto ml-3 text-2xl">
               {chatData?.seller.first_name} {chatData?.seller.last_name}
             </p>
+            <p className="my-auto ml-auto p-2 rounded bg-gray-200 text-xl">
+              {chatData?.post?.ticket_title}
+            </p>
           </div>
         ) : (
           <div className="flex">
