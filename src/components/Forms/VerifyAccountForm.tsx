@@ -66,11 +66,11 @@ export default function VerifyAccountForm({
     <div className="bg-gray-200 p-40 shadow-xl rounded-2xl h-screen flex flex-col">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative flex flex-col bg-white py-10 rounded-2xl shadow-xl"
+        className="relative flex flex-col bg-white  rounded-2xl mx-auto w-fit p-20 shadow-xl"
       >
-        <label className="m-auto text-3xl">Verification Code</label>
+        <label className="m-auto font-bold text-3xl">Verification Code</label>
         <input
-          className="m-auto text-center text-2xl block px-2.5 pb-2.5 pt-2.5 w-50 mt-10 bg-gray-200 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="m-auto font-stretch-semi-expanded text-center text-2xl block px-2.5 pb-2.5 pt-2.5 w-50 mt-10 bg-gray-200 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           type="text"
           id="code"
           placeholder="123456"

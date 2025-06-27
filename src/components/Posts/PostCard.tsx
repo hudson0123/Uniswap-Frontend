@@ -31,11 +31,11 @@ export default function PostCard({ post }: { post: IPost }) {
             {post.ticket_title}
           </p>
           <p className="md:text-lg text-sm">${post.ticket_price}</p>
+          <p>
+            {post.meetup_location}
+          </p>
         </div>
         <Link className="ml-auto my-auto" href={"/" + post.author.username}>
-          <p className="italic hover:underline">@{post.author.username}</p>
-        </Link>
-        <Link href={"/" + post.author.username}>
           <Image
             width={100}
             height={100}
