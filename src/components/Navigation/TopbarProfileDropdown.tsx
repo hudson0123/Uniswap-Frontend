@@ -84,7 +84,7 @@ export default function TopbarProfileDropdown() {
           />
         </div>
       </div>
-      {(currentUserData?.verified == false && currentUserData?.email.endsWith("@uga.edu")) && (
+      {(currentUserData?.verified == false && currentUserData?.email.endsWith(".edu")) && (
         <>
           <hr className=""></hr>
           <button

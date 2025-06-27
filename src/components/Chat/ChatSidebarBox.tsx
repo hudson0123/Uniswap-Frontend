@@ -30,7 +30,7 @@ export default function ChatSidebarBox({
       onClick={() => {
         setSelectedChat(chat!.id);
       }}
-      className={`relative flex min-w-70 border-b-1 border-gray-300 bg-white h-20 px-3 py-2 hover:bg-gray-100 transition duration-150`}
+      className={`group relative flex min-w-70 border-b-1 border-gray-300 bg-white h-20 px-3 py-2 hover:bg-gray-100 transition duration-150`}
       key={chat?.id}
     >
       <div className="flex-none my-auto mr-5">
@@ -76,6 +76,13 @@ export default function ChatSidebarBox({
             {chat?.latest_message?.content}
           </p>
         )}
+        <Image
+          width={20}
+          height={20}
+          className="absolute bottom-2 right-4 invisible group-hover:visible cursor-pointer"
+          alt="trash-icon"
+          src="/trash.svg"
+          />
       </div>
     </div>
   );

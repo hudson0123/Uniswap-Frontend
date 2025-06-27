@@ -19,12 +19,6 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
     return null;
   };
 
-  const verifyProfile = () => {
-    const editUrl = "/" + accountData.username + "/verify";
-    router.push(editUrl);
-    return null;
-  };
-
   if (currentUserPending) {
     <div
       className={
@@ -52,7 +46,7 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
   }
 
   return (
-    <div className="relative bg-white py-6 px-10 flex flex-col md:mt-5 w-full rounded-2xl shadow-xl h-fit">
+    <div className="relative mx-auto bg-white py-6 px-10 flex flex-col md:mt-5 w-4/5 rounded-2xl shadow-xl h-fit">
       {currentUserData?.id == accountData.id && (
         <button className="cursor-pointer" onClick={editProfile}>
           <Image
@@ -64,35 +58,37 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
           />
         </button>
       )}
-      <Image
-        src={
-          accountData.profile_picture
-            ? accountData.profile_picture
-            : "/profile.jpg"
-        }
-        width={100}
-        height={100}
-        alt="profile"
-        className="w-30 h-30 flex rounded-full bg-white"
-      />
+        <Image
+          src={
+            accountData.profile_picture
+              ? accountData.profile_picture
+              : "/profile.jpg"
+          }
+          width={100}
+          height={100}
+          alt="profile"
+          className="w-30 h-30 flex rounded-full bg-white"
+        />
+        {accountData?.verified && (
+          <div className="group">
+          <Image
+            src="/verified.svg"
+            width={100}
+            height={100}
+            alt="verified"
+            className="absolute top-8 left-32 bg-red-500 rounded-full w-8 h-8"
+          />
+          <p className="opacity-0 absolute top-5 left-42 rounded group-hover:opacity-100 w-fit transition duration-100 font-bold bg-gray-600 text-white px-2 py-1">Verified Student</p>
+          </div>
+        )
+      }
       <p className="text-2xl font-bold mt-5 text-nowrap">
         {accountData?.first_name} {accountData?.last_name}
       </p>
       <p className="italic gray-800 -mt-1">{accountData?.username}</p>
       <p className="italics text-sms text-gray-500 mt-3">
-        {accountData?.verified ? (
-          "Verified UGA Student"
-        ) : (
-          <p className="text-sm">
-            Unverified - Verify{" "}
-            <button
-              className="italic hover:underline cursor-pointer"
-              onClick={verifyProfile}
-            >
-              here
-            </button>
-          </p>
-        )}
+
+      
       </p>
       <p className="italics text-sm text-gray-500">
         Member since{" "}

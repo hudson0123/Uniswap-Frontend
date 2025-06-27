@@ -70,7 +70,7 @@ export default function EditAccountForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 md:rounded-2xl md:shadow-xl md:w-2/3 w-full m-auto"
+      className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 md:rounded-2xl md:shadow-xl md:w-fit w-full m-auto"
     >
       <div className="flex flex-row">
         <Image
@@ -94,7 +94,7 @@ export default function EditAccountForm({
           id="first_name"
           type="text"
           defaultValue={currentUserData?.first_name}
-          className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("first_name")}
         />
         {errors.first_name && (
@@ -109,7 +109,7 @@ export default function EditAccountForm({
           id="last_name"
           type="text"
           defaultValue={currentUserData?.last_name}
-          className="block px-2.5 pb-2.5 pt-2.5 w-1/2 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           {...register("last_name")}
         />
         {errors.last_name && (
