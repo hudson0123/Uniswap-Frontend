@@ -4,10 +4,12 @@ import { IDetailConversation } from "@/@types/models/detailconversation";
 import api from "@/lib/api";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import { useRouter } from "next/navigation";
 
 export default function Chat({ selectedChat }: { selectedChat: number }) {
   const queryClient = useQueryClient();
   const chatBoxRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const {
     data: currentUserData,
@@ -115,7 +117,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[90vh] ">
       <div className="p-3 text-lg font-bold">
         {chatData.buyer.id == currentUserData?.id ? (
-          <div className="flex">
+          <div className="flex cursor-pointer rounded bg-gray-200 px-3 py-1" onClick={() => router.push("/" + chatData.seller.username + "/")}>
             <Image
               width={50}
               height={50}
@@ -126,7 +128,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             <p className="my-auto ml-3 text-2xl">
               {chatData?.seller.first_name} {chatData?.seller.last_name}
             </p>
-            <p className="my-auto ml-auto p-2 rounded bg-gray-200 text-xl">
+            <p className="my-auto ml-auto p-2 text-xl">
               {chatData?.post?.ticket_title}
             </p>
           </div>
