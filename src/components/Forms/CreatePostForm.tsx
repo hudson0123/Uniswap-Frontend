@@ -68,10 +68,10 @@ export default function CreatePostForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto border border-white pt-5 rounded max-w-md"
+      className="mx-auto border mt-4 border-white rounded max-w-md"
     >
       {/* Ticket Title */}
-      <div className="relative mt-8">
+      <div className="relative mt-4">
         <p className="text-red-400">{errors.ticket_title?.message}</p>
         <input
           type="text"
@@ -85,7 +85,7 @@ export default function CreatePostForm() {
       </div>
 
       {/* Ticket Price */}
-      <div className="relative mt-8">
+      <div className="relative mt-4">
         <p className="text-red-400">{errors.ticket_price?.message}</p>
         <input
           type="number"
@@ -99,7 +99,7 @@ export default function CreatePostForm() {
       </div>
 
       {/* Description */}
-      <div className="relative mt-8">
+      <div className="relative mt-4">
         <p className="text-red-400">{errors.description?.message}</p>
         <textarea
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
@@ -112,7 +112,7 @@ export default function CreatePostForm() {
       </div>
 
       {/* Category */}
-      <div className="relative mt-8">
+      <div className="relative mt-4">
         <p className="text-red-400">{errors.category?.message}</p>
         <select
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
@@ -134,7 +134,7 @@ export default function CreatePostForm() {
       </div>
 
       {/* Meetup Time */}
-      <div className="relative mt-8">
+      <div className="relative mt-4">
         <p className="text-red-400">{errors.meetup_time?.message}</p>
         <input
           type="datetime-local"
@@ -148,7 +148,7 @@ export default function CreatePostForm() {
       </div>
 
       {/* Meetup Location */}
-      <div className="relative mt-8">
+      <div className="relative mt-4">
         <p className="text-red-400">{errors.meetup_location?.message}</p>
         <input
           type="text"
