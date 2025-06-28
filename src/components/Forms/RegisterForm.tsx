@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const schema = z
   .object({
@@ -33,7 +34,7 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -53,6 +54,12 @@ export default function RegisterForm() {
       setNotification("error", "Unable to Create User.");
     }
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset()
+    }
+    })
 
   return (
     <form

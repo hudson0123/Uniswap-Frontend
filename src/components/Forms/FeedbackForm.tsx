@@ -12,22 +12,23 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 
-export default function IssueForm() {
+export default function FeedbackForm() {
 
   const setNotification = useNotifyStore((state) => state.setNotification)
 
   const onSubmit = async (data: FormData) => {
   try {
-    const res = await api.post("/api/issues/", {
+    const res = await api.post("/api/feedback/", {
       title: data.title,
       description: data.description,
     });
     if (res.status === 201) {
-      setNotification("success", "Issue created successfully.");
+      setNotification("success", "Thank you for sharing your feedback.");
+      reset();
     }
 
   } catch {
-    setNotification("error", "Failed to create issue.");
+    setNotification("error", "Failed to share feedback.");
   }
 }
 
@@ -35,6 +36,7 @@ export default function IssueForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   }
@@ -43,30 +45,30 @@ export default function IssueForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 px-8 mb-5 py-5 rounded text-black md:w-2/5"
+      className="grid grid-cols-1 mx-auto mt-20 px-8 mb-5 py-5 rounded text-black md:w-2/5"
     >
-      <h2 className="text-xl font-bold mb-4">Create Issue</h2>
+      <h2 className="text-xl font-bold mx-auto mb-4">Share Feedback</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Title</label>
+        <label className="block text-sm font-bold mb-2">Title</label>
         <input
           type="text"
           {...register("title")}
-          className={`w-full p-2 border rounded ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+          className={`w-full bg-white p-2 border rounded ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
         />
         {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Description</label>
+        <label className="block text-sm font-bold mb-2">Description</label>
         <textarea
           {...register("description")}
-          className={`w-full p-2 border rounded ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
+          className={`w-full bg-white p-2 border rounded ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
         />
         {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
       </div>
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200 disabled:opacity-50"
       >
         Submit
       </button>
