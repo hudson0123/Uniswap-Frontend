@@ -28,6 +28,11 @@ export default function TopbarProfileDropdown() {
     return null;
   };
 
+  const handleReportIssue = () => {
+    router.push("/report/");
+    return null;
+  };
+
   const handleEditProfile = () => {
     const editUrl = "/" + currentUserData?.username + "/edit";
     router.push(editUrl);
@@ -103,7 +108,7 @@ export default function TopbarProfileDropdown() {
         Settings
       </button>
       <hr className=""></hr>
-      <button className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer">
+      <button onClick={handleReportIssue}className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer">
         Report Issue
       </button>
       <hr className=""></hr>
