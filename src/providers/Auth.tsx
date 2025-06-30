@@ -20,6 +20,11 @@ export default function AuthProvider({children}: PropsWithChildren) {
       return;
     }
 
+    if (access && (currentPath === '/auth/login' || currentPath === '/auth/register')) {
+      router.replace('/app');
+      return;
+    }
+
     setReady(true);
   }, [router, access])
 
