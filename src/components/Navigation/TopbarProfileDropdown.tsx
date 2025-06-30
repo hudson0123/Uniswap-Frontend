@@ -28,8 +28,8 @@ export default function TopbarProfileDropdown() {
     return null;
   };
 
-  const handleReportIssue = () => {
-    router.push("/report/");
+  const handleFeedback = () => {
+    router.push("/feedback/");
     return null;
   };
 
@@ -108,8 +108,8 @@ export default function TopbarProfileDropdown() {
         Settings
       </button>
       <hr className=""></hr>
-      <button onClick={handleReportIssue}className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer">
-        Report Issue
+      <button onClick={handleFeedback}className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer">
+        Feedback
       </button>
       <hr className=""></hr>
       <button

@@ -4,7 +4,7 @@ import React from 'react'
 
 
 
-export default function Report() {
+export default function Feedback() {
   return (
     <div>
       <Topbar />

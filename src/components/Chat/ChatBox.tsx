@@ -173,10 +173,10 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
                 />
               )}
               <div
-                className={`max-w-xs px-4 py-2 rounded-4xl ${
+                className={`max-w-xs px-4 py-2 rounded-xl ${
                   isCurrentUser
-                    ? "bg-blue-500 text-white"
-                    : "bg-blue-100 text-black"
+                    ? "bg-indigo-200 text-black"
+                    : "bg-gray-100 text-black"
                 }`}
               >
                 <p>{message.content}</p>
