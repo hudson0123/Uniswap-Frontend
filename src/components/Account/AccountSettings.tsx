@@ -22,7 +22,7 @@ export default function AccountSettings() {
     try {      
       await api.delete("/api/users/" + currentUserData?.id + "/");
       resetAuth();
-      router.push("/login");
+      router.push("/auth/login");
       return null;
     } catch {
       setNotification("error", "Unable to Delete Account.")
@@ -31,7 +31,7 @@ export default function AccountSettings() {
 
   const handleLogout = () => {
     resetAuth();
-    router.push("/login");
+    router.push("/auth/login");
     return null;
   };
 

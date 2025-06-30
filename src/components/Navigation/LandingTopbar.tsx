@@ -9,7 +9,7 @@ export default function LandingTopbar() {
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">UniSwap</span>
         </Link>
         <div className='flex justify-end items-center'>
-          <Link href="/login">
+          <Link href="/auth/login">
             <button className='cursor-pointer border bg-white px-4 py-1 rounded text-black hover: hover:bg-gray-200 transform duration-200'>Login</button>
           </Link>
         </div>

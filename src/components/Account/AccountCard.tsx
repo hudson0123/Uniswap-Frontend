@@ -14,8 +14,7 @@ export default function AccountCard({ accountData }: { accountData: IUser }) {
   } = useCurrentUser();
 
   const editProfile = () => {
-    const editUrl = "/" + accountData.username + "/edit";
-    router.push(editUrl);
+    router.push("/app/" + accountData.username + "/edit");
     return null;
   };
 

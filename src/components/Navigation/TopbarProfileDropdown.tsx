@@ -24,30 +24,29 @@ export default function TopbarProfileDropdown() {
   }
 
   const handleShowProfile = () => {
-    router.push("/" + currentUserData?.username + "/");
+    router.push("/app/" + currentUserData?.username + "/");
     return null;
   };
 
   const handleFeedback = () => {
-    router.push("/feedback/");
+    router.push("/app/feedback/");
     return null;
   };
 
   const handleEditProfile = () => {
-    const editUrl = "/" + currentUserData?.username + "/edit";
+    const editUrl = "/app/`" + currentUserData?.username + "/edit";
     router.push(editUrl);
     return null;
   };
 
   const handleVerifyProfile = () => {
-    const editUrl = "/" + currentUserData?.username + "/verify";
-    router.push(editUrl);
+    router.push("/auth/verify");
     return null;
   };
 
   const handleLogout = () => {
     resetAuth()
-    router.push('/login')
+    router.push('/auth/login')
     return null;
   }
 

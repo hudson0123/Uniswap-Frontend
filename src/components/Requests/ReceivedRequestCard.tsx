@@ -36,7 +36,7 @@ export default function ReceivedRequestCard({
             </p>
 
             <Link
-              href={`/${request.sender.username}`}
+              href={`/app/${request.sender.username}`}
               className="flex items-center space-x-2 hover:underline"
             >
               <span className="text-sm md:text-md italic ml-auto">

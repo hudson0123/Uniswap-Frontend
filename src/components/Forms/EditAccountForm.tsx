@@ -54,7 +54,7 @@ export default function EditAccountForm({
         last_name: data.last_name,
       });
       queryClient.invalidateQueries({ queryKey: ['currentUser']})
-      router.push("/" + currentUserData?.username + "/");
+      router.push("/app/" + currentUserData?.username + "/");
       return null;
     } catch {
       setNotification("error", "Error Updating User.");
@@ -63,7 +63,7 @@ export default function EditAccountForm({
 
   // If Attempting to edit not the current user then push to the correct url
   if (username !== currentUserData?.username) {
-    router.push("/" + currentUserData?.username + "/edit/");
+    router.push("/app/" + currentUserData?.username + "/edit/");
     return null;
   }
 

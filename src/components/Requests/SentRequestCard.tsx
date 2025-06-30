@@ -15,7 +15,7 @@ export default function SentRequestCard({ request }: { request: IRequest }) {
             </p>
 
             <Link
-              href={`/${request.post.author.username}`}
+              href={`/app/${request.post.author.username}`}
               className="flex items-center space-x-2 hover:underline"
             >
               <span className="text-sm md:text-md italic ml-auto">

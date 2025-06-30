@@ -35,7 +35,7 @@ export default function PostCard({ post }: { post: IPost }) {
             {post.meetup_location}
           </p>
         </div>
-        <Link className="ml-auto my-auto" href={"/" + post.author.username}>
+        <Link className="ml-auto my-auto" href={"/app/" + post.author.username}>
           <Image
             width={100}
             height={100}
@@ -61,7 +61,7 @@ export default function PostCard({ post }: { post: IPost }) {
               seller_id: post.author.id,
               post_id: post.id,
             });
-            router.push("/chat");
+            router.push("/app/chat");
           } catch (e) {
             console.log(e);
           }

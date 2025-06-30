@@ -12,7 +12,7 @@ export default function Login() {
         <RegisterFrom />
         <p className="text-sm text-black">
           Already have an account? Login{" "}
-          <Link className="italic " href="/login">
+          <Link className="italic " href="/auth/login">
             here
           </Link>
           .

@@ -10,7 +10,7 @@ export default function Login() {
             <div className='flex flex-col h-screen justify-center items-center bg-[#f5f5f5]'>
                 <h2 className='text-black text-2xl font-bold'>Login to UniSwap</h2>
                 <LoginForm />
-                <p className="text-sm text-black">Do not Have an account? Register <Link className="italic" href="/register">here</Link>.</p>
+                <p className="text-sm text-black">Do not Have an account? Register <Link className="italic" href="/auth/register">here</Link>.</p>
             </div>
         </div>
     )

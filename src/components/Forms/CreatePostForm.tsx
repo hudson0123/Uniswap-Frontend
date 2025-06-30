@@ -58,7 +58,7 @@ export default function CreatePostForm() {
         meetup_time: data.meetup_time,
         meetup_location: data.meetup_location,
       });
-      router.push("/home");
+      router.push("/app");
       return null;
     } catch {
       setNotification("error", "Failed to Create Post.");

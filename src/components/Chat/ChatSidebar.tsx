@@ -89,7 +89,7 @@ export default function ChatSidebar({
           <p className="mx-auto text-sm">
             Connect with others{" "}
             <Link
-              href="/home"
+              href="/app"
               className="italic cursor-pointer hover:opacity-70"
             >
               here.

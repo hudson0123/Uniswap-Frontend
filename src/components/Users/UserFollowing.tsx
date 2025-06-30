@@ -70,7 +70,7 @@ export default function UserFollowing({
           <button
             onClick={() => {
               setMode(ViewMode.None);
-              router.push("/" + user.username);
+              router.push("/app/" + user.username);
             }}
             className="hover:underline my-auto"
           >

@@ -30,7 +30,7 @@ export default function LoginForm() {
     onSuccess: (data) => {
       setAccess(data.access)
       setRefresh(data.refresh)
-      router.push('/home')
+      router.push('/app')
       return null;
     }
   });

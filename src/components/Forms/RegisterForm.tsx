@@ -34,7 +34,7 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -48,18 +48,12 @@ export default function RegisterForm() {
         last_name: data.last_name,
         email: data.email,
       });
-      router.push("/login");
+      router.push("/auth/login");
       return null;
     } catch {
       setNotification("error", "Unable to Create User.");
     }
   };
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-    })
 
   return (
     <form
