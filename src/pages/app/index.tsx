@@ -8,6 +8,7 @@ import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
 import SearchUsers from "@/components/Users/SearchUsers";
 import Image from "next/image";
+import { useAuthStore } from "@/lib/store";
 
 const queryPosts = async ({ pageParam }: { pageParam: number }) => {
   const res = await api.get<PaginatedResponse<IPost>>(
@@ -19,12 +20,15 @@ const queryPosts = async ({ pageParam }: { pageParam: number }) => {
 export default function Home() {
   // Hooks
   const { ref, inView } = useInView();
+  const access = useAuthStore((state) => state.access);
+
   const {
     data: postData,
     error: postError,
     isPending: postPending,
     fetchNextPage,
   } = useInfiniteQuery({
+    enabled: access !== null,
     queryKey: ["posts"],
     queryFn: queryPosts,
     initialPageParam: 1,

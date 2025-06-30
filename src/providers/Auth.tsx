@@ -1,21 +1,38 @@
 import { useAuthStore } from '@/lib/store';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 
 export default function AuthProvider({children}: PropsWithChildren) {
 
   const router = useRouter();
   const access = useAuthStore((state) => state.access);
+  const [ready, setReady] = useState(false);
   
   
   useEffect(() => {
+    
     const currentPath = router.pathname;
     const protectedRoutes = currentPath.startsWith('/app') || currentPath.startsWith('/auth/verify')
   
     if (!access && protectedRoutes) {
-      router.push('/auth/login');
+      router.replace('/auth/login');
+      return;
     }
+
+    setReady(true);
   }, [router, access])
 
+  if (!ready) {
+    <div className="flex items-center justify-center h-screen w-full">
+          <Image
+            width={50}
+            height={50}
+            className="my-auto mx-auto mt-20"
+            alt="loading"
+            src={"/loading.svg"}
+          />
+    </div>
+  }
   return children;
 }

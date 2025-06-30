@@ -36,8 +36,9 @@ api.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
+        const access = useAuthStore.getState().access;
 
-        if (error.response && error.response.status == 401 && !originalRequest._return) {
+        if (error.response && error.response.status == 401 && !originalRequest._return && access !== null) {
             originalRequest._retry = true
 
             try {
