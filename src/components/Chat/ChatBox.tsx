@@ -214,6 +214,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             id="message"
             className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
             placeholder="Type a message..."
+            defaultValue={chatData.latest_messages.length == 0 ? `Hello, I am interested in your ticket for ${chatData.post?.ticket_title}.` : ""}
           />
           <button
             type="submit"
