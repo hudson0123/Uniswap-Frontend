@@ -1,6 +1,29 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+type ModalType = "deleteAccount" | "none";
+
+interface IModalState {
+    modalOpen: ModalType;
+}
+
+interface IModalStore extends IModalState {
+    setModalOpen: (modalType: ModalType) => void;
+    closeModal: () => void;
+}
+
+export const useModalStore = create<IModalStore>()(
+    (set) => ({
+        modalOpen: "none",
+        setModalOpen: (modalType: ModalType): void => {
+            set({ modalOpen: modalType })
+        },
+        closeModal: (): void => {
+            set({ modalOpen: "none" })
+        }
+    })
+)
+
 /**
  * State that is stored in useAuthStore
  */
