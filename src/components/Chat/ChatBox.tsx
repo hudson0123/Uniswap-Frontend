@@ -154,7 +154,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         ref={chatBoxRef}
         className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2"
       >
-        {chatData?.latest_messages?.toReversed().map((message) => {
+        {chatData.latest_messages.toReversed().map((message) => {
           const isCurrentUser = currentUserData?.id === message.sender.id;
           return (
             <div
@@ -168,15 +168,15 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
                   width={40}
                   height={40}
                   className="w-10 h-10 rounded-full mr-2"
-                  src={message.sender.profile_picture || "/profile.jpg"}
+                  src={message.sender.profile_picture ?? "/profile.jpg"}
                   alt="user-profile"
                 />
               )}
               <div
                 className={`max-w-xs px-4 py-2 rounded-xl ${
                   isCurrentUser
-                    ? "bg-indigo-200 text-black"
-                    : "bg-gray-100 text-black"
+                    ? "bg-indigo-200"
+                    : "bg-gray-100"
                 }`}
               >
                 <p>{message.content}</p>

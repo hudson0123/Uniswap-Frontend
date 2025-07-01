@@ -17,5 +17,5 @@ export interface IUser {
     groupme: string,
     verified: boolean,
     rating: number,
-    profile_picture: string,
+    profile_picture?: string,
 }
