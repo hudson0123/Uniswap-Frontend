@@ -30,6 +30,17 @@ export default function App({ Component, pageProps }: AppProps) {
               onButtonClick={handleDeleteAccount}
             />
           )}
+          {modalOpen === "deleteConversation" && (
+            <SingleButtonModal
+              title="Delete Conversation"
+              description="Are you sure you want to delete this conversation?"
+              buttonText="Delete Conversation"
+              onButtonClick={() => {
+                alert("Deleting conversation...");
+                closeModal();
+              }}
+            />
+          )}
           <Component {...pageProps} />
           <NotificationBanner />
         </WebSocketProvider>

@@ -3,6 +3,7 @@ import moment from "moment";
 import { IConversation } from "@/@types/models/conversation";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import { useModalStore } from "@/lib/store";
 
 export default function ChatSidebarBox({
   chat,
@@ -11,12 +12,12 @@ export default function ChatSidebarBox({
   chat: IConversation | undefined;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }) {
-
   const {
     data: currentUserData,
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
+  const setModalOpen = useModalStore((state) => state.setModalOpen);
 
   if (currentUserPending) {
     return;
@@ -82,7 +83,8 @@ export default function ChatSidebarBox({
           className="absolute bottom-2 right-4 invisible group-hover:visible cursor-pointer"
           alt="trash-icon"
           src="/trash.svg"
-          />
+          onClick={() => setModalOpen("deleteConversation")}
+        />
       </div>
     </div>
   );

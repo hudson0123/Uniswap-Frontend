@@ -17,8 +17,8 @@ export default function SingleButtonModal({
   const closeModal = useModalStore((state) => state.closeModal);
 
   return (
-    <div onClick={closeModal} className="fixed h-screen w-screen top-0 left-0 bg-black/50 flex items-center justify-center z-50">
-      <div onClick={(e) => e.stopPropagation()} className="flex relative bg-white p-4 rounded-lg shadow-lg w-120 h-45 flex-col">
+    <div onClick={closeModal} className="fixed h-screen w-screen top-0 left-0 bg-black/50 backdrop-blur-sm transition duration-200 ease-in flex items-center justify-center z-50">
+      <div onClick={(e) => e.stopPropagation()} className="flex relative bg-white p-4  rounded-lg shadow-lg w-120 h-45 flex-col">
         <h2 className="text-xl font-semibold">{title}</h2>
         <p className="text-gray-600 mt-2">{description}</p>
         <div className="flex flex-col-2 mt-auto">
