@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type ModalType = "deleteAccount" | "deleteConversation" | "none";
+type ModalType = "deleteAccount" | "deleteConversation" | "deletePost" | "none";
 
 interface IModalState {
     modalOpen: ModalType;

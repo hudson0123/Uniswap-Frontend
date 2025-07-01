@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import { useModalStore } from "@/lib/store";
 
 export default function PostCard({ post }: { post: IPost }) {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function PostCard({ post }: { post: IPost }) {
   });
 
   const { data: currentUserData } = useCurrentUser();
+  const setModalOpen = useModalStore((state) => state.setModalOpen);
 
   return (
     <div className="relative px-3 pb-3 w-full h-50 border-0 border-b-1">
@@ -76,24 +78,14 @@ export default function PostCard({ post }: { post: IPost }) {
         />
       </button>
       {currentUserData?.id == post.author.id && (
-        <button
-          className="px-2 py-1 absolute bottom-0 right-12"
-          onClick={async () => {
-            try {
-              deletePost();
-            } catch (e) {
-              console.log(e);
-            }
-          }}
-        >
           <Image
             width={100}
             height={100}
-            className="w-10 h-10 ml-2 transform duration-100 cursor-pointer"
+            className="w-10 h-10 ml-2 absolute bottom-1 right-14 transform duration-100 cursor-pointer"
             src="/trash.svg"
             alt="user-profile"
+            onClick={() => setModalOpen("deletePost")}
           />
-        </button>
       )}
     </div>
   );

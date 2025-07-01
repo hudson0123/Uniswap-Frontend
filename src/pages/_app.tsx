@@ -41,6 +41,17 @@ export default function App({ Component, pageProps }: AppProps) {
               }}
             />
           )}
+          {modalOpen === "deletePost" && (
+            <SingleButtonModal
+              title="Delete Post"
+              description="Are you sure you want to delete this post?"
+              buttonText="Delete Post"
+              onButtonClick={() => {
+                alert("Deleting post...");
+                closeModal();
+              }}
+            />
+          )}
           <Component {...pageProps} />
           <NotificationBanner />
         </WebSocketProvider>
