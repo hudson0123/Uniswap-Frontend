@@ -6,22 +6,16 @@ import NotificationBanner from "@/components/NotificationBanner";
 import AuthProvider from "@/providers/Auth";
 import SingleButtonModal from "@/components/Models/SingleButtonModal";
 import { useModalStore } from "@/lib/store";
-import api from "@/lib/api";
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
   const modalOpen = useModalStore((state) => state.modalOpen);
   const closeModal = useModalStore((state) => state.closeModal);
 
   const handleDeleteAccount = async () => {
-    try {
-      await api.delete("/api/users/" + currentUserData?.id + "/");
-      resetAuth();
-      router.push("/auth/login");
-      return null;
-    } catch {
-      setNotification("error", "Unable to Delete Account.");
-    }
+    alert("Deleting account...");
+    closeModal();
   };
 
   return (
@@ -30,10 +24,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <WebSocketProvider>
           {modalOpen === "deleteAccount" && (
             <SingleButtonModal
-              title="Confirm Action"
-              description="Are you sure you want to proceed?"
-              buttonText="Close"
-              onButtonClick={closeModal}
+              title="Delete Account"
+              description="Are you sure you want to delete your account?"
+              buttonText="Delete Account"
+              onButtonClick={handleDeleteAccount}
             />
           )}
           <Component {...pageProps} />
