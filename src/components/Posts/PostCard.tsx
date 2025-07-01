@@ -4,23 +4,23 @@ import { IPost } from "@/@types";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+// import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 
 export default function PostCard({ post }: { post: IPost }) {
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const { mutate: deletePost } = useMutation({
-    mutationFn: async () => {
-      await api.delete("/api/posts/" + post.id + "/");
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["account_listings"],
-      });
-    },
-  });
+  // const queryClient = useQueryClient();
+  // const { mutate: deletePost } = useMutation({
+  //   mutationFn: async () => {
+  //     await api.delete("/api/posts/" + post.id + "/");
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["account_listings"],
+  //     });
+  //   },
+  // });
 
   const { data: currentUserData } = useCurrentUser();
   const setModalOpen = useModalStore((state) => state.setModalOpen);
@@ -55,7 +55,7 @@ export default function PostCard({ post }: { post: IPost }) {
         <p className="w-5/5 mt-2">{post.description}</p>
       </div>
       <button
-        className="px-2 py-1 absolute bottom-0 right-0"
+        className="px-3 py-2 absolute bottom-0 right-0 text-md cursor-pointer font-medium bg-blue-500 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         onClick={async () => {
           try {
             await api.post("/api/conversations/", {
@@ -68,11 +68,11 @@ export default function PostCard({ post }: { post: IPost }) {
             console.log(e);
           }
         }}
-      >
+      >Message
         <Image
-          width={100}
-          height={100}
-          className="w-10 h-10 ml-2 transform duration-100 cursor-pointer"
+          width={30}
+          height={30}
+          className="w-6 h-6 ml-2 mt-0.5 transform duration-100"
           src="/new-conversation.svg"
           alt="user-profile"
         />
@@ -81,7 +81,7 @@ export default function PostCard({ post }: { post: IPost }) {
           <Image
             width={100}
             height={100}
-            className="w-10 h-10 ml-2 absolute bottom-1 right-14 transform duration-100 cursor-pointer"
+            className="w-10 h-10 ml-2 absolute bottom-3 left-0 transform duration-100 cursor-pointer"
             src="/trash.svg"
             alt="user-profile"
             onClick={() => setModalOpen("deletePost")}
