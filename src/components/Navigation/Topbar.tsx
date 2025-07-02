@@ -26,6 +26,13 @@ function Topbar() {
 
         {/* Right-side icons */}
         <div className="flex items-center gap-4">
+          {/* Events Button */}
+          <Link href="/app/events" className="cursor-pointer">
+            <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-5">
+              Events
+            </h2>
+          </Link>
+
           {/* Chat Button */}
           <Link href="/app/chat" className="cursor-pointer">
             <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-5">
