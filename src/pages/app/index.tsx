@@ -6,7 +6,7 @@ import { PaginatedResponse } from "@/@types/api";
 import { IPost } from "@/@types";
 import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
-import SearchUsers from "@/components/Users/SearchUsers";
+import SearchEvents from "@/components/Users/SearchEvents";
 import Image from "next/image";
 import { useAuthStore } from "@/lib/store";
 
@@ -68,16 +68,14 @@ export default function Home() {
   return (
     <div>
       <Topbar />
-      <div className="pt-10 sm:px-20 flex flex-col md:flex-row w-full min-h-[85vh] gap-10 max-w-screen-2xl mx-auto">
-        <div className="bg-white p-10 w-screen mx-auto md:w-2/3 md:rounded-2xl shadow-xl sticky top-10 self-start">
-          <div>
+      <div className="pt-5 sm:px-10 flex flex-col md:flex-row w-full min-h-[85vh] max-w-screen-2xl mx-auto">
+        <div className="w-screen mx-auto md:w-2/3 sticky top-10 self-start">
             {postData.pages.map((page) => {
               return <PostCardChunk key={page.next} posts={page.results} />;
             })}
-          </div>
         </div>
         <div className="hidden md:block sticky top-10 self-start w-full md:w-1/3">
-          <SearchUsers />
+          <SearchEvents />
         </div>
       </div>
       <div className="relative pb-10">

@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
 
-export default function SearchUsers() {
+export default function SearchEvents() {
   return (
     <div className="relative not-visited: bg-white p-10 rounded-2xl shadow-xl w-full h-[90vh]">
-      <h1 className="font-medium text-3xl">Connect</h1>
+      <h1 className="font-medium text-3xl">Events</h1>
       <input
         placeholder="Search for a member"
         type="text"

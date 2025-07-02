@@ -86,7 +86,7 @@ export default function AccountPage() {
   return (
     <div className="max-h-[85vh]">
       <Topbar />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:px-20 text-black md:mx-20 mb-20 ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-10 lg:gap-x-5 p-4 md:px-10 text-black md:mx-20 mb-20 ">
         <AccountCard accountData={accountData} />
         {currentUserData?.id == accountData.id || !currentUserData ? (
           <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[83vh] overflow-auto mt-5 rounded-2xl shadow-xl">
