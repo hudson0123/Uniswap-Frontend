@@ -15,11 +15,13 @@ export default function AuthProvider({children}: PropsWithChildren) {
     const currentPath = router.pathname;
     const protectedRoutes = currentPath.startsWith('/app') || currentPath.startsWith('/auth/verify')
   
+    // If not authenticated and trying to access a protected route, redirect to login
     if (!access && protectedRoutes) {
       router.replace('/auth/login');
       return;
     }
 
+    // If authenticated and trying to access login or register, redirect to app
     if (access && (currentPath === '/auth/login' || currentPath === '/auth/register')) {
       router.replace('/app');
       return;

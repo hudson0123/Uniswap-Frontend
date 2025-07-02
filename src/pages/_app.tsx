@@ -13,11 +13,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const modalOpen = useModalStore((state) => state.modalOpen);
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const handleDeleteAccount = async () => {
-    alert("Deleting account...");
-    closeModal();
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -27,7 +22,10 @@ export default function App({ Component, pageProps }: AppProps) {
               title="Delete Account"
               description="Are you sure you want to delete your account?"
               buttonText="Delete Account"
-              onButtonClick={handleDeleteAccount}
+              onButtonClick={ () => {
+                  alert("Deleting account...");
+                  closeModal();
+              }}
             />
           )}
           {modalOpen === "deleteConversation" && (

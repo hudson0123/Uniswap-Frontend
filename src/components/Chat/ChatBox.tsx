@@ -5,6 +5,7 @@ import api from "@/lib/api";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useRouter } from "next/navigation";
+import ChatMessage from "@/components/Chat/ChatMessage";
 
 export default function Chat({ selectedChat }: { selectedChat: number }) {
   const queryClient = useQueryClient();
@@ -26,8 +27,6 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     queryFn: async () => {
       if (selectedChat != 0) {
         const res = await api.get(`/api/conversations/${selectedChat}/`);
-        // const chatBox = document.getElementById('chatBox') as HTMLDivElement
-        // chatBox.scrollTop = chatBox.scrollHeight
         return res.data;
       }
     },
@@ -47,7 +46,6 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
     },
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries({
         queryKey: ["conversationDetail", selectedChat],
       });
@@ -123,13 +121,13 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
               height={50}
               className="rounded-full"
               alt="unread-indicator"
-              src={chatData?.seller?.profile_picture || "/profile.jpg"}
+              src={chatData.seller.profile_picture || "/profile.jpg"}
             />
             <p className="my-auto ml-3 text-2xl">
-              {chatData?.seller.first_name} {chatData?.seller.last_name}
+              {chatData.seller.first_name} {chatData.seller.last_name}
             </p>
             <p className="my-auto ml-auto p-2 text-xl">
-              {chatData?.post?.ticket_title}
+              {chatData.post.ticket_title}
             </p>
           </div>
         ) : (
@@ -139,13 +137,13 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
               height={50}
               className="rounded-full"
               alt="unread-indicator"
-              src={chatData?.seller?.profile_picture || "/profile.jpg"}
+              src={chatData.seller.profile_picture ?? "/profile.jpg"}
             />
             <p className="my-auto ml-3 text-2xl">
-              {chatData?.buyer.first_name} {chatData?.buyer.last_name}
+              {chatData.buyer.first_name} {chatData.buyer.last_name}
             </p>
             <p className="my-auto ml-auto p-2 rounded bg-gray-200 text-xl">
-              {chatData?.post?.ticket_title}
+              {chatData.post.ticket_title}
             </p>
           </div>
         )}
@@ -155,43 +153,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
         className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2"
       >
         {chatData.latest_messages.toReversed().map((message) => {
-          const isCurrentUser = currentUserData?.id === message.sender.id;
-          return (
-            <div
-              key={message.id}
-              className={`flex items-end ${
-                isCurrentUser ? "justify-end" : "justify-start"
-              }`}
-            >
-              {!isCurrentUser && (
-                <Image
-                  width={40}
-                  height={40}
-                  className="w-10 h-10 rounded-full mr-2"
-                  src={message.sender.profile_picture ?? "/profile.jpg"}
-                  alt="user-profile"
-                />
-              )}
-              <div
-                className={`max-w-xs px-4 py-2 rounded-xl ${
-                  isCurrentUser
-                    ? "bg-indigo-200"
-                    : "bg-gray-100"
-                }`}
-              >
-                <p>{message.content}</p>
-              </div>
-              {isCurrentUser && (
-                <Image
-                  width={40}
-                  height={40}
-                  className="w-10 h-10 rounded-full ml-2"
-                  src={message.sender.profile_picture || "/profile.jpg"}
-                  alt="user-profile"
-                />
-              )}
-            </div>
-          );
+          return <ChatMessage key={message.id} currentUserData={currentUserData!} message={message}/>;
         })}
       </div>
       <form
@@ -214,7 +176,7 @@ export default function Chat({ selectedChat }: { selectedChat: number }) {
             id="message"
             className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
             placeholder="Type a message..."
-            defaultValue={chatData.latest_messages.length == 0 ? `Hello, I am interested in your ticket for ${chatData.post?.ticket_title}.` : ""}
+            defaultValue={chatData.latest_messages.length == 0 ? `Hello, I am interested in your ticket for ${chatData.post.ticket_title}.` : ""}
           />
           <button
             type="submit"
