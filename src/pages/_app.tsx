@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WebSocketProvider from "@/providers/WebSocketProvider";
 import NotificationBanner from "@/components/NotificationBanner";
 import AuthProvider from "@/providers/Auth";
-import SingleButtonModal from "@/components/Models/SingleButtonModal";
+import SingleButtonModal from "@/components/Modals/SingleButtonModal";
 import { useModalStore } from "@/lib/store";
 
 const queryClient = new QueryClient();
