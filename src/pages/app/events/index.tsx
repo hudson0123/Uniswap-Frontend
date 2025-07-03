@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { IEvent } from "@/@types/models/event";
 import Topbar from "@/components/Navigation/Topbar";
+import EventCard from "@/components/Events/EventCard";
 
 export default function Events() {
   const { data, isPending, error } = useQuery<IEvent[]>({
@@ -20,9 +21,9 @@ export default function Events() {
   return (
     <div>
       <Topbar />
-      <h1>Events</h1>
+      <h1 className="m-6 text-2xl">Events</h1>
       {data.map((event) => (
-        <p key={event.id}>{event.event_name}</p>
+        <EventCard key={event.id} event={event} />
       ))}
     </div>
   );

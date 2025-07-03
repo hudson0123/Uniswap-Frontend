@@ -7,6 +7,10 @@ import { useNotifyStore } from "@/lib/store";
 import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
 
+interface VerifyAccountFormProps {
+  username: string | string[] | undefined
+}
+
 const schema = z.object({
   code: z
     .string()
@@ -16,11 +20,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function VerifyAccountForm({
-  username,
-}: {
-  username: string | string[] | undefined;
-}) {
+export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
   // Hooks
   const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();

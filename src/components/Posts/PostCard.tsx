@@ -9,7 +9,11 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 import moment from "moment";
 
-export default function PostCard({ post }: { post: IPost }) {
+interface PostCardProps {
+  post: IPost;
+}
+
+export default function PostCard({ post }: PostCardProps) {
   const router = useRouter();
   // const queryClient = useQueryClient();
   // const { mutate: deletePost } = useMutation({

@@ -7,7 +7,11 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import { useRouter } from "next/navigation";
 import ChatMessage from "@/components/Chat/ChatMessage";
 
-export default function Chat({ selectedChat }: { selectedChat: number }) {
+interface ChatProps {
+  selectedChat: number;
+}
+
+export default function Chat({ selectedChat }: ChatProps) {
   const queryClient = useQueryClient();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();

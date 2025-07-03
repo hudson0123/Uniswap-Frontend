@@ -5,13 +5,12 @@ import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 
-export default function ChatSidebarBox({
-  chat,
-  setSelectedChat,
-}: {
+interface ChatSidebarBoxProps {
   chat: IConversation | undefined;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
-}) {
+}
+
+export default function ChatSidebarBox({chat, setSelectedChat}: ChatSidebarBoxProps) {
   const {
     data: currentUserData,
     error: currentUserError,
@@ -19,13 +18,10 @@ export default function ChatSidebarBox({
   } = useCurrentUser();
   const setModalOpen = useModalStore((state) => state.setModalOpen);
 
-  if (currentUserPending) {
-    return;
-  }
+  if (currentUserPending) return;
+  if (currentUserError) return;
+  if (!chat) return null;
 
-  if (currentUserError) {
-    return;
-  }
   return (
     <div
       onClick={() => {

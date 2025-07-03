@@ -9,6 +9,10 @@ import api from "@/lib/api";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
 
+export interface EditAccountFormProps {
+  username: string | string[] | undefined;
+}
+
 const schema = z.object({
   first_name: z.string(),
   last_name: z.string(),
@@ -16,11 +20,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function EditAccountForm({
-  username: username,
-}: {
-  username: string | string[] | undefined;
-}) {
+export default function EditAccountForm({username}: EditAccountFormProps) {
 
   // Hooks
   const router = useRouter();

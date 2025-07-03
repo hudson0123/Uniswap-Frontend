@@ -4,12 +4,11 @@ import { IPost, IUser } from "@/@types";
 import api from "@/lib/api";
 import PostCard from "../Posts/PostCard";
 
-export default function AccountListings({
-  currentUser_data,
-}: {
+interface AccountListingsProps {
   currentUser_data: IUser;
-}) {
+}
 
+export default function AccountListings({currentUser_data}: AccountListingsProps) {
   // Query Current User Posts
   const {
     data: listings_data,
@@ -25,8 +24,7 @@ export default function AccountListings({
 
   if (isPending) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] m-5 mt-20 md:m-20 md:gap-20 h-fit">
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] m-5 mt-20 md:m-20 md:gap-20 h-fit"></div>
     );
   }
 

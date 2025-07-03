@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ChatSidebarBox from "./ChatSidebarBox";
 
-export default function ChatSidebar({
-  setSelectedChat,
-}: {
+export interface ChatSidebarProps {
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
-}) {
+}
+
+export default function ChatSidebar({setSelectedChat}: ChatSidebarProps) {
   const {
     data: buyingData,
     isPending: isPendingBuying,

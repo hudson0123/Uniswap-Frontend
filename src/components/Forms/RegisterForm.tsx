@@ -4,7 +4,6 @@ import { z } from "zod";
 import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const schema = z
   .object({

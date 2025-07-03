@@ -1,7 +1,11 @@
 import PostCard from "./PostCard"
 import { IPost } from "@/@types"
 
-export default function PostCardChunk({posts}: {posts: IPost[]}) {
+interface PostCardChunkProps {
+    posts: IPost[];
+}
+
+export default function PostCardChunk({posts}: PostCardChunkProps) {
 
     return (
         <div className="mx-4 grid gap-3 mb-2">

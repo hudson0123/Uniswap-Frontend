@@ -4,7 +4,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
-export default function AccountCard({ accountData }: { accountData: IUser }) {
+interface AccountCardProps {
+  accountData: IUser
+}
+
+export default function AccountCard({ accountData }: AccountCardProps) {
   // Hooks
   const router = useRouter();
   const {
