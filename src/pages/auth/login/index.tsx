@@ -2,8 +2,8 @@ import React from 'react'
 import LoginForm from '@/components/Forms/LoginForm';
 import Link from 'next/link';
 import LandingTopbar from '@/components/Navigation/LandingTopbar';
-export default function Login() {
 
+export default function Login() {
     return (
         <div className=''>
             <LandingTopbar />
