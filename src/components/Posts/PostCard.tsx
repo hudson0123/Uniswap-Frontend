@@ -4,7 +4,7 @@ import { IPost } from "@/@types";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-// import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 import moment from "moment";
@@ -26,6 +26,19 @@ export default function PostCard({ post }: PostCardProps) {
   //     });
   //   },
   // });
+
+  const { mutate: createConversation } = useMutation({
+    mutationFn: async () => {
+      await api.post("/api/conversations/", {
+        name: post.author + "'s Ticket",
+        seller_id: post.author.id,
+        post_id: post.id,
+      });
+    },
+    onSuccess: () => {
+      router.push("/app/chat");
+    },
+  });
 
   const { data: currentUserData } = useCurrentUser();
   const setModalOpen = useModalStore((state) => state.setModalOpen);
@@ -69,25 +82,14 @@ export default function PostCard({ post }: PostCardProps) {
             </p>
           </div>
           <p className="mt-3 md:text-xl text-sm font-bold">
-            {post.ticket_title}
+            {post.event.event_name}
           </p>
           <p className="w-5/5 text-sm">{post.description}</p>
         </div>
       </div>
       <button
         className="px-3 py-2 absolute bottom-0 right-2 text-md cursor-pointer font-medium bg-blue-500 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        onClick={async () => {
-          try {
-            await api.post("/api/conversations/", {
-              name: "New Chat",
-              seller_id: post.author.id,
-              post_id: post.id,
-            });
-            router.push("/app/chat");
-          } catch (e) {
-            console.log(e);
-          }
-        }}
+        onClick={() => createConversation()}
       >
         Message
         <Image

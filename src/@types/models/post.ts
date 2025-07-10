@@ -1,14 +1,13 @@
 import { IUser } from ".."
+import { IEvent } from "./event"
 
 export interface IPost {
     id: number,
     author: IUser,
-    ticket_title: string,
+    event: IEvent,
     ticket_price: number,
     meetup_location: string | null,
-    meetup_time: string | null,
     description: string | null,
-    category: string,
     is_sponsored: boolean,
     created_at: string,
     updated_at: string,

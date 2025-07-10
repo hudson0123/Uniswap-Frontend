@@ -5,39 +5,44 @@ import { z } from "zod";
 import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { IEvent } from "@/@types/models/event";
 
 const schema = z.object({
-  ticket_title: z.string(),
+  event_id: z.string(),
   ticket_price: z.string(),
   description: z.string().max(100, "Keep the description under 50 characters."),
-  category: z.string(),
-  meetup_time: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid datetime format",
-  }),
   meetup_location: z.string(),
 });
 
 type FormData = z.infer<typeof schema>;
 
 export default function CreatePostForm() {
-  enum categories {
-    "Football" = "FB",
-    "Basketball" = "BB",
-    "Baseball" = "BSB",
-    "Soccer" = "SOC",
-    "Volleyball" = "VB",
-    "Sorority Event" = "SOR",
-    "Fraternity Event" = "FRA",
-    "Concert" = "CON",
-    "Swimming & Diving" = "SW",
-    "Track & Field" = "TR",
-    "Tennis" = "TN",
-    "Golf" = "GF",
-    "Gymnastics" = "GYM",
-    "Other" = "OTH",
-  }
+  // enum categories {
+  //   "Football" = "FB",
+  //   "Basketball" = "BB",
+  //   "Baseball" = "BSB",
+  //   "Soccer" = "SOC",
+  //   "Volleyball" = "VB",
+  //   "Sorority Event" = "SOR",
+  //   "Fraternity Event" = "FRA",
+  //   "Concert" = "CON",
+  //   "Swimming & Diving" = "SW",
+  //   "Track & Field" = "TR",
+  //   "Tennis" = "TN",
+  //   "Golf" = "GF",
+  //   "Gymnastics" = "GYM",
+  //   "Other" = "OTH",
+  // }
 
   // Hooks
+  const { data, isPending, error } = useQuery<IEvent[]>({
+    queryKey: ["events"],
+    queryFn: async () => {
+      const res = await api.get("/api/events/");
+      return res.data;
+    },
+  });
   const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();
   const {
@@ -51,11 +56,9 @@ export default function CreatePostForm() {
   const onSubmit = async (data: FormData) => {
     try {
       await api.post("/api/posts/", {
-        ticket_title: data.ticket_title,
+        event_id: data.event_id,
         ticket_price: data.ticket_price,
         description: data.description,
-        category: data.category,
-        meetup_time: data.meetup_time,
         meetup_location: data.meetup_location,
       });
       router.push("/app");
@@ -65,22 +68,31 @@ export default function CreatePostForm() {
     }
   };
 
+  if (isPending || error || !data) {
+    return;
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mx-auto border mt-4 border-white rounded max-w-md"
     >
-      {/* Ticket Title */}
+      {/* Category */}
       <div className="relative mt-4">
-        <p className="text-red-400">{errors.ticket_title?.message}</p>
-        <input
-          type="text"
+        <p className="text-red-400">{errors.event_id?.message}</p>
+        <select
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
-          placeholder=" "
-          {...register("ticket_title")}
-        />
+          {...register("event_id")}
+          defaultValue=""
+        >
+          {data.map((event) => (
+            <option key={event.id} value={event.id}>
+              {event.event_name}
+            </option>
+          ))}
+        </select>
         <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
-          Ticket Title
+          Event
         </label>
       </div>
 
@@ -111,7 +123,7 @@ export default function CreatePostForm() {
         </label>
       </div>
 
-      {/* Category */}
+      {/* Category
       <div className="relative mt-4">
         <p className="text-red-400">{errors.category?.message}</p>
         <select
@@ -131,21 +143,7 @@ export default function CreatePostForm() {
         <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
           Category
         </label>
-      </div>
-
-      {/* Meetup Time */}
-      <div className="relative mt-4">
-        <p className="text-red-400">{errors.meetup_time?.message}</p>
-        <input
-          type="datetime-local"
-          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
-          placeholder=" "
-          {...register("meetup_time")}
-        />
-        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
-          Meetup Time
-        </label>
-      </div>
+      </div> */}
 
       {/* Meetup Location */}
       <div className="relative mt-4">
