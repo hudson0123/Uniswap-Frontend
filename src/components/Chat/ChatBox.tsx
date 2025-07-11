@@ -50,9 +50,7 @@ export default function Chat({ selectedChat }: ChatProps) {
     },
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
-      await queryClient.cancelQueries({
-        queryKey: ["conversationDetail", selectedChat],
-      });
+      await queryClient.cancelQueries({queryKey: ["conversationDetail", selectedChat],});
 
       // Optimistically update to the new value
       queryClient.setQueryData(
@@ -82,7 +80,8 @@ export default function Chat({ selectedChat }: ChatProps) {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
-        queryClient.invalidateQueries({ queryKey: ["conversations"] }),
+        queryClient.invalidateQueries({ queryKey: ["buying_conversations"] }),
+        queryClient.invalidateQueries({ queryKey: ["selling_conversations"] }),
       ]);
     },
   });
@@ -131,7 +130,7 @@ export default function Chat({ selectedChat }: ChatProps) {
               {chatData.seller.first_name} {chatData.seller.last_name}
             </p>
             <p className="my-auto ml-auto p-2 text-xl">
-              {chatData.post.ticket_title}
+              {chatData.post.event.event_name}
             </p>
           </div>
         ) : (
@@ -147,7 +146,7 @@ export default function Chat({ selectedChat }: ChatProps) {
               {chatData.buyer.first_name} {chatData.buyer.last_name}
             </p>
             <p className="my-auto ml-auto p-2 rounded bg-gray-200 text-xl">
-              {chatData.post.ticket_title}
+              {chatData.post.event.event_name}
             </p>
           </div>
         )}
@@ -180,7 +179,7 @@ export default function Chat({ selectedChat }: ChatProps) {
             id="message"
             className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
             placeholder="Type a message..."
-            defaultValue={chatData.latest_messages.length == 0 ? `Hello, I am interested in your ticket for ${chatData.post.ticket_title}.` : ""}
+            defaultValue={chatData.latest_messages.length == 0 ? `Hello, I am interested in your ticket for ${chatData.post.event.event_name}.` : ""}
           />
           <button
             type="submit"

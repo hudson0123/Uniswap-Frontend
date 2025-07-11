@@ -5,8 +5,9 @@ import { z } from "zod";
 import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { IEvent } from "@/@types/models/event";
+import { useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
   event_id: z.string(),
@@ -36,6 +37,7 @@ export default function CreatePostForm() {
   // }
 
   // Hooks
+  const queryClient = useQueryClient();
   const { data, isPending, error } = useQuery<IEvent[]>({
     queryKey: ["events"],
     queryFn: async () => {
@@ -53,16 +55,25 @@ export default function CreatePostForm() {
     resolver: zodResolver(schema),
   });
 
+  const createPostMutation = useMutation({
+    mutationFn: async (postData: FormData) => {
+      return await api.post("/api/posts/", {
+        event_id: postData.event_id,
+        ticket_price: postData.ticket_price,
+        description: postData.description,
+        meetup_location: postData.meetup_location,
+      });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
+      await router.push("/app");
+      return null;
+    }
+  });
+
   const onSubmit = async (data: FormData) => {
     try {
-      await api.post("/api/posts/", {
-        event_id: data.event_id,
-        ticket_price: data.ticket_price,
-        description: data.description,
-        meetup_location: data.meetup_location,
-      });
-      router.push("/app");
-      return null;
+      createPostMutation.mutate(data)
     } catch {
       setNotification("error", "Failed to Create Post.");
     }

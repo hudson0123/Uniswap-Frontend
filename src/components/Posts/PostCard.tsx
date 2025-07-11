@@ -88,27 +88,18 @@ export default function PostCard({ post }: PostCardProps) {
         </div>
       </div>
       <button
-        className="px-3 py-2 absolute bottom-0 right-2 text-md cursor-pointer font-medium bg-blue-500 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         onClick={() => createConversation()}
       >
         Message
-        <Image
-          width={30}
-          height={30}
-          className="w-6 h-6 ml-2 mt-0.5 transform duration-100"
-          src="/new-conversation.svg"
-          alt="user-profile"
-        />
       </button>
       {currentUserData?.id == post.author.id && (
-        <Image
-          width={100}
-          height={100}
-          className="w-10 h-10 ml-2 absolute bottom-3 left-0 transform duration-100 cursor-pointer"
-          src="/trash.svg"
-          alt="user-profile"
+        <button
+          className="px-3 py-2 w-22 font-bold absolute bottom-11 right-2 text-md cursor-pointer bg-red-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           onClick={() => setModalOpen("deletePost")}
-        />
+        >
+          Delete
+        </button>
       )}
     </div>
   );
