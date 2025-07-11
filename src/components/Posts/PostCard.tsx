@@ -35,15 +35,15 @@ export default function PostCard({ post }: PostCardProps) {
         seller_id: post.author.id,
         post_id: post.id,
       });
-      if ('error' in res) throw res.error;
+      if ("error" in res) throw res.error;
     },
     onSuccess: () => {
       router.push("/app/chat");
     },
     onError: (res) => {
-      console.log(res)
-      toast.error("Failed to create conversation")
-    }
+      console.log(res);
+      toast.error("Failed to create conversation");
+    },
   });
 
   const { data: currentUserData } = useCurrentUser();
@@ -93,18 +93,19 @@ export default function PostCard({ post }: PostCardProps) {
           <p className="w-5/5 text-sm">{post.description}</p>
         </div>
       </div>
-      <button
-        className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        onClick={() => createConversation()}
-      >
-        Message
-      </button>
-      {currentUserData?.id == post.author.id && (
+      {currentUserData?.id == post.author.id ? (
         <button
-          className="px-3 py-2 w-22 font-bold absolute bottom-11 right-2 text-md cursor-pointer bg-red-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-red-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           onClick={() => setModalOpen("deletePost")}
         >
           Delete
+        </button>
+      ) : (
+        <button
+          className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          onClick={() => createConversation()}
+        >
+          Message
         </button>
       )}
     </div>
