@@ -2,12 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { IEvent } from "@/@types/models/event";
 import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   event_id: z.string(),
@@ -45,7 +45,6 @@ export default function CreatePostForm() {
       return res.data;
     },
   });
-  const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();
   const {
     register,
@@ -67,6 +66,7 @@ export default function CreatePostForm() {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await router.push("/app");
+      toast.success("Post Created.")
       return null;
     }
   });
@@ -75,7 +75,7 @@ export default function CreatePostForm() {
     try {
       createPostMutation.mutate(data)
     } catch {
-      setNotification("error", "Failed to Create Post.");
+      toast.error("Failed to Create Post.");
     }
   };
 

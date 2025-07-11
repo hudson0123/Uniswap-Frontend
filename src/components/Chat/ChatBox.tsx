@@ -183,7 +183,7 @@ export default function Chat({ selectedChat }: ChatProps) {
           />
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:opacity-80 transition font-semibold"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:opacity-80 transition font-semibold cursor-pointer"
           >
             Send
           </button>

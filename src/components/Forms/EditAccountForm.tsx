@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export interface EditAccountFormProps {
   username: string | string[] | undefined;
@@ -24,7 +24,6 @@ export default function EditAccountForm({username}: EditAccountFormProps) {
 
   // Hooks
   const router = useRouter();
-  const setNotification = useNotifyStore((state) => state.setNotification);
   const {
     register,
     handleSubmit,
@@ -55,9 +54,10 @@ export default function EditAccountForm({username}: EditAccountFormProps) {
       });
       queryClient.invalidateQueries({ queryKey: ['currentUser']})
       router.push("/app/" + currentUserData?.username + "/");
+      toast.success("User Updated.")
       return null;
     } catch {
-      setNotification("error", "Error Updating User.");
+      toast.error("Error Updating User.");
     }
   };
 

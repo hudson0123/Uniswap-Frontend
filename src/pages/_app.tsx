@@ -6,6 +6,7 @@ import NotificationBanner from "@/components/NotificationBanner";
 import AuthProvider from "@/providers/Auth";
 import SingleButtonModal from "@/components/Modals/SingleButtonModal";
 import { useModalStore } from "@/lib/store";
+import toast, { Toaster } from 'react-hot-toast'
 
 const queryClient = new QueryClient();
 
@@ -23,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
               description="Are you sure you want to delete your account?"
               buttonText="Delete Account"
               onButtonClick={ () => {
-                  alert("Deleting account...");
+                  toast.success("Account Deleted.");
                   closeModal();
               }}
             />
@@ -34,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
               description="Are you sure you want to delete this conversation?"
               buttonText="Delete Conversation"
               onButtonClick={() => {
-                alert("Deleting conversation...");
+                  toast.success("Conversation Deleted.");
                 closeModal();
               }}
             />
@@ -45,7 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
               description="Are you sure you want to delete this post?"
               buttonText="Delete Post"
               onButtonClick={() => {
-                alert("Deleting post...");
+                toast.success("Post Deleted.");
                 closeModal();
               }}
             />
@@ -54,6 +55,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <NotificationBanner />
         </WebSocketProvider>
       </AuthProvider>
+      <Toaster 
+        position="bottom-right"
+      />
     </QueryClientProvider>
   );
 }

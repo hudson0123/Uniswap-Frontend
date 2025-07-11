@@ -3,18 +3,16 @@ import { z } from 'zod'
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import api from '@/lib/api'
-import { useNotifyStore } from '@/lib/store'
 const schema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
 })
+import toast from 'react-hot-toast'
 
 type FormData = z.infer<typeof schema>
 
 
 export default function FeedbackForm() {
-
-  const setNotification = useNotifyStore((state) => state.setNotification)
 
   const onSubmit = async (data: FormData) => {
   try {
@@ -23,12 +21,12 @@ export default function FeedbackForm() {
       description: data.description,
     });
     if (res.status === 201) {
-      setNotification("success", "Thank you for sharing your feedback.");
+      toast.success("Thank you for sharing your feedback.");
       reset();
     }
 
   } catch {
-    setNotification("error", "Failed to share feedback.");
+    toast.error("Failed to share feedback.");
   }
 }
 

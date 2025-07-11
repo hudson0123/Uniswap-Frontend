@@ -3,8 +3,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import api from "@/lib/api";
-import { useNotifyStore } from "@/lib/store";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface VerifyAccountFormProps {
@@ -22,7 +22,6 @@ type FormData = z.infer<typeof schema>;
 
 export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
   // Hooks
-  const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();
   const queryClient = useQueryClient();
   const {
@@ -37,10 +36,10 @@ export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
     try {
       const res = await api.post('/api/verify/send/')
       if (res.status == 200) {
-        setNotification("success", "Sent Verification Email.")
+        toast.success("Sent Verification Email.")
       }
     } catch {
-      setNotification("error", "Failed to Send Verification Email")
+      toast.error("Failed to Send Verification Email")
     }
   }
 
@@ -51,14 +50,14 @@ export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
       });
       if (res.status == 200) {
         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-        setNotification("success", "Your Account is Verified!");
+        toast.success("Your Account is Verified!");
         router.push("/app/" + username + "/");
         return null;
       } else {
-        setNotification("error", "Failed to Verify.");
+        toast.error("Failed to Verify.");
       }
     } catch {
-      setNotification("error", "Failed to Verify.");
+      toast.error("Failed to Verify.");
     }
   };
 

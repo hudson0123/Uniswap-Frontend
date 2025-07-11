@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 interface PostCardProps {
   post: IPost;
@@ -29,15 +30,20 @@ export default function PostCard({ post }: PostCardProps) {
 
   const { mutate: createConversation } = useMutation({
     mutationFn: async () => {
-      await api.post("/api/conversations/", {
+      const res = await api.post("/api/conversations/", {
         name: post.author + "'s Ticket",
         seller_id: post.author.id,
         post_id: post.id,
       });
+      if ('error' in res) throw res.error;
     },
     onSuccess: () => {
       router.push("/app/chat");
     },
+    onError: (res) => {
+      console.log(res)
+      toast.error("Failed to create conversation")
+    }
   });
 
   const { data: currentUserData } = useCurrentUser();

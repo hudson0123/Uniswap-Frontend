@@ -8,7 +8,7 @@ export interface EventCardProps {
 
 export default function EventCard({ event }: EventCardProps) {
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 m-4 h-40 w-fit flex flex-col justify-between hover:shadow-lg transition-shadow duration-200">
+    <div className="bg-white shadow-md rounded-lg p-4 m-4 h-25 w-full flex flex-col justify-between hover:shadow-lg transition-shadow duration-200">
       <h2 className="text-xl">{event.event_name}</h2>
       <p className="text-sm">
         {moment(new Date(event.event_date)).format("MMMM D, YYYY")}

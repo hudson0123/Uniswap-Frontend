@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuthStore, useNotifyStore } from "@/lib/store";
+import { useAuthStore } from "@/lib/store";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { GetAccessRequest, GetAccessResponse } from "@/@types";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 // Define outside component function as does not depend on state.
 const schema = z.object({
@@ -18,7 +19,6 @@ type FormData = z.infer<typeof schema>;
 export default function LoginForm() {
 
   // Hooks
-  const setNotification = useNotifyStore((state) => state.setNotification);
   const setAccess = useAuthStore((state) => state.setAccess)
   const setRefresh = useAuthStore((state) => state.setRefresh)   
   const router = useRouter()                                                                                                                                                                                                                                               
@@ -32,6 +32,9 @@ export default function LoginForm() {
       setRefresh(data.refresh)
       router.push('/app')
       return null;
+    },
+    onError: () => {
+      toast.error("Login Failed.")
     }
   });
   const {
@@ -46,7 +49,7 @@ export default function LoginForm() {
     try {
       mutation.mutate(data)
     } catch {
-      setNotification("error", "Failed to Login.");
+      toast.error("Failed to Login.");
     }
   };
 

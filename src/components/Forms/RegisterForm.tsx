@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useNotifyStore } from "@/lib/store";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 const schema = z
   .object({
@@ -28,7 +28,6 @@ type FormData = z.infer<typeof schema>;
 export default function RegisterForm() {
 
   // Hooks
-  const setNotification = useNotifyStore((state) => state.setNotification);
   const router = useRouter();
   const {
     register,
@@ -48,9 +47,10 @@ export default function RegisterForm() {
         email: data.email,
       });
       router.push("/auth/login");
+      toast.success("Account Created.")
       return null;
     } catch {
-      setNotification("error", "Unable to Create User.");
+      toast.error("Failed to Create New User.");
     }
   };
 

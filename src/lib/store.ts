@@ -61,35 +61,3 @@ export const useAuthStore = create<IAuthStore>()(
     }
     )
 )
-
-type NotificationType = "info" | "warn" | "success" | "error"
-
-export interface INotificationState {
-    notification_type: NotificationType | null,
-    message: string | null,
-}
-
-export interface INotificationStore extends INotificationState {
-    setNotification: (notification_type: NotificationType, message: string) => void,
-    clearNotification: () => void,
-}
-
-export const useNotifyStore = create<INotificationStore>()(
-    persist(
-        (set) => ({
-            notification_type: null,
-            message: null,
-            setNotification: (notification_type, message) => {
-                set({ notification_type: notification_type})
-                set({ message: message})
-            },
-            clearNotification: () => {
-                set({ notification_type: null})
-                set({ message: null})
-            },
-        }), {
-            name: "notification-storage"
-        }
-    )
-
-)
