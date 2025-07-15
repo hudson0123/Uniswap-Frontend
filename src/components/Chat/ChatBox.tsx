@@ -115,7 +115,7 @@ export default function Chat({ selectedChat }: ChatProps) {
         {chatData.buyer.id == currentUserData?.id ? (
           <div
             className="flex cursor-pointer rounded bg-gray-200 px-3 py-1"
-            onClick={() => router.push("/" + chatData.seller.username + "/")}
+            onClick={() => router.push("/app/" + chatData.seller.username + "/")}
           >
             <Image
               width={50}

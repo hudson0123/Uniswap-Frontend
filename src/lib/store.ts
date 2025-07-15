@@ -1,25 +1,34 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type ModalType = "deleteAccount" | "deleteConversation" | "deletePost" | "none";
-
-interface IModalState {
-    modalOpen: ModalType;
+interface ModalProps {
+    destructive: {
+        title: string,
+        subtitle: string,
+        button: {
+            label: string,
+            onClick:  () => void
+        }
+    };
 }
 
-interface IModalStore extends IModalState {
-    setModalOpen: (modalType: ModalType) => void;
-    closeModal: () => void;
+type IModalState<ModalProps> = {
+    [K in keyof ModalProps]: ModalProps[K] | false
+}
+
+interface IModalStore extends IModalState<ModalProps> {
+    openModal: <T extends keyof ModalProps>(modal: T, props: ModalProps[T]) => void;
+    closeModal: (modalType: keyof ModalProps) => void;
 }
 
 export const useModalStore = create<IModalStore>()(
     (set) => ({
-        modalOpen: "none",
-        setModalOpen: (modalType: ModalType): void => {
-            set({ modalOpen: modalType })
+        destructive: false,
+        openModal: (modal, props): void => {
+            set({ [modal]: props})
         },
-        closeModal: (): void => {
-            set({ modalOpen: "none" })
+        closeModal: (modal): void => {
+            set({ [modal]: false })
         }
     })
 )

@@ -1,6 +1,5 @@
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import { useAuthStore } from "@/lib/store";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { PropsWithChildren, useEffect, useState } from "react";
 

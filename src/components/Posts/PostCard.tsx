@@ -4,7 +4,7 @@ import { IPost } from "@/@types";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 import moment from "moment";
@@ -26,36 +26,50 @@ type CreateConversationInput = {
 
 export default function PostCard({ post }: PostCardProps) {
   const router = useRouter();
-  // const queryClient = useQueryClient();
-  // const { mutate: deletePost } = useMutation({
-  //   mutationFn: async () => {
-  //     await api.delete("/api/posts/" + post.id + "/");
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["account_listings"],
-  //     });
-  //   },
-  // });
-
-  const { mutate: createConversation, isPending: pendingConversation } = useMutation<
-    IConversation,
-    AxiosError<IError>,
-    CreateConversationInput
-  >({
-    mutationFn: async (data): Promise<IConversation> => {
-      const res = await api.post("/api/conversations/", data);
-      return res.data;
+  const queryClient = useQueryClient();
+  const { mutate: deletePost } = useMutation<void, AxiosError<IError>, void>({
+    mutationFn: async () => {
+      await api.delete("/api/posts/" + post.id + "/");
+      modalStore.closeModal("destructive");
     },
     onSuccess: () => {
-      router.push("/app/chat");
+      toast.success("Successfully deleted post.")
+      queryClient.invalidateQueries({
+        queryKey: ["account_listings"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
     },
     onError: (error) => {
-      toast.error(error.response?.data?.detail ?? error.message ?? "Failed to create conversation");
-  }});
+      toast.error(
+        error.response?.data?.detail ??
+          error.message ??
+          "Failed to delete post."
+      );
+    },
+  });
+
+  const { mutate: createConversation, isPending: pendingConversation } =
+    useMutation<IConversation, AxiosError<IError>, CreateConversationInput>({
+      mutationFn: async (data): Promise<IConversation> => {
+        const res = await api.post("/api/conversations/", data);
+        return res.data;
+      },
+      onSuccess: () => {
+        router.push("/app/chat");
+      },
+      onError: (error) => {
+        toast.error(
+          error.response?.data?.detail ??
+            error.message ??
+            "Failed to create conversation"
+        );
+      },
+    });
 
   const { data: currentUserData } = useCurrentUser();
-  const setModalOpen = useModalStore((state) => state.setModalOpen);
+  const modalStore = useModalStore();
 
   return (
     <div className="relative pb-3 w-full h-50 border-0 bg-white p-5 rounded-sm">
@@ -104,7 +118,18 @@ export default function PostCard({ post }: PostCardProps) {
       {currentUserData?.id == post.author.id ? (
         <button
           className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-red-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-          onClick={() => setModalOpen("deletePost")}
+          onClick={() =>
+            modalStore.openModal("destructive", {
+              title: "Are You Sure?",
+              subtitle: "Once you delete a post it cannot be undone.",
+              button: {
+                label: "Delete",
+                onClick: () => {
+                  deletePost();
+                },
+              },
+            })
+          }
         >
           Delete
         </button>
