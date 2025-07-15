@@ -4,6 +4,11 @@ import { z } from "zod";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import { IUser } from "@/@types";
+import { IError } from "@/@types/api/response/error";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 const schema = z
   .object({
@@ -26,7 +31,6 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 export default function RegisterForm() {
-
   // Hooks
   const router = useRouter();
   const {
@@ -37,21 +41,36 @@ export default function RegisterForm() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      await api.post("/api/users/", {
-        username: data.username,
-        password: data.password,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        email: data.email,
-      });
+  const { mutate: login, isPending } = useMutation<
+    IUser,
+    AxiosError<IError>,
+    Omit<FormData, "confirm_password">
+  >({
+    mutationFn: async (data) => {
+      const res = await api.post("/api/users/", data);
+      return res.data;
+    },
+    onSuccess: () => {
       router.push("/auth/login");
-      toast.success("Account Created.")
-      return null;
-    } catch {
-      toast.error("Failed to Create New User.");
-    }
+      toast.success("Account Created.");
+    },
+    onError: (error) => {
+      toast.error(
+        error.response?.data?.detail ??
+          error.message ??
+          "Failed to create user."
+      );
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    login({
+      username: data.username,
+      password: data.password,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+    });
   };
 
   return (
@@ -179,9 +198,9 @@ export default function RegisterForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-black text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+        className="relative bg-black text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
-        Register
+        {isPending ? <LoadingSpinner /> : "Register"}
       </button>
     </form>
   );

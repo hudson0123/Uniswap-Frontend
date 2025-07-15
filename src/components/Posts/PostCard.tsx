@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { IConversation } from "@/@types/models/conversation";
 import { AxiosError } from "axios";
 import { IError } from "@/@types/api/response/error";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 interface PostCardProps {
   post: IPost;
@@ -109,7 +110,7 @@ export default function PostCard({ post }: PostCardProps) {
         </button>
       ) : (
         <button
-          className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="absolute px-3 py-2 w-22 font-bold h-10 bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={() =>
             createConversation({
               name: post.author + "'s Ticket",
@@ -118,7 +119,7 @@ export default function PostCard({ post }: PostCardProps) {
             })
           }
         >
-          {pendingConversation ? "Loading..." : "Message"}
+          {pendingConversation ? <LoadingSpinner /> : "Message"}
         </button>
       )}
     </div>

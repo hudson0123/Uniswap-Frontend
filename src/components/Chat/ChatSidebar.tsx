@@ -10,7 +10,10 @@ export interface ChatSidebarProps {
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ChatSidebar({selectedChat, setSelectedChat}: ChatSidebarProps) {
+export default function ChatSidebar({
+  selectedChat,
+  setSelectedChat,
+}: ChatSidebarProps) {
   const {
     data: buyingData,
     isPending: isPendingBuying,
@@ -44,7 +47,9 @@ export default function ChatSidebar({selectedChat, setSelectedChat}: ChatSidebar
   }, [buyingData]);
 
   if (isPendingBuying || isPendingSelling) {
-    return;
+    <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
+      <div className="flex flex-col-2 justify-evenly border-b-1"></div>
+    </div>;
   }
 
   if (errorBuying || errorSelling) {

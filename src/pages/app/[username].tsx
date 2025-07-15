@@ -9,7 +9,7 @@ import AccountListings from "@/components/Account/AccountListings";
 import AccountSettings from "@/components/Account/AccountSettings";
 import CreatePostForm from "@/components/Forms/CreatePostForm";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import Image from "next/image";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -40,27 +40,20 @@ export default function AccountPage() {
   }
 
   const accountTabs = [
-  { key: AccountViewMode.Create, label: 'Create Post' },
-  { key: AccountViewMode.Listings, label: 'My Listings' },
-  { key: AccountViewMode.Settings, label: 'Settings' },
-];
+    { key: AccountViewMode.Create, label: "Create Post" },
+    { key: AccountViewMode.Listings, label: "My Listings" },
+    { key: AccountViewMode.Settings, label: "Settings" },
+  ];
 
-  const [accountViewMode, setAccountViewMode] =
-    useState<AccountViewMode>(AccountViewMode.Create);
+  const [accountViewMode, setAccountViewMode] = useState<AccountViewMode>(
+    AccountViewMode.Create
+  );
 
   if (isPending || currentUserPending) {
     return (
-      <div className="max-h-[85vh]">
+      <div>
         <Topbar />
-              <div className="flex items-center justify-center h-screen w-full">
-                <Image
-                  width={50}
-                  height={50}
-                  className="my-auto mx-auto mt-20"
-                  alt="loading"
-                  src={"/loading.svg"}
-                />
-              </div>
+        <LoadingSpinner size={10} />
       </div>
     );
   }
@@ -92,7 +85,7 @@ export default function AccountPage() {
           <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2  overflow-auto mt-5 rounded-2xl shadow-xl">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
-              {accountTabs.map(({key, label}) => (
+              {accountTabs.map(({ key, label }) => (
                 <button
                   key={key}
                   onClick={() => setAccountViewMode(key)}

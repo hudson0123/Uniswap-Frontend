@@ -6,6 +6,7 @@ import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useRouter } from "next/navigation";
 import ChatMessage from "@/components/Chat/ChatMessage";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 interface ChatProps {
   selectedChat: number;
@@ -95,17 +96,9 @@ export default function Chat({ selectedChat }: ChatProps) {
   }, [chatData?.latest_messages]);
 
   if (isPending || currentUserPending) {
-    return (
-      <div className="flex items-center justify-center h-screen w-full">
-        <Image
-          width={50}
-          height={50}
-          className="my-auto mx-auto mt-20"
-          alt="loading"
-          src={"/loading.svg"}
-        />
-      </div>
-    );
+    <div className="relative flex flex-col min-w-2/5 w-full m-5 space-y-4 rounded-xl h-[90vh] ">
+      return <LoadingSpinner size={20}/>;
+    </div>;
   }
 
   if (error || currentUserError) {
@@ -117,7 +110,7 @@ export default function Chat({ selectedChat }: ChatProps) {
   }
 
   return (
-    <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[90vh] ">
+    <div className="flex flex-col relative min-w-2/5 w-full mt-3 mx-5 space-y-4 bg-white rounded-xl h-[90vh] ">
       <div className="p-3 text-lg font-bold">
         {chatData.buyer.id == currentUserData?.id ? (
           <div

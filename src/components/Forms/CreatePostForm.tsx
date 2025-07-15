@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { IError } from "@/@types/api/response/error";
 import { IPost } from "@/@types";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 const schema = z.object({
   event_id: z.string().min(1, "Event Required."),
@@ -22,26 +23,10 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function CreatePostForm() {
-  // enum categories {
-  //   "Football" = "FB",
-  //   "Basketball" = "BB",
-  //   "Baseball" = "BSB",
-  //   "Soccer" = "SOC",
-  //   "Volleyball" = "VB",
-  //   "Sorority Event" = "SOR",
-  //   "Fraternity Event" = "FRA",
-  //   "Concert" = "CON",
-  //   "Swimming & Diving" = "SW",
-  //   "Track & Field" = "TR",
-  //   "Tennis" = "TN",
-  //   "Golf" = "GF",
-  //   "Gymnastics" = "GYM",
-  //   "Other" = "OTH",
-  // }
 
   // Hooks
   const queryClient = useQueryClient();
-  const { data, isPending, error } = useQuery<IEvent[]>({
+  const { data, isPending: isEventsPending, error } = useQuery<IEvent[]>({
     queryKey: ["events"],
     queryFn: async () => {
       const res = await api.get("/api/events/");
@@ -57,7 +42,7 @@ export default function CreatePostForm() {
     resolver: zodResolver(schema),
   });
 
-  const createPostMutation = useMutation<IPost, AxiosError<IError>, FormData>({
+  const {mutate: createPostMutation, isPending: isEditsPending} = useMutation<IPost, AxiosError<IError>, FormData>({
     mutationFn: async (data) => {
       const res = await api.post("/api/posts/", data);
       return res.data;
@@ -80,13 +65,13 @@ export default function CreatePostForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      createPostMutation.mutate(data);
+      createPostMutation(data);
     } catch {
       toast.error("Failed to Create Post.");
     }
   };
 
-  if (isPending || error || !data) {
+  if (isEventsPending || error || !data) {
     return;
   }
 
@@ -187,9 +172,9 @@ export default function CreatePostForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-8 text-white bg-cyan-950 cursor-pointer hover:bg-cyan-700 rounded border border-gray-400 py-2 px-4 hover:border-gray-500 transition duration-200"
+        className="relative mt-8 text-white bg-cyan-950 cursor-pointer h-10 w-30 hover:bg-cyan-700 rounded border border-gray-400 py-2 px-4 hover:border-gray-500 transition duration-200"
       >
-        Create Post
+        {isEditsPending ? <LoadingSpinner /> : "Create Post"}
       </button>
     </form>
   );

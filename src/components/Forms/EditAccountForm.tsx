@@ -8,7 +8,11 @@ import api from "@/lib/api";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
+import { IError } from "@/@types/api/response/error";
+import { AxiosError } from "axios";
+import { IUser } from "@/@types";
+import { useMutation } from "@tanstack/react-query";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 export interface EditAccountFormProps {
   username: string | string[] | undefined;
 }
@@ -20,8 +24,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function EditAccountForm({username}: EditAccountFormProps) {
+type EditUserInput = {
+  first_name: string;
+  last_name: string;
+};
 
+export default function EditAccountForm({ username }: EditAccountFormProps) {
   // Hooks
   const router = useRouter();
   const {
@@ -36,7 +44,32 @@ export default function EditAccountForm({username}: EditAccountFormProps) {
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+  const { mutate: editAccountMutation, isPending } = useMutation<
+    IUser,
+    AxiosError<IError>,
+    EditUserInput
+  >({
+    mutationFn: async (data: FormData) => {
+      const res = await api.patch(
+        "/api/users/" + currentUserData?.id + "/",
+        data
+      );
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] }); // We need optimistic update here?
+      router.push("/app/" + currentUserData?.username + "/");
+      toast.success("User Updated.");
+    },
+    onError: (error) => {
+      toast.error(
+        error.response?.data?.detail ??
+          error.message ??
+          "Failed to edit account."
+      );
+    },
+  });
 
   if (currentUserPending) {
     return;
@@ -47,18 +80,7 @@ export default function EditAccountForm({username}: EditAccountFormProps) {
   }
 
   const onSubmit = async (data: FormData) => {
-    try {
-      await api.patch("/api/users/" + currentUserData?.id + "/", {
-        first_name: data.first_name,
-        last_name: data.last_name,
-      });
-      queryClient.invalidateQueries({ queryKey: ['currentUser']})
-      router.push("/app/" + currentUserData?.username + "/");
-      toast.success("User Updated.")
-      return null;
-    } catch {
-      toast.error("Error Updating User.");
-    }
+    editAccountMutation(data)
   };
 
   // If Attempting to edit not the current user then push to the correct url
@@ -127,13 +149,13 @@ export default function EditAccountForm({username}: EditAccountFormProps) {
           />
           <p className="mt-auto mb-auto">{currentUserData?.email}</p>
         </div>
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
-      >
-        Save
-      </button>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="relative bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+        >
+          {isPending ? <LoadingSpinner /> : "Save"}
+        </button>
       </div>
     </form>
   );

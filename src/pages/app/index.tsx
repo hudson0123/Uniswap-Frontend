@@ -7,8 +7,8 @@ import { IPost } from "@/@types";
 import PostCardChunk from "@/components/Posts/PostCardChunk";
 import Topbar from "@/components/Navigation/Topbar";
 import SearchEvents from "@/components/Users/SearchEvents";
-import Image from "next/image";
 import { useAuthStore } from "@/lib/store";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const queryPosts = async ({ pageParam }: { pageParam: number }) => {
   const res = await api.get<PaginatedResponse<IPost>>(
@@ -48,15 +48,7 @@ export default function Home() {
     return (
       <div className="">
         <Topbar />
-        <div className="flex items-center justify-center h-screen w-full">
-          <Image
-            width={50}
-            height={50}
-            className="my-auto mx-auto mt-20"
-            alt="loading"
-            src={"/loading.svg"}
-          />
-        </div>
+        <LoadingSpinner size={10} />
       </div>
     );
   }
