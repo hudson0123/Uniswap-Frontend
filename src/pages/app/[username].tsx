@@ -89,7 +89,7 @@ export default function AccountPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-10 lg:gap-x-5 p-4 md:px-10 text-black md:mx-20 mb-20 ">
         <AccountCard accountData={accountData} />
         {currentUserData?.id == accountData.id || !currentUserData ? (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 h-[83vh] overflow-auto mt-5 rounded-2xl shadow-xl">
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2  overflow-auto mt-5 rounded-2xl shadow-xl">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
               {accountTabs.map(({key, label}) => (

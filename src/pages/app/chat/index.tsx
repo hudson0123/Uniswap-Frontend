@@ -11,6 +11,7 @@ export default function Chat() {
       <Topbar />
       <div className="flex flex-col-2">
         <ChatSidebar
+          selectedChat={selectedChat}
           setSelectedChat={setSelectedChat}
         />
         <ChatBox selectedChat={selectedChat} />

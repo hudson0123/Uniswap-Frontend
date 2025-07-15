@@ -6,10 +6,11 @@ import Link from "next/link";
 import ChatSidebarBox from "./ChatSidebarBox";
 
 export interface ChatSidebarProps {
+  selectedChat: number;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ChatSidebar({setSelectedChat}: ChatSidebarProps) {
+export default function ChatSidebar({selectedChat, setSelectedChat}: ChatSidebarProps) {
   const {
     data: buyingData,
     isPending: isPendingBuying,
@@ -78,6 +79,7 @@ export default function ChatSidebar({setSelectedChat}: ChatSidebarProps) {
         <ChatSidebarBox
           key={chat.id}
           chat={chat}
+          selectedChat={selectedChat}
           setSelectedChat={setSelectedChat}
         />
       ))}

@@ -22,7 +22,7 @@ export default function Events() {
     <div>
       <Topbar />
       <h1 className="m-6 text-2xl">Events</h1>
-      <div className="grid grid-cols-3 gap-5 p-5">
+      <div className="grid md:grid-cols-3 gap-5 p-5">
         {data.map((event) => (
           <EventCard key={event.id} event={event} />
         ))}

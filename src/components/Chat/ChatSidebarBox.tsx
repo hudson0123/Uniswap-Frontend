@@ -7,10 +7,11 @@ import { useModalStore } from "@/lib/store";
 
 interface ChatSidebarBoxProps {
   chat: IConversation | undefined;
+  selectedChat: number;
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ChatSidebarBox({chat, setSelectedChat}: ChatSidebarBoxProps) {
+export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: ChatSidebarBoxProps) {
   const {
     data: currentUserData,
     error: currentUserError,
@@ -27,7 +28,9 @@ export default function ChatSidebarBox({chat, setSelectedChat}: ChatSidebarBoxPr
       onClick={() => {
         setSelectedChat(chat!.id);
       }}
-      className={`group relative flex min-w-70 border-b-1 border-gray-300 bg-white h-20 px-3 py-2 hover:bg-gray-100 transition duration-150`}
+      className={`group relative flex min-w-70 border-b-1 border-gray-300 h-20 px-3 py-2 hover:bg-gray-100 transition duration-150 ${
+      selectedChat === chat.id ? "bg-gray-100" : "bg-white"
+    }`}
       key={chat?.id}
     >
       <div className="flex-none my-auto mr-5">

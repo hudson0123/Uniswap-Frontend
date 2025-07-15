@@ -25,17 +25,17 @@ function Topbar() {
         </Link>
 
         {/* Right-side icons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           {/* Events Button */}
           <Link href="/app/events" className="cursor-pointer">
-            <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-5">
+            <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-3 md:mr-5">
               Events
             </h2>
           </Link>
 
           {/* Chat Button */}
           <Link href="/app/chat" className="cursor-pointer">
-            <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-5">
+            <h2 className="font-sans mt-2 hover:text-gray-500 text-lg mr-3 md:mr-5">
               Messages
             </h2>
           </Link>
