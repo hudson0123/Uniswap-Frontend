@@ -53,7 +53,7 @@ export default function FeedbackForm() {
           {...register("title")}
           className={`w-full bg-white p-2 border rounded ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
         />
-        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+        {errors.title && <p className="text-red-500 text-sm h-2">{errors.title.message}</p>}
       </div>
       <div className="mb-4">
         <label className="block text-sm font-bold mb-2">Description</label>
@@ -61,7 +61,7 @@ export default function FeedbackForm() {
           {...register("description")}
           className={`w-full bg-white p-2 border rounded ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
         />
-        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+        {errors.description && <p className="text-red-500 text-sm h-2">{errors.description.message}</p>}
       </div>
       <button
         type="submit"

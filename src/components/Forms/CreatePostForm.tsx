@@ -8,12 +8,15 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { IEvent } from "@/@types/models/event";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
+import { IError } from "@/@types/api/response/error";
+import { IPost } from "@/@types";
 
 const schema = z.object({
-  event_id: z.string(),
-  ticket_price: z.string(),
+  event_id: z.string().min(1, "Event Required."),
+  ticket_price: z.string().min(1, "Price Required."),
   description: z.string().max(100, "Keep the description under 50 characters."),
-  meetup_location: z.string(),
+  meetup_location: z.string().min(1, "Meetup Location Required."),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -54,26 +57,30 @@ export default function CreatePostForm() {
     resolver: zodResolver(schema),
   });
 
-  const createPostMutation = useMutation({
-    mutationFn: async (postData: FormData) => {
-      return await api.post("/api/posts/", {
-        event_id: postData.event_id,
-        ticket_price: postData.ticket_price,
-        description: postData.description,
-        meetup_location: postData.meetup_location,
-      });
+  const createPostMutation = useMutation<IPost, AxiosError<IError>, FormData>({
+    mutationFn: async (data) => {
+      const res = await api.post("/api/posts/", data);
+      return res.data;
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await router.push("/app");
-      toast.success("Post Created.")
-      return null;
-    }
+      toast.success(
+        "Post Created. Please Allow a few moments for it to appear."
+      );
+    },
+    onError: (error) => {
+      toast.error(
+        error.response?.data?.detail ??
+          error.message ??
+          "Failed to create post."
+      );
+    },
   });
 
   const onSubmit = async (data: FormData) => {
     try {
-      createPostMutation.mutate(data)
+      createPostMutation.mutate(data);
     } catch {
       toast.error("Failed to Create Post.");
     }
@@ -90,7 +97,6 @@ export default function CreatePostForm() {
     >
       {/* Category */}
       <div className="relative mt-4">
-        <p className="text-red-400">{errors.event_id?.message}</p>
         <select
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
           {...register("event_id")}
@@ -105,11 +111,11 @@ export default function CreatePostForm() {
         <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
           Event
         </label>
+        <p className="text-red-500 text-sm h-2">{errors.event_id?.message}</p>
       </div>
 
       {/* Ticket Price */}
       <div className="relative mt-4">
-        <p className="text-red-400">{errors.ticket_price?.message}</p>
         <input
           type="number"
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
@@ -119,11 +125,13 @@ export default function CreatePostForm() {
         <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
           Ticket Price
         </label>
+        <p className="text-red-500 text-sm h-2">
+          {errors.ticket_price?.message}
+        </p>
       </div>
 
       {/* Description */}
       <div className="relative mt-4">
-        <p className="text-red-400">{errors.description?.message}</p>
         <textarea
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
           placeholder=" "
@@ -132,6 +140,9 @@ export default function CreatePostForm() {
         <label className="absolute text-md text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
           Description
         </label>
+        <p className="text-red-500 text-sm h-2">
+          {errors.description?.message}
+        </p>
       </div>
 
       {/* Category
@@ -158,7 +169,6 @@ export default function CreatePostForm() {
 
       {/* Meetup Location */}
       <div className="relative mt-4">
-        <p className="text-red-400">{errors.meetup_location?.message}</p>
         <input
           type="text"
           className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
@@ -168,6 +178,9 @@ export default function CreatePostForm() {
         <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
           Meetup Location
         </label>
+        <p className="text-red-500 text-sm h-2">
+          {errors.meetup_location?.message}
+        </p>
       </div>
 
       {/* Submit Button */}

@@ -50,7 +50,7 @@ export default function PostCard({ post }: PostCardProps) {
       router.push("/app/chat");
     },
     onError: (error) => {
-      toast.error(error.response?.data?.error ?? error.message ?? "Failed to create conversation");
+      toast.error(error.response?.data?.detail ?? error.message ?? "Failed to create conversation");
   }});
 
   const { data: currentUserData } = useCurrentUser();
