@@ -50,7 +50,9 @@ export default function Chat({ selectedChat }: ChatProps) {
     },
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
-      await queryClient.cancelQueries({queryKey: ["conversationDetail", selectedChat],});
+      await queryClient.cancelQueries({
+        queryKey: ["conversationDetail", selectedChat],
+      });
 
       // Optimistically update to the new value
       queryClient.setQueryData(
@@ -118,7 +120,10 @@ export default function Chat({ selectedChat }: ChatProps) {
     <div className="flex flex-col relative min-w-2/5 w-full m-5 space-y-4 bg-white rounded-xl h-[90vh] ">
       <div className="p-3 text-lg font-bold">
         {chatData.buyer.id == currentUserData?.id ? (
-          <div className="flex cursor-pointer rounded bg-gray-200 px-3 py-1" onClick={() => router.push("/" + chatData.seller.username + "/")}>
+          <div
+            className="flex cursor-pointer rounded bg-gray-200 px-3 py-1"
+            onClick={() => router.push("/" + chatData.seller.username + "/")}
+          >
             <Image
               width={50}
               height={50}
@@ -156,7 +161,13 @@ export default function Chat({ selectedChat }: ChatProps) {
         className="flex-grow overflow-y-auto px-5 pt-4 flex flex-col gap-2"
       >
         {chatData.latest_messages.toReversed().map((message) => {
-          return <ChatMessage key={message.id} currentUserData={currentUserData!} message={message}/>;
+          return (
+            <ChatMessage
+              key={message.id}
+              currentUserData={currentUserData!}
+              message={message}
+            />
+          );
         })}
       </div>
       <form
@@ -173,19 +184,29 @@ export default function Chat({ selectedChat }: ChatProps) {
           inputElement.value = "";
         }}
       >
-        <div className="flex gap-2 p-5 bg-gray-50">
+        <div className="flex gap-2 p-5 bg-gray-50 relative">
           <input
             type="text"
             id="message"
             className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
             placeholder="Type a message..."
-            defaultValue={chatData.latest_messages.length == 0 ? `Hello, I am interested in your ticket for ${chatData.post.event.event_name}.` : ""}
+            defaultValue={
+              chatData.latest_messages.length == 0
+                ? `Hello, I am interested in your ticket for ${chatData.post.event.event_name}.`
+                : ""
+            }
           />
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:opacity-80 transition font-semibold cursor-pointer"
+            className="absolute bottom-4.5 hover:opacity-60 right-2 px-4 py-2 rounded-lg transition font-semibold cursor-pointer"
           >
-            Send
+            <Image
+              width={100}
+              height={100}
+              className="w-7 h-7 mr-1 my-auto rounded-full transform duration-100 inline"
+              src="/new-conversation.svg"
+              alt="user-profile"
+            />
           </button>
         </div>
       </form>

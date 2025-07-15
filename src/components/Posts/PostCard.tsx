@@ -9,10 +9,19 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
 import moment from "moment";
 import toast from "react-hot-toast";
+import { IConversation } from "@/@types/models/conversation";
+import { AxiosError } from "axios";
+import { IError } from "@/@types/api/response/error";
 
 interface PostCardProps {
   post: IPost;
 }
+
+type CreateConversationInput = {
+  name: string;
+  seller_id: number;
+  post_id: number;
+};
 
 export default function PostCard({ post }: PostCardProps) {
   const router = useRouter();
@@ -28,23 +37,21 @@ export default function PostCard({ post }: PostCardProps) {
   //   },
   // });
 
-  const { mutate: createConversation } = useMutation({
-    mutationFn: async () => {
-      const res = await api.post("/api/conversations/", {
-        name: post.author + "'s Ticket",
-        seller_id: post.author.id,
-        post_id: post.id,
-      });
-      if ("error" in res) throw res.error;
+  const { mutate: createConversation, isPending: pendingConversation } = useMutation<
+    IConversation,
+    AxiosError<IError>,
+    CreateConversationInput
+  >({
+    mutationFn: async (data): Promise<IConversation> => {
+      const res = await api.post("/api/conversations/", data);
+      return res.data;
     },
     onSuccess: () => {
       router.push("/app/chat");
     },
-    onError: (res) => {
-      console.log(res);
-      toast.error("Failed to create conversation");
-    },
-  });
+    onError: (error) => {
+      toast.error(error.response?.data?.error ?? error.message ?? "Failed to create conversation");
+  }});
 
   const { data: currentUserData } = useCurrentUser();
   const setModalOpen = useModalStore((state) => state.setModalOpen);
@@ -103,9 +110,15 @@ export default function PostCard({ post }: PostCardProps) {
       ) : (
         <button
           className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          onClick={() => createConversation()}
+          onClick={() =>
+            createConversation({
+              name: post.author + "'s Ticket",
+              seller_id: post.author.id,
+              post_id: post.id,
+            })
+          }
         >
-          Message
+          {pendingConversation ? "Loading..." : "Message"}
         </button>
       )}
     </div>

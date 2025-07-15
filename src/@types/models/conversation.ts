@@ -6,6 +6,6 @@ export interface IConversation {
   name: string,
   buyer: IUser,
   seller: IUser,
-  latest_message: IMessage,
+  latest_message: IMessage | null,
   created_at: string,
 }
