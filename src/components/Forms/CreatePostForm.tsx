@@ -48,8 +48,8 @@ export default function CreatePostForm() {
       return res.data;
     },
     onSuccess: async () => {
+      router.push("/app");
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
-      await router.push("/app");
       toast.success(
         "Post Created. Please Allow a few moments for it to appear."
       );

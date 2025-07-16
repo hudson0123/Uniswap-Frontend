@@ -8,28 +8,12 @@ const schema = z.object({
   description: z.string().min(1, "Description is required"),
 })
 import toast from 'react-hot-toast'
+import LoadingSpinner from '../Loading/LoadingSpinner'
 
 type FormData = z.infer<typeof schema>
 
 
 export default function FeedbackForm() {
-
-  const onSubmit = async (data: FormData) => {
-  try {
-    const res = await api.post("/api/feedback/", {
-      title: data.title,
-      description: data.description,
-    });
-    if (res.status === 201) {
-      toast.success("Thank you for sharing your feedback.");
-      reset();
-    }
-
-  } catch {
-    toast.error("Failed to share feedback.");
-  }
-}
-
   const {
     register,
     handleSubmit,
@@ -37,41 +21,70 @@ export default function FeedbackForm() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-  }
-  )
+  });
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await api.post("/api/feedback/", data);
+      if (res.status === 201) {
+        toast.success("Thank you for sharing your feedback.");
+        reset();
+      }
+    } catch {
+      toast.error("Failed to share feedback.");
+    }
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 mx-auto mt-20 px-8 mb-5 py-5 rounded text-black md:w-2/5"
+      className="relative bg-white p-10  flex flex-col md:mt-20 mt-7 rounded-sm md:shadow-xl w-full md:w-1/2 m-auto"
     >
-      <h2 className="text-xl font-bold mx-auto mb-4">Share Feedback</h2>
-      <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Title</label>
+      <h2 className="text-2xl font-semibold mb-6 mx-auto">Share Feedback</h2>
+
+      <div className="relative mb-5">
+        <label htmlFor="title" className="text-sm block mb-1">
+          Title
+        </label>
         <input
+          id="title"
           type="text"
           {...register("title")}
-          className={`w-full bg-white p-2 border rounded ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+          className={`block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border appearance-none focus:outline-none focus:ring-0 peer ${
+            errors.title ? "border-red-500" : "border-gray-300"
+          }`}
         />
-        {errors.title && <p className="text-red-500 text-sm h-2">{errors.title.message}</p>}
+        {errors.title && (
+          <p className="text-red-600 text-sm mt-1">{errors.title.message}</p>
+        )}
       </div>
-      <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Description</label>
+
+      <div className="relative mb-5">
+        <label htmlFor="description" className="text-sm block mb-1">
+          Description
+        </label>
         <textarea
+          id="description"
+          rows={5}
           {...register("description")}
-          className={`w-full bg-white p-2 border rounded ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
+          className={`block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border appearance-none focus:outline-none focus:ring-0 peer resize-none ${
+            errors.description ? "border-red-500" : "border-gray-300"
+          }`}
         />
-        {errors.description && <p className="text-red-500 text-sm h-2">{errors.description.message}</p>}
+        {errors.description && (
+          <p className="text-red-600 text-sm mt-1">
+            {errors.description.message}
+          </p>
+        )}
       </div>
+
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200 disabled:opacity-50"
+        className="relative bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70 disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
       >
-        Submit
+        {isSubmitting ? <LoadingSpinner /> : "Submit"}
       </button>
     </form>
-
-    
-  )
+  );
 }

@@ -92,9 +92,9 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 rounded-sm md:shadow-xl md:w-fit w-full m-auto"
+      className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 rounded-sm md:shadow-xl md:w-1/2 w-full m-auto"
     >
-      <div className="flex flex-row">
+      <div className="flex flex-row mx-auto">
         <Image
           src={
             currentUserData?.profile_picture

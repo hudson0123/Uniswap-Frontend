@@ -73,7 +73,7 @@ export default function AccountPage() {
     [AccountViewMode.Listings]: (
       <AccountListings userData={accountData} />
     ),
-    [AccountViewMode.Settings]: <AccountSettings />,
+    [AccountViewMode.Settings]: <AccountSettings id={currentUserData!.id}/>,
   } as const;
 
   return (

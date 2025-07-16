@@ -37,7 +37,7 @@ export default function DestructiveModal() {
                 setLoading(true)
                 onClick()
               }}
-              className="relative h-8 w-20 mt-auto ml-2 bg-red-500 hover: hover:bg-red-400 text-nowrap text-white py-1 px-4 rounded-lg transition duration-100 cursor-pointer"
+              className="relative h-8 w-fit min-w-30 mt-auto ml-2 bg-red-500 hover: hover:bg-red-400 text-nowrap text-white py-1 px-4 rounded-lg transition duration-100 cursor-pointer"
             >
               {loading ? <LoadingSpinner /> : modalStore.destructive.button.label}
             </button>
