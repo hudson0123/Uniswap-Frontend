@@ -20,6 +20,7 @@ export interface EditAccountFormProps {
 const schema = z.object({
   first_name: z.string(),
   last_name: z.string(),
+  bio: z.string(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -27,6 +28,7 @@ type FormData = z.infer<typeof schema>;
 type EditUserInput = {
   first_name: string;
   last_name: string;
+  bio: string;
 };
 
 export default function EditAccountForm({ username }: EditAccountFormProps) {
@@ -87,9 +89,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-row mx-auto">
         <Image
           src={
@@ -136,26 +136,40 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
           )}
         </div>
       </div>
-      <div className="mt-2">
-        <div className="flex justify-start mb-2">
-          <Image
-            src="/gmail.svg"
-            width={100}
-            height={100}
-            alt="profile"
-            className="w-12 h-12 mr-2"
-          />
-          <p className="mt-auto mb-auto">{currentUserData?.email}</p>
+      <div className="mt-4">
+        <div className="relative  justify-start mb-2">
+          <div>
+            <label htmlFor="email" className="text-sm">
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              disabled={true}
+              defaultValue={currentUserData?.email}
+              className="block px-2.5 pb-2.5 pt-2.5 w-full max-w-100 text-sm bg-gray-100 text-gray-600 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            />
+          </div>
+          <div className="mt-3">
+            <label htmlFor="bio" className="text-sm">
+              Bio
+            </label>
+            <textarea
+              id="bio"
+              defaultValue={currentUserData?.bio}
+              className="block px-2.5 pb-2.5 pt-2.5 w-full max-w-100 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+              {...register("bio")}
+            />
+          </div>
         </div>
-
-        <button
-          type="submit"
-          disabled={editAccountPending}
-          className="relative bg-gray-500 text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
-        >
-          {editAccountPending ? <LoadingSpinner /> : "Save"}
-        </button>
       </div>
+      <button
+        type="submit"
+        disabled={editAccountPending}
+        className="relative bg-gray-500 text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+      >
+        {editAccountPending ? <LoadingSpinner /> : "Save"}
+      </button>
     </form>
   );
 }

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { IEvent } from "@/@types/models/event";
 import Topbar from "@/components/Navigation/Topbar";
-import EventCard from "@/components/Events/EventCard";
+import EventCalendar from "@/components/Events/EventCalendar";
 
 export default function Events() {
   const { data, isPending, error } = useQuery<IEvent[]>({
@@ -21,12 +21,7 @@ export default function Events() {
   return (
     <div>
       <Topbar />
-      <h1 className="m-6 text-2xl">Events</h1>
-      <div className="grid md:grid-cols-3 gap-5 p-5">
-        {data.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))}
-      </div>
+      <EventCalendar events={data} />
     </div>
   );
 }
