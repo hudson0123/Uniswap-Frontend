@@ -13,16 +13,16 @@ export default function DestructiveModal() {
     return (
       <div
         onClick={() => modalStore.closeModal("destructive")}
-        className="fixed h-screen w-screen top-0 left-0 bg-black/50 backdrop-blur-sm transition duration-200 ease-in flex items-center justify-center z-50"
+        className="opacity-0 animate-fade-in fixed h-screen w-screen top-0 left-0 bg-black/50 backdrop-blur-sm transition duration-200 ease-in flex items-center justify-center z-50"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex relative bg-white p-4  rounded-lg shadow-lg w-120 h-45 flex-col"
+          className="flex relative bg-white p-4 rounded-lg shadow-lg w-120 h-45 flex-col"
         >
           <h2 className="text-xl font-semibold">
             {modalStore.destructive.title}
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 mt-2 max-w-90">
             {modalStore.destructive.subtitle}
           </p>
           <div className="flex flex-col-2 mt-auto">
