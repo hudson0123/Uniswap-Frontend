@@ -63,8 +63,8 @@ export default function ChatSidebar({
           onClick={() => setChatData(buyingData)}
           className={
             chatData === buyingData
-              ? "bg-[#E8E8E8] w-full py-2"
-              : "bg-white w-full py-2"
+            ? "bg-[#E8E8E8] w-full py-2"
+            : "bg-white w-full py-2"
           }
         >
           Buying

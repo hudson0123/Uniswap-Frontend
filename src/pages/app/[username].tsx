@@ -71,7 +71,7 @@ export default function AccountPage() {
   const AccountViewComponents = {
     [AccountViewMode.Create]: <CreatePostForm />,
     [AccountViewMode.Listings]: (
-      <AccountListings currentUser_data={accountData} />
+      <AccountListings userData={accountData} />
     ),
     [AccountViewMode.Settings]: <AccountSettings />,
   } as const;
@@ -127,7 +127,7 @@ export default function AccountPage() {
             </div>
 
             <hr className="" />
-            <AccountListings currentUser_data={currentUserData} />
+            <AccountListings userData={accountData} />
           </div>
         )}
       </div>

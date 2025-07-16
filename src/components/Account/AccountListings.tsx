@@ -5,19 +5,19 @@ import api from "@/lib/api";
 import PostCard from "../Posts/PostCard";
 
 interface AccountListingsProps {
-  currentUser_data: IUser;
+  userData: IUser;
 }
 
-export default function AccountListings({currentUser_data}: AccountListingsProps) {
+export default function AccountListings({userData}: AccountListingsProps) {
   // Query Current User Posts
   const {
     data: listings_data,
     isPending,
     error,
   } = useQuery<IPost[]>({
-    queryKey: ["account_listings", currentUser_data],
+    queryKey: ["account_listings", userData],
     queryFn: async () => {
-      const res = await api.get("/api/my-posts/");
+      const res = await api.get("/api/posts/" + userData.username + "/");
       return res.data;
     },
   });
@@ -37,7 +37,7 @@ export default function AccountListings({currentUser_data}: AccountListingsProps
       </div>
     );
   }
-
+  
   return (
     <>
       {listings_data.length == 0 ? (
