@@ -4,6 +4,11 @@ import { IConversation } from "@/@types/models/conversation";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useModalStore } from "@/lib/store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { IError } from "@/@types/api/response/error";
+import toast from "react-hot-toast";
+import api from "@/lib/api";
 
 interface ChatSidebarBoxProps {
   chat: IConversation | undefined;
@@ -17,7 +22,22 @@ export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: Ch
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
-  const setModalOpen = useModalStore((state) => state.setModalOpen);
+  const modalStore = useModalStore();
+  const queryClient = useQueryClient()
+
+  const { mutate: deleteConversation } = useMutation<void, AxiosError<IError>,void>({
+    mutationFn: async () => {
+      await api.delete('api/conversations/' + selectedChat + '/')
+      modalStore.closeModal('destructive')
+    },
+    onSuccess: async () => {
+      toast.success("Conversation deleted.")
+      await queryClient.invalidateQueries({queryKey: ['conversations']})
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.detail ?? error.message ?? "Failed to delete conversation.")
+    }
+  })
 
   if (currentUserPending) return;
   if (currentUserError) return;
@@ -82,7 +102,16 @@ export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: Ch
           className="absolute bottom-2 right-4 invisible group-hover:visible cursor-pointer"
           alt="trash-icon"
           src="/trash.svg"
-          onClick={() => setModalOpen("deleteConversation")}
+          onClick={() => modalStore.openModal("destructive", {
+            title: "Are you sure?",
+            subtitle: "Once you delete this conversation it and all its contents will be deleted.",
+            button: {
+              label: "Delete Conversation",
+              onClick: () => {
+                deleteConversation()
+              }
+            }
+          })}
         />
       </div>
     </div>
