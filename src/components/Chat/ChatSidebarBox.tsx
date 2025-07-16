@@ -32,7 +32,8 @@ export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: Ch
     },
     onSuccess: async () => {
       toast.success("Conversation deleted.")
-      await queryClient.invalidateQueries({queryKey: ['conversations']})
+      await queryClient.invalidateQueries({queryKey: ['buying_conversations']})
+      await queryClient.invalidateQueries({queryKey: ['selling_conversations']})
     },
     onError: (error) => {
       toast.error(error.response?.data?.detail ?? error.message ?? "Failed to delete conversation.")
