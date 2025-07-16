@@ -6,6 +6,7 @@ import AuthProvider from "@/providers/Auth";
 import { useModalStore } from "@/lib/store";
 import { Toaster } from 'react-hot-toast'
 import DestructiveModal from "@/components/Modals/DestructiveModal";
+import CreatePostModal from "@/components/Modals/CreatePostModal";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <WebSocketProvider>
           {modalStore.destructive && (
             <DestructiveModal />
+          )}
+          {modalStore.createPost && (
+            <CreatePostModal />
           )}
           <Component {...pageProps} />
         </WebSocketProvider>

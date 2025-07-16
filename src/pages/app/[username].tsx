@@ -6,15 +6,15 @@ import { IUser } from "@/@types";
 import Topbar from "@/components/Navigation/Topbar";
 import AccountCard from "@/components/Account/AccountCard";
 import AccountListings from "@/components/Account/AccountListings";
-import AccountSettings from "@/components/Account/AccountSettings";
-import CreatePostForm from "@/components/Forms/CreatePostForm";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import { useModalStore } from "@/lib/store";
 
 export default function AccountPage() {
   const router = useRouter();
   const username = router.query.username;
   const [accountDetailSelection, setAccountDetailSelection] = useState(1);
+  const modalStore = useModalStore()
   const {
     data: currentUserData,
     error: currentUserError,
@@ -32,22 +32,6 @@ export default function AccountPage() {
     },
     enabled: !!username,
   });
-
-  enum AccountViewMode {
-    Create,
-    Listings,
-    Settings,
-  }
-
-  const accountTabs = [
-    { key: AccountViewMode.Create, label: "Create Post" },
-    { key: AccountViewMode.Listings, label: "My Listings" },
-    { key: AccountViewMode.Settings, label: "Settings" },
-  ];
-
-  const [accountViewMode, setAccountViewMode] = useState<AccountViewMode>(
-    AccountViewMode.Create
-  );
 
   if (isPending || currentUserPending) {
     return (
@@ -68,43 +52,22 @@ export default function AccountPage() {
     );
   }
 
-  const AccountViewComponents = {
-    [AccountViewMode.Create]: <CreatePostForm />,
-    [AccountViewMode.Listings]: (
-      <AccountListings userData={accountData} />
-    ),
-    [AccountViewMode.Settings]: <AccountSettings id={currentUserData!.id}/>,
-  } as const;
-
   return (
     <div className="max-h-[85vh]">
       <Topbar />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-10 lg:gap-x-5 p-4 md:px-10 text-black md:mx-20 mb-20 ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-10 lg:gap-x-5 p-4 text-black md:mx-20 mb-20 ">
         <AccountCard accountData={accountData} />
         {currentUserData?.id == accountData.id || !currentUserData ? (
-          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2  overflow-auto mt-5 rounded-2xl shadow-xl">
-            {/* Responsive tabs */}
-            <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
-              {accountTabs.map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => setAccountViewMode(key)}
-                  className={`w-full px-4 py-2 text-xs md:text-base whitespace-nowrap hover:border-b-2 hover:border-gray-300 ${
-                    accountViewMode === key
-                      ? "font-semibold border-b-2 border-black"
-                      : ""
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
+          <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 overflow-auto mt-5 rounded-sm shadow">
+            <div className="flex flex-cols mb-2">
+              <h1 className="text-2xl ml-2 font-thim">Posts</h1>
+              <button onClick={() => modalStore.openModal('createPost', {title: "Create Post"})} className="ml-auto bg-blue-200 px-2 py-1 rounded-md hover:bg-blue-100 cursor-pointer">New Post</button>
             </div>
-
             <hr className="" />
 
             {/* Content area */}
             <div className="flex-1 overflow-y-auto min-h-50">
-              {AccountViewComponents[accountViewMode]}
+              <AccountListings userData={accountData} />
             </div>
           </div>
         ) : (

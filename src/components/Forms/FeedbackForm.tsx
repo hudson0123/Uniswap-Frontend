@@ -38,50 +38,55 @@ export default function FeedbackForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10  flex flex-col md:mt-20 mt-7 rounded-sm md:shadow-xl w-full md:w-1/2 m-auto"
+      className="grid grid-cols-1 px-8 py-20 text-black md:w-1/3 w-full m-auto md:mt-20 mt-7"
     >
       <h2 className="text-2xl font-semibold mb-6 mx-auto">Share Feedback</h2>
 
-      <div className="relative mb-5">
-        <label htmlFor="title" className="text-sm block mb-1">
-          Title
-        </label>
+      <div className="relative mt-8">
         <input
           id="title"
-          type="text"
+          placeholder=" "
           {...register("title")}
-          className={`block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border appearance-none focus:outline-none focus:ring-0 peer ${
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border appearance-none focus:outline-none focus:ring-0 peer ${
             errors.title ? "border-red-500" : "border-gray-300"
           }`}
         />
+        <label
+          htmlFor="title"
+          className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1"
+        >
+          Title
+        </label>
         {errors.title && (
-          <p className="text-red-600 text-sm mt-1">{errors.title.message}</p>
+          <p className="text-red-400 text-xs max-w-70 h-2">{errors.title.message}</p>
         )}
       </div>
 
-      <div className="relative mb-5">
-        <label htmlFor="description" className="text-sm block mb-1">
-          Description
-        </label>
+      <div className="relative mt-8">
         <textarea
           id="description"
           rows={5}
+          placeholder=" "
           {...register("description")}
-          className={`block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border appearance-none focus:outline-none focus:ring-0 peer resize-none ${
+          className={`block px-2.5 pb-2.5 pt-6 w-full text-sm bg-gray-300 rounded-lg border appearance-none focus:outline-none focus:ring-0 peer resize-none ${
             errors.description ? "border-red-500" : "border-gray-300"
           }`}
         />
+        <label
+          htmlFor="description"
+          className="absolute text-lg duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1"
+        >
+          Description
+        </label>
         {errors.description && (
-          <p className="text-red-600 text-sm mt-1">
-            {errors.description.message}
-          </p>
+          <p className="text-red-400 text-xs max-w-70 h-2">{errors.description.message}</p>
         )}
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="relative bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70 disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
+        className="relative border bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70 disabled:opacity-50 disabled:cursor-not-allowed mx-auto"
       >
         {isSubmitting ? <LoadingSpinner /> : "Submit"}
       </button>

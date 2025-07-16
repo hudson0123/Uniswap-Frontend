@@ -35,7 +35,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -45,31 +45,28 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
     isPending: currentUserPending,
   } = useCurrentUser();
   const queryClient = useQueryClient();
-  const { mutate: editAccountMutation, isPending } = useMutation<
-    IUser,
-    AxiosError<IError>,
-    EditUserInput
-  >({
-    mutationFn: async (data: FormData) => {
-      const res = await api.patch(
-        "/api/users/" + currentUserData?.id + "/",
-        data
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] }); // We need optimistic update here?
-      router.push("/app/" + currentUserData?.username + "/");
-      toast.success("User Updated.");
-    },
-    onError: (error) => {
-      toast.error(
-        error.response?.data?.detail ??
-          error.message ??
-          "Failed to edit account."
-      );
-    },
-  });
+  const { mutate: editAccountMutation, isPending: editAccountPending } =
+    useMutation<IUser, AxiosError<IError>, EditUserInput>({
+      mutationFn: async (data: FormData) => {
+        const res = await api.patch(
+          "/api/users/" + currentUserData?.id + "/",
+          data
+        );
+        return res.data;
+      },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ["currentUser"] }); // We need optimistic update here?
+        toast.success("User Updated.");
+        router.push("/app/" + currentUserData?.username + "/");
+      },
+      onError: (error) => {
+        toast.error(
+          error.response?.data?.detail ??
+            error.message ??
+            "Failed to edit account."
+        );
+      },
+    });
 
   if (currentUserPending) {
     return;
@@ -80,7 +77,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
   }
 
   const onSubmit = async (data: FormData) => {
-    editAccountMutation(data)
+    editAccountMutation(data);
   };
 
   // If Attempting to edit not the current user then push to the correct url
@@ -92,7 +89,6 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 rounded-sm md:shadow-xl md:w-1/2 w-full m-auto"
     >
       <div className="flex flex-row mx-auto">
         <Image
@@ -108,35 +104,37 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
         />
         <p className="my-auto ml-5 text-2xl">@{currentUserData?.username}</p>
       </div>
-      <div className="relative mt-8">
-        <label htmlFor="last_name" className="text-sm">
-          First Name
-        </label>
-        <input
-          id="first_name"
-          type="text"
-          defaultValue={currentUserData?.first_name}
-          className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("first_name")}
-        />
-        {errors.first_name && (
-          <p className="text-red-600 text-sm">{errors.first_name.message}</p>
-        )}
-      </div>
-      <div className="relative mt-2">
-        <label htmlFor="last_name" className="text-sm">
-          Last Name
-        </label>
-        <input
-          id="last_name"
-          type="text"
-          defaultValue={currentUserData?.last_name}
-          className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("last_name")}
-        />
-        {errors.last_name && (
-          <p className="text-red-600 text-sm">{errors.last_name.message}</p>
-        )}
+      <div className="grid grid-cols-2 mt-10 gap-5">
+        <div className="relative">
+          <label htmlFor="last_name" className="text-sm">
+            First Name
+          </label>
+          <input
+            id="first_name"
+            type="text"
+            defaultValue={currentUserData?.first_name}
+            className="block px-2.5 pb-2.5 pt-2.5 w-full max-w-50 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            {...register("first_name")}
+          />
+          {errors.first_name && (
+            <p className="text-red-600 text-sm">{errors.first_name.message}</p>
+          )}
+        </div>
+        <div className="relative">
+          <label htmlFor="last_name" className="text-sm">
+            Last Name
+          </label>
+          <input
+            id="last_name"
+            type="text"
+            defaultValue={currentUserData?.last_name}
+            className="block px-2.5 pb-2.5 pt-2.5 w-full max-w-50 text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+            {...register("last_name")}
+          />
+          {errors.last_name && (
+            <p className="text-red-600 text-sm">{errors.last_name.message}</p>
+          )}
+        </div>
       </div>
       <div className="mt-2">
         <div className="flex justify-start mb-2">
@@ -149,12 +147,13 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
           />
           <p className="mt-auto mb-auto">{currentUserData?.email}</p>
         </div>
+
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="relative bg-black text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+          disabled={editAccountPending}
+          className="relative bg-gray-500 text-white rounded-md py-2 w-1/2 mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
         >
-          {isPending ? <LoadingSpinner /> : "Save"}
+          {editAccountPending ? <LoadingSpinner /> : "Save"}
         </button>
       </div>
     </form>

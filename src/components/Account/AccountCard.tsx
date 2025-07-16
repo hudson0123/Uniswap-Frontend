@@ -49,7 +49,7 @@ export default function AccountCard({ accountData }: AccountCardProps) {
   }
 
   return (
-    <div className="relative mx-auto bg-white py-6 px-10 flex flex-col md:mt-5 w-fit rounded-2xl shadow-xl h-fit">
+    <div className="relative mx-auto bg-white py-6 px-10 flex flex-col md:mt-5 w-full rounded-sm shadow h-fit">
       {currentUserData?.id == accountData.id && (
         <button className="cursor-pointer" onClick={editProfile}>
           <Image

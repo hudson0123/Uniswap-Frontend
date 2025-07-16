@@ -7,9 +7,12 @@ interface ModalProps {
         subtitle: string,
         button: {
             label: string,
-            onClick:  () => void
+            onClick: () => void
         }
-    };
+    },
+    createPost: {
+        title: string
+    },
 }
 
 type IModalState<ModalProps> = {
@@ -24,6 +27,7 @@ interface IModalStore extends IModalState<ModalProps> {
 export const useModalStore = create<IModalStore>()(
     (set) => ({
         destructive: false,
+        createPost: false,
         openModal: (modal, props): void => {
             set({ [modal]: props})
         },

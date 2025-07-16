@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import EditAccountForm from "@/components/Forms/EditAccountForm";
 import Topbar from "@/components/Navigation/Topbar";
+import AccountSettingsSection from "@/components/Account/AccountSettingsSection";
 
 export default function Edit() {
   const router = useRouter();
@@ -10,7 +11,11 @@ export default function Edit() {
   return (
     <>
       <Topbar />
-      <EditAccountForm username={username} />
+      <div className="relative bg-white p-10 flex flex-col md:mt-20 mt-7 rounded-sm md:shadow-xl md:w-1/4 w-full m-auto">
+        <EditAccountForm username={username} />
+        <hr className="my-5"></hr>
+        <AccountSettingsSection />
+      </div>
     </>
   );
 }
