@@ -42,8 +42,7 @@ export default function AccountSettingsSection() {
 
   return (
     <div className="relative">
-      <h2 className="text-2xl font-this ml-2">Account</h2>
-      <div className="grid grid-cols-2 mt-5 gap-3">
+      <div className="grid grid-cols-2 mt-2 gap-3">
         <button
           className="block border bg-gray-500 text-white rounded-md py-2 w-full h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
           onClick={handleLogout}

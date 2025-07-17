@@ -97,7 +97,7 @@ export default function Chat({ selectedChat }: ChatProps) {
 
   if (isPending || currentUserPending) {
     <div className="relative flex flex-col min-w-2/5 w-full m-5 space-y-4 rounded-xl h-[90vh] ">
-      return <LoadingSpinner size={20}/>;
+      return <LoadingSpinner size={20} />;
     </div>;
   }
 
@@ -115,7 +115,9 @@ export default function Chat({ selectedChat }: ChatProps) {
         {chatData.buyer.id == currentUserData?.id ? (
           <div
             className="flex cursor-pointer rounded bg-gray-200 px-3 py-1"
-            onClick={() => router.push("/app/" + chatData.seller.username + "/")}
+            onClick={() =>
+              router.push("/app/" + chatData.seller.username + "/")
+            }
           >
             <Image
               width={50}
@@ -184,7 +186,8 @@ export default function Chat({ selectedChat }: ChatProps) {
             className="flex-grow border border-gray-400 bg-white rounded-lg px-3 py-2 focus:outline-none"
             placeholder="Type a message..."
             defaultValue={
-              ( chatData.latest_messages.length == 0 && currentUserData?.id == chatData.buyer.id ) 
+              chatData.latest_messages.length == 0 &&
+              currentUserData?.id == chatData.buyer.id
                 ? `Hello, I am interested in your ticket for ${chatData.post.event.event_name}.`
                 : ""
             }

@@ -16,31 +16,73 @@ interface ChatSidebarBoxProps {
   setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: ChatSidebarBoxProps) {
+export default function ChatSidebarBox({
+  chat,
+  selectedChat,
+  setSelectedChat,
+}: ChatSidebarBoxProps) {
   const {
     data: currentUserData,
     error: currentUserError,
     isPending: currentUserPending,
   } = useCurrentUser();
   const modalStore = useModalStore();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { mutate: deleteConversation } = useMutation<void, AxiosError<IError>,void>({
+  const { mutate: deleteConversation } = useMutation<
+    void,
+    AxiosError<IError>,
+    void
+  >({
     mutationFn: async () => {
-      await api.delete('api/conversations/' + selectedChat + '/')
-      modalStore.closeModal('destructive')
+      await api.delete("api/conversations/" + selectedChat + "/");
+      modalStore.closeModal("destructive");
     },
     onSuccess: async () => {
-      toast.success("Conversation deleted.")
-      await queryClient.invalidateQueries({queryKey: ['buying_conversations']})
-      await queryClient.invalidateQueries({queryKey: ['selling_conversations']})
+      toast.success("Conversation deleted.");
+      await queryClient.invalidateQueries({
+        queryKey: ["buying_conversations"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["selling_conversations"],
+      });
     },
     onError: (error) => {
-      toast.error(error.response?.data?.detail ?? error.message ?? "Failed to delete conversation.")
-    }
-  })
+      toast.error(
+        error.response?.data?.detail ??
+          error.message ??
+          "Failed to delete conversation."
+      );
+    },
+  });
 
-  if (currentUserPending) return;
+  if (currentUserPending) {
+    <div
+      onClick={() => {
+        setSelectedChat(chat!.id);
+      }}
+      className={`group relative flex min-w-70 border-b-1 border-gray-300 h-20 px-3 py-2 hover:bg-gray-100 transition duration-150 ${
+        selectedChat === chat?.id ? "bg-gray-100" : "bg-white"
+      }`}
+      key={chat?.id}
+    >
+      <div className="flex-none my-auto mr-5">
+        <Image
+          width={50}
+          height={50}
+          className="rounded-full"
+          alt="unread-indicator"
+          src={chat?.seller?.profile_picture || "/profile.jpg"}
+        />
+      </div>
+      <div className="flex-1">
+        <div className="flex">
+          <div>
+          </div>
+        </div>
+      </div>
+    </div>;
+  }
   if (currentUserError) return;
   if (!chat) return null;
 
@@ -50,8 +92,8 @@ export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: Ch
         setSelectedChat(chat!.id);
       }}
       className={`group relative flex min-w-70 border-b-1 border-gray-300 h-20 px-3 py-2 hover:bg-gray-100 transition duration-150 ${
-      selectedChat === chat.id ? "bg-gray-100" : "bg-white"
-    }`}
+        selectedChat === chat.id ? "bg-gray-100" : "bg-white"
+      }`}
       key={chat?.id}
     >
       <div className="flex-none my-auto mr-5">
@@ -103,16 +145,19 @@ export default function ChatSidebarBox({chat, selectedChat, setSelectedChat}: Ch
           className="absolute bottom-2 right-4 invisible group-hover:visible cursor-pointer"
           alt="trash-icon"
           src="/trash.svg"
-          onClick={() => modalStore.openModal("destructive", {
-            title: "Are you sure?",
-            subtitle: "Once you delete this conversation it and all its contents will be deleted.",
-            button: {
-              label: "Delete Conversation",
-              onClick: () => {
-                deleteConversation()
-              }
-            }
-          })}
+          onClick={() =>
+            modalStore.openModal("destructive", {
+              title: "Are you sure?",
+              subtitle:
+                "Once you delete this conversation it and all its contents will be deleted.",
+              button: {
+                label: "Delete Conversation",
+                onClick: () => {
+                  deleteConversation();
+                },
+              },
+            })
+          }
         />
       </div>
     </div>

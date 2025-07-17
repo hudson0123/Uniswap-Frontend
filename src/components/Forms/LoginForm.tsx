@@ -68,7 +68,7 @@ export default function LoginForm() {
     >
       <div className="relative mt-8">
         <input
-          className="block px-2.5 pb-2.5 pt-4 w-55 text-sm bg-gray-300 rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-4 w-55 text-sm bg-white rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           id="username"
           {...register("username")}
         />
@@ -80,7 +80,7 @@ export default function LoginForm() {
       <div className="relative mt-8">
         <input
           type="password"
-          className="block px-2.5 pb-2.5 pt-4 w-55 text-sm bg-gray-300 rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-4 w-55 text-sm bg-white rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           id="password"
           {...register("password")}
         />

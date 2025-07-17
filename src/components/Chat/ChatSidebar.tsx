@@ -4,6 +4,7 @@ import api from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ChatSidebarBox from "./ChatSidebarBox";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 export interface ChatSidebarProps {
   selectedChat: number;
@@ -38,7 +39,7 @@ export default function ChatSidebar({
     },
   });
 
-  const [chatData, setChatData] = useState<IConversation[]>();
+  const [chatData, setChatData] = useState<IConversation[] | null>(null);
 
   useEffect(() => {
     if (buyingData) {
@@ -56,6 +57,8 @@ export default function ChatSidebar({
     return;
   }
 
+  if (!chatData || !buyingData || !sellingData) return <LoadingSpinner size={10} />;
+
   return (
     <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
       <div className="flex flex-col-2 justify-evenly border-b-1">
@@ -63,8 +66,8 @@ export default function ChatSidebar({
           onClick={() => setChatData(buyingData)}
           className={
             chatData === buyingData
-            ? "bg-[#E8E8E8] w-full py-2"
-            : "bg-white w-full py-2"
+              ? "bg-[#E8E8E8] w-full py-2"
+              : "bg-white w-full py-2"
           }
         >
           Buying

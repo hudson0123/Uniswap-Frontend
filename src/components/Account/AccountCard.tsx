@@ -84,11 +84,12 @@ export default function AccountCard({ accountData }: AccountCardProps) {
       <p className="text-2xl font-bold mt-5 text-nowrap">
         {accountData?.first_name} {accountData?.last_name}
       </p>
-      <p className="italic gray-800 -mt-1">{accountData?.username}</p>
+      <p className="italic text-gray-800 -mt-1">{accountData?.username}</p>
       <p className="italics text-sms text-gray-500 mt-3">
 
       
       </p>
+      <p className="my-2 text-gray-600">&#34;{accountData?.bio}&#34;</p>
       <p className="italics text-sm text-gray-500">
         Member since{" "}
         {new Date(accountData?.date_joined).toDateString().substring(4)}

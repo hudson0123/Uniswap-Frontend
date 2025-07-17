@@ -106,7 +106,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
       </div>
       <div className="grid grid-cols-2 mt-10 gap-5">
         <div className="relative">
-          <label htmlFor="last_name" className="text-sm">
+          <label htmlFor="last_name" className="ml-1 text-sm">
             First Name
           </label>
           <input
@@ -121,7 +121,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
           )}
         </div>
         <div className="relative">
-          <label htmlFor="last_name" className="text-sm">
+          <label htmlFor="last_name" className="ml-1 text-sm">
             Last Name
           </label>
           <input
@@ -139,7 +139,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
       <div className="mt-4">
         <div className="relative  justify-start mb-2">
           <div>
-            <label htmlFor="email" className="text-sm">
+            <label htmlFor="email" className="ml-1 text-sm">
               Email
             </label>
             <input
@@ -151,7 +151,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
             />
           </div>
           <div className="mt-3">
-            <label htmlFor="bio" className="text-sm">
+            <label htmlFor="bio" className="ml-1 text-sm">
               Bio
             </label>
             <textarea

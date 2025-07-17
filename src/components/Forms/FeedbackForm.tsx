@@ -38,7 +38,7 @@ export default function FeedbackForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 px-8 py-20 text-black md:w-1/3 w-full m-auto md:mt-20 mt-7"
+      className="grid grid-cols-1 px-8 py-20 text-black bg-white md:w-1/3 w-full m-auto md:mt-20 mt-7"
     >
       <h2 className="text-2xl font-semibold mb-6 mx-auto">Share Feedback</h2>
 

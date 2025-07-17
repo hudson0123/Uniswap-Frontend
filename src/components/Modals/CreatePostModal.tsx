@@ -91,7 +91,7 @@ export default function CreatePostForm() {
         <form
           onClick={(e) => e.stopPropagation()}
           onSubmit={handleSubmit(onSubmit)}
-          className="mx-auto border mt-4 border-white  max-w-md flex relative bg-white p-4 rounded-lg shadow-lg w-120 h-fit flex-col"
+          className="mx-auto p-10 border mt-4 border-white  max-w-md flex relative bg-white rounded-lg shadow-lg w-120 h-fit flex-col"
         >
           <h1 className="text-xl font-thin">{modalStore.createPost.title}</h1>
           {/* Category */}
@@ -145,29 +145,6 @@ export default function CreatePostForm() {
               {errors.description?.message}
             </p>
           </div>
-
-          {/* Category
-      <div className="relative mt-4">
-        <p className="text-red-400">{errors.category?.message}</p>
-        <select
-          className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
-          {...register("category")}
-          defaultValue=""
-        >
-          <option disabled value="">
-            Select a Category
-          </option>
-          {Object.entries(categories).map(([label, value]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
-          Category
-        </label>
-      </div> */}
-
           {/* Meetup Location */}
           <div className="relative mt-4">
             <input
