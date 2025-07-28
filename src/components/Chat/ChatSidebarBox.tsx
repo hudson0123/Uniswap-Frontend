@@ -152,9 +152,7 @@ export default function ChatSidebarBox({
                 "Once you delete this conversation it and all its contents will be deleted.",
               button: {
                 label: "Delete Conversation",
-                onClick: () => {
-                  deleteConversation();
-                },
+                onClick: deleteConversation,
               },
             })
           }

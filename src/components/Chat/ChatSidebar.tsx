@@ -1,7 +1,7 @@
 import { IConversation } from "@/@types/models/conversation";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import ChatSidebarBox from "./ChatSidebarBox";
 import LoadingSpinner from "../Loading/LoadingSpinner";
@@ -15,6 +15,7 @@ export default function ChatSidebar({
   selectedChat,
   setSelectedChat,
 }: ChatSidebarProps) {
+  
   const {
     data: buyingData,
     isPending: isPendingBuying,
@@ -39,13 +40,9 @@ export default function ChatSidebar({
     },
   });
 
-  const [chatData, setChatData] = useState<IConversation[] | null>(null);
+  type ViewTypes = "buying" | "selling"
 
-  useEffect(() => {
-    if (buyingData) {
-      setChatData(buyingData);
-    }
-  }, [buyingData]);
+  const [view, setView] = useState<ViewTypes>("buying");
 
   if (isPendingBuying || isPendingSelling) {
     <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
@@ -57,15 +54,17 @@ export default function ChatSidebar({
     return;
   }
 
-  if (!chatData || !buyingData || !sellingData) return <LoadingSpinner size={10} />;
+  if (!buyingData || !sellingData) return <LoadingSpinner size={10} />;
+
+  const selectedData = view === "buying" ? buyingData : sellingData
 
   return (
     <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
       <div className="flex flex-col-2 justify-evenly border-b-1">
         <button
-          onClick={() => setChatData(buyingData)}
+          onClick={() => setView("buying")}
           className={
-            chatData === buyingData
+            view === "buying"
               ? "bg-[#E8E8E8] w-full py-2"
               : "bg-white w-full py-2"
           }
@@ -73,9 +72,9 @@ export default function ChatSidebar({
           Buying
         </button>
         <button
-          onClick={() => setChatData(sellingData)}
+          onClick={() => setView("selling")}
           className={
-            chatData === sellingData
+            view === "selling"
               ? "bg-[#E8E8E8] w-full py-2"
               : "bg-white w-full py-2"
           }
@@ -83,7 +82,7 @@ export default function ChatSidebar({
           Selling
         </button>
       </div>
-      {chatData?.map((chat) => (
+      {selectedData?.map((chat) => (
         <ChatSidebarBox
           key={chat.id}
           chat={chat}
@@ -91,7 +90,7 @@ export default function ChatSidebar({
           setSelectedChat={setSelectedChat}
         />
       ))}
-      {chatData?.length == 0 && (
+      {selectedData?.length == 0 && (
         <div className="grid ">
           <h1 className="text-black text-2xl font-semibold mx-auto mt-50">
             No Conversations
