@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth } from "date-fns";
+import { isToday, isBefore, startOfDay, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth } from "date-fns";
 import classNames from "classnames";
 import { IEvent } from "@/@types/models/event";
 
@@ -39,13 +39,15 @@ export default function EventCalendar({ events }: CalendarProps) {
         <div
           key={day.toString()}
           className={classNames(
-            "border p-2 h-30 overflow-y-auto",
-            !isSameMonth(day, monthStart) ? "bg-gray-100 text-gray-400" : "bg-gray-300"
+            "border p-2 h-fit md:h-30 overflow-y-auto",
+            isBefore(day, startOfDay(new Date())) ? "line-through bg-white" : "bg-white",
+            !isSameMonth(day, monthStart) ? "bg-[repeating-linear-gradient(-45deg,transparent,transparent_10px,rgba(0,0,0,0.1)_10px,rgba(0,0,0,0.1)_20px)]" : 
+            isToday(day) ? "bg-yellow-100" : "",
           )}
         >
-          <div className="text-sm font-medium">{formattedDate}</div>
+          <div className="text-lg font-medium">{formattedDate}</div>
           {eventsForDay.map((event) => (
-            <div key={event.id} className="mt-1 text-xs bg-red-300 p-2 rounded">
+            <div key={event.id} className="mt-1 text-xs p-2 rounded bg-red-300">
               {event.event_name}
             </div>
           ))}
@@ -54,7 +56,7 @@ export default function EventCalendar({ events }: CalendarProps) {
       day = addDays(day, 1);
     }
     days.push(
-      <div key={day.toString()} className="grid grid-cols-7">
+      <div key={day.toString()} className="grid grid-cols-1 md:grid-cols-7">
         {week}
       </div>
     );
@@ -69,8 +71,8 @@ export default function EventCalendar({ events }: CalendarProps) {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
+    <div className="p-10">
+      <div className="flex justify-between items-center mb-4 my-auto">
         <button
           onClick={handlePrevMonth}
           className="px-2 py-1 rounded-full hover:bg-gray-300 cursor-pointer"
@@ -87,9 +89,9 @@ export default function EventCalendar({ events }: CalendarProps) {
           →
         </button>
       </div>
-      <div className="grid grid-cols-7 mb-2 text-center font-semibold text-sm">
+      <div className="grid-cols-7 text-center font-semibold text-sm border-t-1 md:grid hidden">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div key={day}>{day}</div>
+          <div className="border-x-1 px-3 py-2 bg-white" key={day}>{day.toUpperCase()}</div>
         ))}
       </div>
       {days}
