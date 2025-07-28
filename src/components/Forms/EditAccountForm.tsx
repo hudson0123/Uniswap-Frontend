@@ -166,7 +166,7 @@ export default function EditAccountForm({ username }: EditAccountFormProps) {
       <button
         type="submit"
         disabled={editAccountPending}
-        className="relative bg-gray-500 text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
+        className="relative border bg-black text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
         {editAccountPending ? <LoadingSpinner /> : "Save"}
       </button>
