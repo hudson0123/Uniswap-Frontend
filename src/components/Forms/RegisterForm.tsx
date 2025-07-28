@@ -10,8 +10,7 @@ import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 
-const schema = z
-  .object({
+const schema = z.object({
     username: z.string().max(12, "Your username must be under 12 characters."),
     email: z.string().email("Incorrectly formatted email address."),
     first_name: z

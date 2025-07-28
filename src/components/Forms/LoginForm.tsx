@@ -64,15 +64,18 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 px-8 py-10 rounded text-black "
+      className="grid grid-cols-1 px-8 py-10 rounded text-black  md:w-1/6"
     >
       <div className="relative mt-8">
         <input
-          className="block px-2.5 pb-2.5 pt-4 w-55 text-sm bg-white rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           id="username"
+          placeholder=" "
           {...register("username")}
         />
-        <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+        <label 
+          htmlFor="username"
+          className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-5/12 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4">
           Username
         </label>
         {<p className="text-red-400 text-xs max-w-70 h-2">{errors.username?.message}</p>}
@@ -80,11 +83,12 @@ export default function LoginForm() {
       <div className="relative mt-8">
         <input
           type="password"
-          className="block px-2.5 pb-2.5 pt-4 w-55 text-sm bg-white rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+          className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
           id="password"
+          placeholder=" "
           {...register("password")}
         />
-        <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+        <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-5/12 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4">
           Password
         </label>
         {<p className="text-red-400 text-xs max-w-70 h-2">{errors.password?.message}</p>}

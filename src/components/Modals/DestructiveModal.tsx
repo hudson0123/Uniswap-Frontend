@@ -28,7 +28,7 @@ export default function DestructiveModal() {
           <div className="flex flex-col-2 mt-auto">
             <button
               onClick={() => modalStore.closeModal("destructive")}
-              className="mt-auto h-8 w-20 ml-auto bg-white border-1 border-gray-300 hover:bg-gray-50 py-1 px-4 rounded-lg transition duration-100 cursor-pointer"
+              className="mt-auto h-8 w-20 ml-auto bg-white border-1 border-gray-300 hover:bg-gray-50 py-1 px-4 rounded transition duration-100 cursor-pointer"
             >
               Close
             </button>
@@ -37,7 +37,7 @@ export default function DestructiveModal() {
                 setLoading(true)
                 onClick()
               }}
-              className="relative h-8 w-fit min-w-30 mt-auto ml-2 bg-red-500 hover: hover:bg-red-400 text-nowrap text-white py-1 px-4 rounded-lg transition duration-100 cursor-pointer"
+              className="relative h-8 w-fit min-w-30 mt-auto ml-2  hover:bg-red-400 text-black border-red-500 border-1 text-nowrap py-1 px-4 rounded transition duration-100 cursor-pointer"
             >
               {loading ? <LoadingSpinner /> : modalStore.destructive.button.label}
             </button>

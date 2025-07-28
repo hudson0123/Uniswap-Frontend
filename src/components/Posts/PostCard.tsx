@@ -117,7 +117,7 @@ export default function PostCard({ post }: PostCardProps) {
       </div>
       {currentUserData?.id == post.author.id ? (
         <button
-          className="px-3 py-2 w-22 font-bold absolute bottom-0 right-2 text-md cursor-pointer bg-red-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          className="px-2 py-2 w-22 h-8 font-bold absolute bottom-0 right-2 text-sm cursor-pointer bg-red-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           onClick={() =>
             modalStore.openModal("destructive", {
               title: "Are You Sure?",
@@ -135,7 +135,7 @@ export default function PostCard({ post }: PostCardProps) {
         </button>
       ) : (
         <button
-          className="absolute px-3 py-2 w-22 font-bold h-10 bottom-0 right-2 text-md cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="absolute px-3 py-2 w-22 h-8 font-bold bottom-0 right-2 text-sm cursor-pointer bg-blue-400 transition duation-200 text-nowrap inline-flex items-center justify-center mb-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={() =>
             createConversation({
               name: post.author + "'s Ticket",
