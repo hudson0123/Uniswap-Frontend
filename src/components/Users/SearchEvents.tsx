@@ -23,7 +23,7 @@ export default function SearchEvents() {
 
   return (
     <div className="relative not-visited: bg-white p-10 rounded-sm shadow-xl w-full h-[90vh]">
-      <h1 className="font-medium text-3xl">Upcoming Events</h1>
+      <h1 className="font-medium text-3xl mb-10">Upcoming Events</h1>
       {data.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}

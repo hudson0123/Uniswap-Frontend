@@ -7,6 +7,7 @@ import { useModalStore } from "@/lib/store";
 import { Toaster } from 'react-hot-toast'
 import DestructiveModal from "@/components/Modals/DestructiveModal";
 import CreatePostModal from "@/components/Modals/CreatePostModal";
+import ViewEventModal from "@/components/Modals/ViewEventModal";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
           )}
           {modalStore.createPost && (
             <CreatePostModal />
+          )}
+          {modalStore.viewEvent && (
+            <ViewEventModal />
           )}
           <Component {...pageProps} />
         </WebSocketProvider>

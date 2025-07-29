@@ -1,3 +1,4 @@
+import { IEvent } from '@/@types/models/event'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -13,6 +14,7 @@ interface ModalProps {
     createPost: {
         title: string
     },
+    viewEvent: IEvent
 }
 
 type IModalState<ModalProps> = {
@@ -28,6 +30,7 @@ export const useModalStore = create<IModalStore>()(
     (set) => ({
         destructive: false,
         createPost: false,
+        viewEvent: false,
         openModal: (modal, props): void => {
             set({ [modal]: props})
         },

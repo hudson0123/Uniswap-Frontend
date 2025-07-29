@@ -123,7 +123,7 @@ export default function CreatePostForm() {
               placeholder=" "
               {...register("ticket_price")}
             />
-            <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+            <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-5/8 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
               Ticket Price
             </label>
             <p className="text-red-500 text-sm h-2">
@@ -138,7 +138,7 @@ export default function CreatePostForm() {
               placeholder=" "
               {...register("description")}
             />
-            <label className="absolute text-md text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+            <label className="absolute text-md text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-5/8 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
               Description
             </label>
             <p className="text-red-500 text-sm h-2">
@@ -153,7 +153,7 @@ export default function CreatePostForm() {
               placeholder=" "
               {...register("meetup_location")}
             />
-            <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
+            <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-5/8 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
               Meetup Location
             </label>
             <p className="text-red-500 text-sm h-2">
@@ -165,7 +165,7 @@ export default function CreatePostForm() {
           <button
             type="submit"
             disabled={isEditsPending}
-            className="relative mt-8 text-white bg-cyan-950 cursor-pointer h-10 w-30 hover:bg-cyan-700 rounded border border-gray-400 py-2 px-4 hover:border-gray-500 transition duration-200"
+            className="relative mt-4 text-white bg-cyan-950 cursor-pointer h-10 w-30 hover:bg-cyan-700 rounded border border-gray-400 py-2 px-4 hover:border-gray-500 transition duration-200"
           >
             {isEditsPending ? <LoadingSpinner /> : "Create Post"}
           </button>

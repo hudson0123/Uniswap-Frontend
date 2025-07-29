@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { isToday, isBefore, startOfDay, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth } from "date-fns";
 import classNames from "classnames";
 import { IEvent } from "@/@types/models/event";
+import { useModalStore } from "@/lib/store";
 
 interface CalendarProps {
   events: IEvent[];
@@ -9,6 +10,7 @@ interface CalendarProps {
 
 export default function EventCalendar({ events }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const modalStore = useModalStore()
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -47,7 +49,7 @@ export default function EventCalendar({ events }: CalendarProps) {
         >
           <div className="text-lg font-medium">{formattedDate}</div>
           {eventsForDay.map((event) => (
-            <div key={event.id} className="mt-1 text-xs p-2 rounded bg-red-300">
+            <div onClick={() => modalStore.openModal('viewEvent', event)} key={event.id} className="mt-1 text-xs p-2 rounded bg-red-300 cursor-pointer hover:bg-red-200 transition duration-150">
               {event.event_name}
             </div>
           ))}
