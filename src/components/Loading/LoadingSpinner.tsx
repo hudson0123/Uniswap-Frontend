@@ -23,7 +23,6 @@ export default function LoadingSpinner({size=5} : LoadingSpinnerProps) {
           fill="currentFill"
         />
       </svg>
-      <span className="sr-only">Loading...</span>
     </div>
   );
 }
