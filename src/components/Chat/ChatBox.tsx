@@ -10,9 +10,10 @@ import LoadingSpinner from "../Loading/LoadingSpinner";
 
 interface ChatProps {
   selectedChat: number;
+  setSelectedChat: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function Chat({ selectedChat }: ChatProps) {
+export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
   const queryClient = useQueryClient();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -113,39 +114,50 @@ export default function Chat({ selectedChat }: ChatProps) {
     <div className="flex flex-col relative min-w-2/5 w-full mt-3 mx-5 space-y-4 bg-white rounded-xl h-[90vh] ">
       <div className="p-3 text-lg font-bold">
         {chatData.buyer.id == currentUserData?.id ? (
-          <div
-            className="flex cursor-pointer rounded bg-gray-200 px-3 py-1"
-            onClick={() =>
-              router.push("/app/" + chatData.seller.username + "/")
-            }
-          >
-            <Image
-              width={50}
-              height={50}
-              className="rounded-full"
-              alt="unread-indicator"
-              src={chatData.seller.profile_picture || "/profile.jpg"}
-            />
-            <p className="my-auto ml-3 text-2xl">
-              {chatData.seller.first_name} {chatData.seller.last_name}
-            </p>
-            <p className="my-auto ml-auto p-2 text-xl">
+          <div className="flex cursor-pointer rounded px-3 py-1">
+            <button className="md:hidden justify-center mr-5 mt-2 text-2xl hover:opacity-50 cursor-pointer" onClick={() => setSelectedChat(0)}>&#8617;</button>
+            <div
+              className="flex bg-gray-200 pr-4 pl-2 py-2 rounded-xl"
+              onClick={() =>
+                router.push("/app/" + chatData.seller.username + "/")
+              }
+            >
+              <Image
+                width={50}
+                height={50}
+                className="rounded-full"
+                alt="unread-indicator"
+                src={chatData.seller.profile_picture || "/profile.jpg"}
+              />
+              <p className="my-auto ml-3 text-2xl">
+                {chatData.seller.first_name} {chatData.seller.last_name}
+              </p>
+            </div>
+            <p className="hidden md:flex my-auto ml-auto p-2 text-xl">
               {chatData.post.event.event_name}
             </p>
           </div>
         ) : (
-          <div className="flex cursor-pointer rounded bg-gray-200 px-3 py-1">
-            <Image
-              width={50}
-              height={50}
-              className="rounded-full"
-              alt="unread-indicator"
-              src={chatData.seller.profile_picture ?? "/profile.jpg"}
-            />
-            <p className="my-auto ml-3 text-2xl">
-              {chatData.buyer.first_name} {chatData.buyer.last_name}
-            </p>
-            <p className="my-auto ml-auto p-2 rounded bg-gray-200 text-xl">
+          <div className="flex cursor-pointer rounded px-3 py-1">
+            <button className="md:hidden justify-center mr-5 mt-2 text-2xl hover:opacity-50 cursor-pointer" onClick={() => setSelectedChat(0)}>&#8617;</button>
+            <div
+              className="flex bg-gray-200 pr-4 pl-2 py-2 rounded-xl"
+              onClick={() =>
+                router.push("/app/" + chatData.seller.username + "/")
+              }
+            >
+              <Image
+                width={50}
+                height={50}
+                className="rounded-full"
+                alt="unread-indicator"
+                src={chatData.seller.profile_picture ?? "/profile.jpg"}
+              />
+              <p className="my-auto ml-3 text-2xl">
+                {chatData.buyer.first_name} {chatData.buyer.last_name}
+              </p>
+            </div>
+            <p className="hidden md:flex my-auto ml-auto p-2 rounded text-xl">
               {chatData.post.event.event_name}
             </p>
           </div>

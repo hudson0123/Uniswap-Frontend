@@ -14,7 +14,7 @@ export default function Chat() {
           selectedChat={selectedChat}
           setSelectedChat={setSelectedChat}
         />
-        <ChatBox selectedChat={selectedChat} />
+        <ChatBox selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
       </div>
     </div>
   );

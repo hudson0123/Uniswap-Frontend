@@ -59,7 +59,7 @@ export default function ChatSidebar({
   const selectedData = view === "buying" ? buyingData : sellingData
 
   return (
-    <div className="relative h-[91vh] bg-white border-t-1 min-w-3/10 overflow-auto">
+    <div className={`relative h-[91vh] bg-white border-t-1 overflow-auto ${selectedChat === 0 ? 'md:w-3/10 w-full' : 'md:min-w-3/10 w-0'}`}>
       <div className="flex flex-col-2 justify-evenly border-b-1">
         <button
           onClick={() => setView("buying")}
