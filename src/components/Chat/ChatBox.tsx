@@ -134,7 +134,7 @@ export default function Chat({ selectedChat }: ChatProps) {
             </p>
           </div>
         ) : (
-          <div className="flex">
+          <div className="flex cursor-pointer rounded bg-gray-200 px-3 py-1">
             <Image
               width={50}
               height={50}

@@ -12,15 +12,11 @@ export default function EventCard({ event }: EventCardProps) {
   const modalStore = useModalStore()
   
   return (
-    <div onClick={() => modalStore.openModal('viewEvent', event)} className="bg-gray-100 hover:bg-gray-200 rounded-sm cursor-pointer p-2 mt-3 h-25 w-full flex flex-col justify-between duration-200">
-      <h2 className="text-xl">{event.event_name}</h2>
+    <div onClick={() => modalStore.openModal('viewEvent', event)} className="bg-gray-100 hover:bg-gray-200 rounded-sm cursor-pointer p-2 mt-3 h-fit w-full flex flex-col justify-between duration-200">
+      <p className="text-xl">{event.event_name}</p>
       <p className="text-sm">
         {moment(new Date(event.event_date)).format("MMMM D, YYYY")}
       </p>
-      <div className="flex flex-row">
-        <p className="text-xs">Host: {event.host}</p>
-        <p className=" ml-3 text-xs">Location: {event.event_location}</p>
-      </div>
     </div>
   );
 }
