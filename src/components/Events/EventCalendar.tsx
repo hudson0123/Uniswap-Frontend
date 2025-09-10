@@ -1,8 +1,20 @@
-import React, { useState } from "react";
-import { isToday, isBefore, startOfDay, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth } from "date-fns";
-import classNames from "classnames";
-import { IEvent } from "@/@types/models/event";
-import { useModalStore } from "@/lib/store";
+import React, { useState } from 'react';
+import {
+  isToday,
+  isBefore,
+  startOfDay,
+  format,
+  parseISO,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  isSameMonth,
+} from 'date-fns';
+import classNames from 'classnames';
+import { IEvent } from '@/@types/models/event';
+import { useModalStore } from '@/lib/store';
 
 interface CalendarProps {
   events: IEvent[];
@@ -10,46 +22,58 @@ interface CalendarProps {
 
 export default function EventCalendar({ events }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const modalStore = useModalStore()
+  const modalStore = useModalStore();
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
 
-  const dateFormat = "d";
+  const dateFormat = 'd';
   const days = [];
 
   let day = startDate;
-  let formattedDate = "";
+  let formattedDate = '';
 
-  const eventsByDate = events.reduce((acc, event) => {
-    const dateKey = format(parseISO(event.event_date), "yyyy-MM-dd");
-    if (!acc[dateKey]) acc[dateKey] = [];
-    acc[dateKey].push(event);
-    return acc;
-  }, {} as Record<string, IEvent[]>);
+  const eventsByDate = events.reduce(
+    (acc, event) => {
+      const dateKey = format(parseISO(event.event_date), 'yyyy-MM-dd');
+      if (!acc[dateKey]) acc[dateKey] = [];
+      acc[dateKey].push(event);
+      return acc;
+    },
+    {} as Record<string, IEvent[]>
+  );
 
   while (day <= endDate) {
     const week = [];
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, dateFormat);
-      const dateKey = format(day, "yyyy-MM-dd");
+      const dateKey = format(day, 'yyyy-MM-dd');
       const eventsForDay = eventsByDate[dateKey] || [];
 
       week.push(
         <div
           key={day.toString()}
           className={classNames(
-            "border p-2 h-fit md:h-30 overflow-y-auto",
-            isBefore(day, startOfDay(new Date())) ? "line-through bg-white" : "bg-white",
-            !isSameMonth(day, monthStart) ? "bg-[repeating-linear-gradient(-45deg,transparent,transparent_10px,rgba(0,0,0,0.1)_10px,rgba(0,0,0,0.1)_20px)]" : 
-            isToday(day) ? "bg-yellow-100" : "",
+            'border p-2 h-fit md:h-30 overflow-y-auto',
+            isBefore(day, startOfDay(new Date()))
+              ? 'line-through bg-white'
+              : 'bg-white',
+            !isSameMonth(day, monthStart)
+              ? 'bg-[repeating-linear-gradient(-45deg,transparent,transparent_10px,rgba(0,0,0,0.1)_10px,rgba(0,0,0,0.1)_20px)]'
+              : isToday(day)
+                ? 'bg-yellow-100'
+                : ''
           )}
         >
           <div className="text-lg font-medium">{formattedDate}</div>
           {eventsForDay.map((event) => (
-            <div onClick={() => modalStore.openModal('viewEvent', event)} key={event.id} className="mt-1 text-xs p-2 rounded bg-red-300 cursor-pointer hover:bg-red-200 transition duration-150">
+            <div
+              onClick={() => modalStore.openModal('viewEvent', event)}
+              key={event.id}
+              className="mt-1 text-xs p-2 rounded bg-red-300 cursor-pointer hover:bg-red-200 transition duration-150"
+            >
               {event.event_name}
             </div>
           ))}
@@ -82,7 +106,7 @@ export default function EventCalendar({ events }: CalendarProps) {
           ←
         </button>
         <h2 className="text-lg font-bold">
-          {format(currentMonth, "MMMM yyyy")}
+          {format(currentMonth, 'MMMM yyyy')}
         </h2>
         <button
           onClick={handleNextMonth}
@@ -93,7 +117,9 @@ export default function EventCalendar({ events }: CalendarProps) {
       </div>
       <div className="grid-cols-7 text-center font-semibold text-sm border-t-1 md:grid hidden">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div className="border-x-1 px-3 py-2 bg-white" key={day}>{day.toUpperCase()}</div>
+          <div className="border-x-1 px-3 py-2 bg-white" key={day}>
+            {day.toUpperCase()}
+          </div>
         ))}
       </div>
       {days}

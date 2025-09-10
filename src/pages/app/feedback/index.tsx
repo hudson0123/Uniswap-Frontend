@@ -1,8 +1,6 @@
-import FeedbackForm from '@/components/Forms/FeedbackForm'
-import Topbar from '@/components/Navigation/Topbar'
-import React from 'react'
-
-
+import FeedbackForm from '@/components/Forms/FeedbackForm';
+import Topbar from '@/components/Navigation/Topbar';
+import React from 'react';
 
 export default function Feedback() {
   return (
@@ -10,5 +8,5 @@ export default function Feedback() {
       <Topbar />
       <FeedbackForm />
     </div>
-  )
+  );
 }

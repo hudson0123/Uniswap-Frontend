@@ -1,23 +1,23 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { IPost, IUser } from "@/@types";
-import api from "@/lib/api";
-import PostCard from "../Posts/PostCard";
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { IPost, IUser } from '@/@types';
+import api from '@/lib/api';
+import PostCard from '../Posts/PostCard';
 
 interface AccountListingsProps {
   userData: IUser;
 }
 
-export default function AccountListings({userData}: AccountListingsProps) {
+export default function AccountListings({ userData }: AccountListingsProps) {
   // Query Current User Posts
   const {
     data: listings_data,
     isPending,
     error,
   } = useQuery<IPost[]>({
-    queryKey: ["account_listings", userData],
+    queryKey: ['account_listings', userData],
     queryFn: async () => {
-      const res = await api.get("/api/posts/" + userData.username + "/");
+      const res = await api.get('/api/posts/' + userData.username + '/');
       return res.data;
     },
   });
@@ -37,7 +37,7 @@ export default function AccountListings({userData}: AccountListingsProps) {
       </div>
     );
   }
-  
+
   return (
     <>
       {listings_data.length == 0 ? (

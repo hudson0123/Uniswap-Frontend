@@ -1,7 +1,7 @@
-import React from "react";
-import { useEffect, useRef } from "react";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { useQueryClient } from "@tanstack/react-query";
+import React from 'react';
+import { useEffect, useRef } from 'react';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { useQueryClient } from '@tanstack/react-query';
 export default function WebSocketProvider({
   children,
 }: {
@@ -21,14 +21,14 @@ export default function WebSocketProvider({
       socketRef.current = ws;
 
       ws.onopen = () => {
-        console.log("WebSocket: OPENED");
+        console.log('WebSocket: OPENED');
       };
 
       ws.onmessage = (event) => {
-        console.log("WebSocket message received:", event.data);
+        console.log('WebSocket message received:', event.data);
 
-        queryClient.invalidateQueries({ queryKey: ["conversationDetail"] });
-        queryClient.invalidateQueries({ queryKey: ["conversations"] });
+        queryClient.invalidateQueries({ queryKey: ['conversationDetail'] });
+        queryClient.invalidateQueries({ queryKey: ['conversations'] });
 
         setTimeout(() => {
           connectWebSocket();
@@ -36,7 +36,7 @@ export default function WebSocketProvider({
       };
 
       ws.onclose = () => {
-        console.log("WebSocket: CLOSED");
+        console.log('WebSocket: CLOSED');
       };
 
       return () => {
@@ -45,7 +45,6 @@ export default function WebSocketProvider({
     };
 
     connectWebSocket();
-    
   }, [currentUserData?.id, queryClient]);
 
   return <div>{children}</div>;

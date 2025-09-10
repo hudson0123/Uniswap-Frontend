@@ -1,26 +1,28 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import api from "@/lib/api";
-import { useRouter } from "next/router";
-import toast from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import api from '@/lib/api';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface VerifyAccountFormProps {
-  username: string | string[] | undefined
+  username: string | string[] | undefined;
 }
 
 const schema = z.object({
   code: z
     .string()
-    .min(6, "verification code is 6 digits")
-    .max(6, "verification code is 6 digits"),
+    .min(6, 'verification code is 6 digits')
+    .max(6, 'verification code is 6 digits'),
 });
 
 type FormData = z.infer<typeof schema>;
 
-export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
+export default function VerifyAccountForm({
+  username,
+}: VerifyAccountFormProps) {
   // Hooks
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -34,30 +36,30 @@ export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
 
   const resendVerificationCode = async () => {
     try {
-      const res = await api.post('/api/verify/send/')
+      const res = await api.post('/api/verify/send/');
       if (res.status == 200) {
-        toast.success("Sent Verification Email.")
+        toast.success('Sent Verification Email.');
       }
     } catch {
-      toast.error("Failed to Send Verification Email")
+      toast.error('Failed to Send Verification Email');
     }
-  }
+  };
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await api.post("/api/verify/confirm/", {
+      const res = await api.post('/api/verify/confirm/', {
         code: data.code,
       });
       if (res.status == 200) {
-        queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-        toast.success("Your Account is Verified!");
-        router.push("/app/" + username + "/");
+        queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+        toast.success('Your Account is Verified!');
+        router.push('/app/' + username + '/');
         return null;
       } else {
-        toast.error("Failed to Verify.");
+        toast.error('Failed to Verify.');
       }
     } catch {
-      toast.error("Failed to Verify.");
+      toast.error('Failed to Verify.');
     }
   };
 
@@ -73,7 +75,7 @@ export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
           type="text"
           id="code"
           placeholder="123456"
-          {...register("code")}
+          {...register('code')}
         />
         <p className="text-red-500 mx-auto">{errors.code?.message}</p>
         <button
@@ -84,7 +86,12 @@ export default function VerifyAccountForm({username}: VerifyAccountFormProps) {
           Verify
         </button>
       </form>
-      <button className="font-bold mt-5 cursor-pointer hover:text-gray-700 text-xl" onClick={resendVerificationCode}>Resend Code</button>
+      <button
+        className="font-bold mt-5 cursor-pointer hover:text-gray-700 text-xl"
+        onClick={resendVerificationCode}
+      >
+        Resend Code
+      </button>
     </div>
   );
 }

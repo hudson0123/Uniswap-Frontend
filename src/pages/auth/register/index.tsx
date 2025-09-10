@@ -1,7 +1,7 @@
-import React from "react";
-import RegisterFrom from "@/components/Forms/RegisterForm";
-import Link from "next/link";
-import LandingTopbar from "@/components/Navigation/LandingTopbar";
+import React from 'react';
+import RegisterFrom from '@/components/Forms/RegisterForm';
+import Link from 'next/link';
+import LandingTopbar from '@/components/Navigation/LandingTopbar';
 export default function Login() {
   return (
     <div className="">
@@ -10,7 +10,7 @@ export default function Login() {
         <h2 className="text-black text-2xl font-bold">Welcome to UniSwap!</h2>
         <RegisterFrom />
         <p className="text-sm text-black">
-          Already have an account? Login{" "}
+          Already have an account? Login{' '}
           <Link className="italic " href="/auth/login">
             here
           </Link>

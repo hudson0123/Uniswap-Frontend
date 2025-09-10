@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { IDetailConversation } from "@/@types/models/detailconversation";
-import api from "@/lib/api";
-import Image from "next/image";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { useRouter } from "next/navigation";
-import ChatMessage from "@/components/Chat/ChatMessage";
-import LoadingSpinner from "../Loading/LoadingSpinner";
+import React, { useEffect, useRef } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { IDetailConversation } from '@/@types/models/detailconversation';
+import api from '@/lib/api';
+import Image from 'next/image';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { useRouter } from 'next/navigation';
+import ChatMessage from '@/components/Chat/ChatMessage';
+import LoadingSpinner from '../Loading/LoadingSpinner';
 
 interface ChatProps {
   selectedChat: number;
@@ -29,7 +29,7 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
     isPending,
     error,
   } = useQuery<IDetailConversation>({
-    queryKey: ["conversationDetail", selectedChat],
+    queryKey: ['conversationDetail', selectedChat],
     queryFn: async () => {
       if (selectedChat != 0) {
         const res = await api.get(`/api/conversations/${selectedChat}/`);
@@ -44,7 +44,7 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
       conversation: string;
       sender_id: string;
     }) => {
-      return api.post("/api/messages/", {
+      return api.post('/api/messages/', {
         conversation: message.conversation,
         sender_id: message.sender_id,
         content: message.content,
@@ -53,12 +53,12 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({
-        queryKey: ["conversationDetail", selectedChat],
+        queryKey: ['conversationDetail', selectedChat],
       });
 
       // Optimistically update to the new value
       queryClient.setQueryData(
-        ["conversationDetail", selectedChat],
+        ['conversationDetail', selectedChat],
         (old: IDetailConversation | undefined) => {
           if (!old) return old;
 
@@ -71,7 +71,7 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
                 sender: {
                   id: currentUserData?.id,
                   profile_picture: currentUserData?.profile_picture || null,
-                  username: currentUserData?.username || "",
+                  username: currentUserData?.username || '',
                 },
                 created_at: new Date().toISOString(),
               },
@@ -83,9 +83,9 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
     },
     onSuccess: async () => {
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["conversationDetail"] }),
-        queryClient.invalidateQueries({ queryKey: ["buying_conversations"] }),
-        queryClient.invalidateQueries({ queryKey: ["selling_conversations"] }),
+        queryClient.invalidateQueries({ queryKey: ['conversationDetail'] }),
+        queryClient.invalidateQueries({ queryKey: ['buying_conversations'] }),
+        queryClient.invalidateQueries({ queryKey: ['selling_conversations'] }),
       ]);
     },
   });
@@ -115,11 +115,16 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
       <div className="p-3 text-lg font-bold">
         {chatData.buyer.id == currentUserData?.id ? (
           <div className="flex cursor-pointer rounded px-3 py-1">
-            <button className="md:hidden justify-center mr-5 mt-2 text-2xl hover:opacity-50 cursor-pointer" onClick={() => setSelectedChat(0)}>&#8617;</button>
+            <button
+              className="md:hidden justify-center mr-5 mt-2 text-2xl hover:opacity-50 cursor-pointer"
+              onClick={() => setSelectedChat(0)}
+            >
+              &#8617;
+            </button>
             <div
               className="flex bg-gray-200 pr-4 pl-2 py-2 rounded-xl"
               onClick={() =>
-                router.push("/app/" + chatData.seller.username + "/")
+                router.push('/app/' + chatData.seller.username + '/')
               }
             >
               <Image
@@ -127,7 +132,7 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
                 height={50}
                 className="rounded-full"
                 alt="unread-indicator"
-                src={chatData.seller.profile_picture || "/profile.jpg"}
+                src={chatData.seller.profile_picture || '/profile.jpg'}
               />
               <p className="my-auto ml-3 text-2xl">
                 {chatData.seller.first_name} {chatData.seller.last_name}
@@ -139,11 +144,16 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
           </div>
         ) : (
           <div className="flex cursor-pointer rounded px-3 py-1">
-            <button className="md:hidden justify-center mr-5 mt-2 text-2xl hover:opacity-50 cursor-pointer" onClick={() => setSelectedChat(0)}>&#8617;</button>
+            <button
+              className="md:hidden justify-center mr-5 mt-2 text-2xl hover:opacity-50 cursor-pointer"
+              onClick={() => setSelectedChat(0)}
+            >
+              &#8617;
+            </button>
             <div
               className="flex bg-gray-200 pr-4 pl-2 py-2 rounded-xl"
               onClick={() =>
-                router.push("/app/" + chatData.seller.username + "/")
+                router.push('/app/' + chatData.seller.username + '/')
               }
             >
               <Image
@@ -151,7 +161,7 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
                 height={50}
                 className="rounded-full"
                 alt="unread-indicator"
-                src={chatData.seller.profile_picture ?? "/profile.jpg"}
+                src={chatData.seller.profile_picture ?? '/profile.jpg'}
               />
               <p className="my-auto ml-3 text-2xl">
                 {chatData.buyer.first_name} {chatData.buyer.last_name}
@@ -181,14 +191,14 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
         onSubmit={(event) => {
           event.preventDefault();
           const inputElement = document.getElementById(
-            "message"
+            'message'
           ) as HTMLInputElement;
           messageMutation.mutate({
             content: inputElement.value,
             conversation: chatData.id.toString(),
             sender_id: currentUserData!.id.toString(),
           });
-          inputElement.value = "";
+          inputElement.value = '';
         }}
       >
         <div className="flex gap-2 p-5 bg-gray-50 relative">
@@ -201,7 +211,7 @@ export default function Chat({ selectedChat, setSelectedChat }: ChatProps) {
               chatData.latest_messages.length == 0 &&
               currentUserData?.id == chatData.buyer.id
                 ? `Hello, I am interested in your ticket for ${chatData.post.event.event_name}.`
-                : ""
+                : ''
             }
           />
           <button

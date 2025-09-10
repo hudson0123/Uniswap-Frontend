@@ -1,11 +1,11 @@
-import React from "react";
-import { IUser } from "@/@types";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import React from 'react';
+import { IUser } from '@/@types';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 interface AccountCardProps {
-  accountData: IUser
+  accountData: IUser;
 }
 
 export default function AccountCard({ accountData }: AccountCardProps) {
@@ -18,19 +18,19 @@ export default function AccountCard({ accountData }: AccountCardProps) {
   } = useCurrentUser();
 
   const editProfile = () => {
-    router.push("/app/" + accountData.username + "/edit");
+    router.push('/app/' + accountData.username + '/edit');
     return null;
   };
 
   if (currentUserPending) {
     <div
       className={
-        "grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mb-20 h-fit"
+        'grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-x-10 p-4 md:p-20 text-black mb-20 h-fit'
       }
     >
       <div className="relative bg-white p-10 flex flex-col mt-20 md:mt-5 w-full rounded-2xl shadow-xl">
         <Image
-          src={"/profile.jpg"}
+          src={'/profile.jpg'}
           width={100}
           height={100}
           alt="profile"
@@ -57,19 +57,19 @@ export default function AccountCard({ accountData }: AccountCardProps) {
           />
         </button>
       )}
-        <Image
-          src={
-            accountData.profile_picture
-              ? accountData.profile_picture
-              : "/profile.jpg"
-          }
-          width={100}
-          height={100}
-          alt="profile"
-          className="w-30 h-30 flex rounded-full bg-white"
-        />
-        {accountData?.verified && (
-          <div className="group">
+      <Image
+        src={
+          accountData.profile_picture
+            ? accountData.profile_picture
+            : '/profile.jpg'
+        }
+        width={100}
+        height={100}
+        alt="profile"
+        className="w-30 h-30 flex rounded-full bg-white"
+      />
+      {accountData?.verified && (
+        <div className="group">
           <Image
             src="/verified.svg"
             width={100}
@@ -77,10 +77,11 @@ export default function AccountCard({ accountData }: AccountCardProps) {
             alt="verified"
             className="absolute top-8 left-32 bg-red-500 rounded-full w-8 h-8"
           />
-          <p className="opacity-0 absolute top-5 left-42 rounded group-hover:opacity-100 w-fit transition duration-100 font-bold bg-gray-600 text-white px-2 py-1">Verified Student</p>
-          </div>
-        )
-      }
+          <p className="opacity-0 absolute top-5 left-42 rounded group-hover:opacity-100 w-fit transition duration-100 font-bold bg-gray-600 text-white px-2 py-1">
+            Verified Student
+          </p>
+        </div>
+      )}
       <p className="text-2xl font-bold mt-5 text-nowrap">
         {accountData?.first_name} {accountData?.last_name}
       </p>
@@ -89,7 +90,7 @@ export default function AccountCard({ accountData }: AccountCardProps) {
         <p className="my-2 text-gray-600">&#34;{accountData?.bio}&#34;</p>
       )}
       <p className="italics text-sm text-gray-500 mt-5">
-        Member since{" "}
+        Member since{' '}
         {new Date(accountData?.date_joined).toDateString().substring(4)}
       </p>
     </div>

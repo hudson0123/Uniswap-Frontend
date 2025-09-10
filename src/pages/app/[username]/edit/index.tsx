@@ -1,8 +1,8 @@
-import React from "react";
-import { useRouter } from "next/router";
-import EditAccountForm from "@/components/Forms/EditAccountForm";
-import Topbar from "@/components/Navigation/Topbar";
-import AccountSettingsSection from "@/components/Account/AccountSettingsSection";
+import React from 'react';
+import { useRouter } from 'next/router';
+import EditAccountForm from '@/components/Forms/EditAccountForm';
+import Topbar from '@/components/Navigation/Topbar';
+import AccountSettingsSection from '@/components/Account/AccountSettingsSection';
 
 export default function Edit() {
   const router = useRouter();

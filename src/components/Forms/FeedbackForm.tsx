@@ -1,17 +1,16 @@
-import React from 'react'
-import { z } from 'zod'
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import api from '@/lib/api'
+import React from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import api from '@/lib/api';
 const schema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
-})
-import toast from 'react-hot-toast'
-import LoadingSpinner from '../Loading/LoadingSpinner'
+  title: z.string().min(1, 'Title is required'),
+  description: z.string().min(1, 'Description is required'),
+});
+import toast from 'react-hot-toast';
+import LoadingSpinner from '../Loading/LoadingSpinner';
 
-type FormData = z.infer<typeof schema>
-
+type FormData = z.infer<typeof schema>;
 
 export default function FeedbackForm() {
   const {
@@ -25,13 +24,13 @@ export default function FeedbackForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await api.post("/api/feedback/", data);
+      const res = await api.post('/api/feedback/', data);
       if (res.status === 201) {
-        toast.success("Thank you for sharing your feedback.");
+        toast.success('Thank you for sharing your feedback.');
         reset();
       }
     } catch {
-      toast.error("Failed to share feedback.");
+      toast.error('Failed to share feedback.');
     }
   };
 
@@ -50,7 +49,7 @@ export default function FeedbackForm() {
           id="title"
           type="text"
           className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("title")}
+          {...register('title')}
         />
         {errors.title && (
           <p className="text-red-600 text-sm">{errors.title.message}</p>
@@ -65,7 +64,7 @@ export default function FeedbackForm() {
           id="description"
           rows={5}
           className="block px-2.5 pb-2.5 pt-2.5 w-full text-sm bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer resize-none"
-          {...register("description")}
+          {...register('description')}
         />
         {errors.description && (
           <p className="text-red-600 text-sm">{errors.description.message}</p>
@@ -77,7 +76,7 @@ export default function FeedbackForm() {
         disabled={isSubmitting}
         className="relative bg-gray-500 text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
-        {isSubmitting ? <LoadingSpinner /> : "Submit"}
+        {isSubmitting ? <LoadingSpinner /> : 'Submit'}
       </button>
     </form>
   );

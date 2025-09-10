@@ -1,14 +1,14 @@
-import Link from "next/link";
-import Image from "next/image";
-import TopbarProfileDropdown from "./TopbarProfileDropdown";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import Link from 'next/link';
+import Image from 'next/image';
+import TopbarProfileDropdown from './TopbarProfileDropdown';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 function Topbar() {
   const { data: currentUserData, error: currentUserError } = useCurrentUser();
 
   if (currentUserError) return null;
 
-  const profileImage = currentUserData?.profile_picture || "/profile.jpg";
+  const profileImage = currentUserData?.profile_picture || '/profile.jpg';
 
   return (
     <nav className="w-full bg-white shadow-sm z-10 py-4 h-[9vh]">
@@ -59,6 +59,6 @@ function Topbar() {
   );
 }
 
-Topbar.displayName = "Topbar";
+Topbar.displayName = 'Topbar';
 
 export default Topbar;

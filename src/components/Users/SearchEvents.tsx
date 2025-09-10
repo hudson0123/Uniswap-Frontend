@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import EventCard from "../Events/EventCard";
-import api from "@/lib/api";
-import React from "react";
-import { IEvent } from "@/@types/models/event";
+import { useQuery } from '@tanstack/react-query';
+import EventCard from '../Events/EventCard';
+import api from '@/lib/api';
+import React from 'react';
+import { IEvent } from '@/@types/models/event';
 
 export default function SearchEvents() {
   const { data, isPending, error } = useQuery<IEvent[]>({
-    queryKey: ["events"],
+    queryKey: ['events'],
     queryFn: async () => {
-      const response = await api.get("/api/events/");
+      const response = await api.get('/api/events/');
       return response.data;
     },
   });

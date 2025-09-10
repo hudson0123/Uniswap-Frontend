@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import api from "@/lib/api";
-import { IUser } from "@/@types";
-import Topbar from "@/components/Navigation/Topbar";
-import AccountCard from "@/components/Account/AccountCard";
-import AccountListings from "@/components/Account/AccountListings";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
-import { useModalStore } from "@/lib/store";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
+import api from '@/lib/api';
+import { IUser } from '@/@types';
+import Topbar from '@/components/Navigation/Topbar';
+import AccountCard from '@/components/Account/AccountCard';
+import AccountListings from '@/components/Account/AccountListings';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import LoadingSpinner from '@/components/Loading/LoadingSpinner';
+import { useModalStore } from '@/lib/store';
 
 export default function AccountPage() {
   const router = useRouter();
   const username = router.query.username;
   const [accountDetailSelection, setAccountDetailSelection] = useState(1);
-  const modalStore = useModalStore()
+  const modalStore = useModalStore();
   const {
     data: currentUserData,
     error: currentUserError,
@@ -25,7 +25,7 @@ export default function AccountPage() {
     isPending,
     error,
   } = useQuery<IUser>({
-    queryKey: ["account_user", username],
+    queryKey: ['account_user', username],
     queryFn: async () => {
       const res = await api.get(`/api/users/${username}`);
       return res.data;
@@ -61,7 +61,14 @@ export default function AccountPage() {
           <div className="bg-white p-6 md:p-10 flex flex-col w-full col-span-2 overflow-auto mt-5 rounded-sm shadow">
             <div className="flex flex-cols mb-2">
               <h1 className="text-2xl ml-2 font-thim">Posts</h1>
-              <button onClick={() => modalStore.openModal('createPost', {title: "Create Post"})} className="ml-auto bg-blue-200 px-2 py-1 rounded-md hover:bg-blue-100 cursor-pointer">New Post</button>
+              <button
+                onClick={() =>
+                  modalStore.openModal('createPost', { title: 'Create Post' })
+                }
+                className="ml-auto bg-blue-200 px-2 py-1 rounded-md hover:bg-blue-100 cursor-pointer"
+              >
+                New Post
+              </button>
             </div>
             <hr className="" />
 
@@ -74,14 +81,14 @@ export default function AccountPage() {
           <div className="bg-white p-6 md:p-10 flex flex-col w-full rounded-2xl shadow-xl col-span-2 min-h-[83vh] overflow-auto mt-5">
             {/* Responsive tabs */}
             <div className="flex md:flex md:flex-cols-6 overflow-x-auto gap-5 md:gap-0 justify-between">
-              {[["Active Listings", 1]].map(([label, id]) => (
+              {[['Active Listings', 1]].map(([label, id]) => (
                 <button
                   key={id}
                   onClick={() => setAccountDetailSelection(Number(id))}
                   className={`w-full px-4 py-2 text-xs md:text-base whitespace-nowrap hover:border-b-2 hover:border-gray-200 ${
                     accountDetailSelection === id
-                      ? "font-semibold border-b-2 border-black"
-                      : ""
+                      ? 'font-semibold border-b-2 border-black'
+                      : ''
                   }`}
                 >
                   {label}

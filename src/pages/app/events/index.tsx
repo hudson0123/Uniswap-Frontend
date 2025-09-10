@@ -1,16 +1,16 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import api from "@/lib/api";
-import { IEvent } from "@/@types/models/event";
-import Topbar from "@/components/Navigation/Topbar";
-import EventCalendar from "@/components/Events/EventCalendar";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import api from '@/lib/api';
+import { IEvent } from '@/@types/models/event';
+import Topbar from '@/components/Navigation/Topbar';
+import EventCalendar from '@/components/Events/EventCalendar';
+import LoadingSpinner from '@/components/Loading/LoadingSpinner';
 
 export default function Events() {
   const { data, isPending, error } = useQuery<IEvent[]>({
-    queryKey: ["events"],
+    queryKey: ['events'],
     queryFn: async () => {
-      const response = await api.get("/api/events/");
+      const response = await api.get('/api/events/');
       return response.data;
     },
   });

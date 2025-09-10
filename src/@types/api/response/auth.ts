@@ -1,8 +1,8 @@
 export interface GetRefreshResponse {
-    access: string,
+  access: string;
 }
 
 export interface GetAccessResponse {
-    refresh: string,
-    access: string,
+  refresh: string;
+  access: string;
 }

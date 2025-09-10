@@ -1,24 +1,24 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import api from "@/lib/api";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { IEvent } from "@/@types/models/event";
-import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-import { IError } from "@/@types/api/response/error";
-import { IPost } from "@/@types";
-import LoadingSpinner from "../Loading/LoadingSpinner";
-import { useModalStore } from "@/lib/store";
-import Image from "next/image";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import api from '@/lib/api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { IEvent } from '@/@types/models/event';
+import { useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { IError } from '@/@types/api/response/error';
+import { IPost } from '@/@types';
+import LoadingSpinner from '../Loading/LoadingSpinner';
+import { useModalStore } from '@/lib/store';
+import Image from 'next/image';
 
 const schema = z.object({
-  event_id: z.string().min(1, "Event Required."),
-  ticket_price: z.string().min(1, "Price Required."),
-  description: z.string().max(100, "Keep the description under 50 characters."),
-  meetup_location: z.string().min(1, "Meetup Location Required."),
+  event_id: z.string().min(1, 'Event Required.'),
+  ticket_price: z.string().min(1, 'Price Required.'),
+  description: z.string().max(100, 'Keep the description under 50 characters.'),
+  meetup_location: z.string().min(1, 'Meetup Location Required.'),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -32,9 +32,9 @@ export default function CreatePostForm() {
     isPending: isEventsPending,
     error,
   } = useQuery<IEvent[]>({
-    queryKey: ["events"],
+    queryKey: ['events'],
     queryFn: async () => {
-      const res = await api.get("/api/events/");
+      const res = await api.get('/api/events/');
       return res.data;
     },
   });
@@ -52,21 +52,21 @@ export default function CreatePostForm() {
     FormData
   >({
     mutationFn: async (data) => {
-      const res = await api.post("/api/posts/", data);
+      const res = await api.post('/api/posts/', data);
       return res.data;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["account_listings"] });
+      await queryClient.invalidateQueries({ queryKey: ['account_listings'] });
       toast.success(
-        "Post Created. Please Allow a few moments for it to appear."
+        'Post Created. Please Allow a few moments for it to appear.'
       );
-      modalStore.closeModal("createPost")
+      modalStore.closeModal('createPost');
     },
     onError: (error) => {
       toast.error(
         error.response?.data?.detail ??
           error.message ??
-          "Failed to create post."
+          'Failed to create post.'
       );
     },
   });
@@ -75,17 +75,17 @@ export default function CreatePostForm() {
     try {
       createPostMutation(data);
     } catch {
-      toast.error("Failed to Create Post.");
+      toast.error('Failed to Create Post.');
     }
   };
 
   if (isEventsPending || error || !data) {
     return;
   }
-  if (typeof modalStore.createPost == "object")
+  if (typeof modalStore.createPost == 'object')
     return (
       <div
-        onClick={() => modalStore.closeModal("createPost")}
+        onClick={() => modalStore.closeModal('createPost')}
         className="opacity-0 animate-fade-in fixed h-screen w-screen top-0 left-0 bg-black/50 backdrop-blur-sm transition duration-200 ease-in flex items-center justify-center z-50"
       >
         <form
@@ -98,7 +98,7 @@ export default function CreatePostForm() {
           <div className="relative mt-4">
             <select
               className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
-              {...register("event_id")}
+              {...register('event_id')}
               defaultValue=""
             >
               {data.map((event) => (
@@ -121,7 +121,7 @@ export default function CreatePostForm() {
               type="number"
               className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
               placeholder=" "
-              {...register("ticket_price")}
+              {...register('ticket_price')}
             />
             <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-5/8 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
               Ticket Price
@@ -136,7 +136,7 @@ export default function CreatePostForm() {
             <textarea
               className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
               placeholder=" "
-              {...register("description")}
+              {...register('description')}
             />
             <label className="absolute text-md text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-5/8 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
               Description
@@ -151,7 +151,7 @@ export default function CreatePostForm() {
               type="text"
               className="peer block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0"
               placeholder=" "
-              {...register("meetup_location")}
+              {...register('meetup_location')}
             />
             <label className="absolute text-sm text-gray-700 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-5/8 peer-placeholder-shown:top-1/2 peer-focus:top-4 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">
               Meetup Location
@@ -167,16 +167,16 @@ export default function CreatePostForm() {
             disabled={isEditsPending}
             className="relative mt-4 text-white bg-cyan-950 cursor-pointer h-10 w-30 hover:bg-cyan-700 rounded border border-gray-400 py-2 px-4 hover:border-gray-500 transition duration-200"
           >
-            {isEditsPending ? <LoadingSpinner /> : "Create Post"}
+            {isEditsPending ? <LoadingSpinner /> : 'Create Post'}
           </button>
-        <Image
-          src="/x.svg"
-          alt="Close"
-          width={24}
-          height={24}
-          className="absolute top-2 right-2 cursor-pointer rounded-full bg-gray-200 p-1 hover:bg-gray-300 text-xs"
-          onClick={() => modalStore.closeModal("createPost")}
-        />
+          <Image
+            src="/x.svg"
+            alt="Close"
+            width={24}
+            height={24}
+            className="absolute top-2 right-2 cursor-pointer rounded-full bg-gray-200 p-1 hover:bg-gray-300 text-xs"
+            onClick={() => modalStore.closeModal('createPost')}
+          />
         </form>
       </div>
     );

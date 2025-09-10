@@ -1,14 +1,14 @@
-import React from "react";
-import moment from "moment";
-import { IConversation } from "@/@types/models/conversation";
-import Image from "next/image";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { useModalStore } from "@/lib/store";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { IError } from "@/@types/api/response/error";
-import toast from "react-hot-toast";
-import api from "@/lib/api";
+import React from 'react';
+import moment from 'moment';
+import { IConversation } from '@/@types/models/conversation';
+import Image from 'next/image';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { useModalStore } from '@/lib/store';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { IError } from '@/@types/api/response/error';
+import toast from 'react-hot-toast';
+import api from '@/lib/api';
 
 interface ChatSidebarBoxProps {
   chat: IConversation | undefined;
@@ -35,23 +35,23 @@ export default function ChatSidebarBox({
     void
   >({
     mutationFn: async () => {
-      await api.delete("api/conversations/" + selectedChat + "/");
-      modalStore.closeModal("destructive");
+      await api.delete('api/conversations/' + selectedChat + '/');
+      modalStore.closeModal('destructive');
     },
     onSuccess: async () => {
-      toast.success("Conversation deleted.");
+      toast.success('Conversation deleted.');
       await queryClient.invalidateQueries({
-        queryKey: ["buying_conversations"],
+        queryKey: ['buying_conversations'],
       });
       await queryClient.invalidateQueries({
-        queryKey: ["selling_conversations"],
+        queryKey: ['selling_conversations'],
       });
     },
     onError: (error) => {
       toast.error(
         error.response?.data?.detail ??
           error.message ??
-          "Failed to delete conversation."
+          'Failed to delete conversation.'
       );
     },
   });
@@ -62,7 +62,7 @@ export default function ChatSidebarBox({
         setSelectedChat(chat!.id);
       }}
       className={`group relative flex min-w-70 border-b-1 border-gray-300 h-20 px-3 py-2 hover:bg-gray-100 transition duration-150 ${
-        selectedChat === chat?.id ? "bg-gray-100" : "bg-white"
+        selectedChat === chat?.id ? 'bg-gray-100' : 'bg-white'
       }`}
       key={chat?.id}
     >
@@ -72,13 +72,12 @@ export default function ChatSidebarBox({
           height={50}
           className="rounded-full"
           alt="unread-indicator"
-          src={chat?.seller?.profile_picture || "/profile.jpg"}
+          src={chat?.seller?.profile_picture || '/profile.jpg'}
         />
       </div>
       <div className="flex-1">
         <div className="flex">
-          <div>
-          </div>
+          <div></div>
         </div>
       </div>
     </div>;
@@ -92,7 +91,7 @@ export default function ChatSidebarBox({
         setSelectedChat(chat!.id);
       }}
       className={`group relative flex min-w-70 border-b-1 border-gray-300 h-20 px-3 py-2 hover:bg-gray-100 transition duration-150 ${
-        selectedChat === chat.id ? "bg-gray-100" : "bg-white"
+        selectedChat === chat.id ? 'bg-gray-100' : 'bg-white'
       }`}
       key={chat?.id}
     >
@@ -102,7 +101,7 @@ export default function ChatSidebarBox({
           height={50}
           className="rounded-full"
           alt="unread-indicator"
-          src={chat?.seller?.profile_picture || "/profile.jpg"}
+          src={chat?.seller?.profile_picture || '/profile.jpg'}
         />
       </div>
       <div className="flex-1">
@@ -122,11 +121,11 @@ export default function ChatSidebarBox({
             (new Date(chat.latest_message.timestamp) <
             new Date(Date.now() - 24 * 60 * 60 * 1000) ? (
               <p className="ml-auto my-auto text-nowrap text-gray-400 text-sm">
-                {moment(chat.latest_message.timestamp).format("ddd")}
+                {moment(chat.latest_message.timestamp).format('ddd')}
               </p>
             ) : (
               <p className="ml-auto my-auto text-nowrap text-gray-400 text-sm">
-                {moment(chat.latest_message.timestamp).format("h:mm A")}
+                {moment(chat.latest_message.timestamp).format('h:mm A')}
               </p>
             ))}
         </div>
@@ -146,12 +145,12 @@ export default function ChatSidebarBox({
           alt="trash-icon"
           src="/trash.svg"
           onClick={() =>
-            modalStore.openModal("destructive", {
-              title: "Are you sure?",
+            modalStore.openModal('destructive', {
+              title: 'Are you sure?',
               subtitle:
-                "Once you delete this conversation it and all its contents will be deleted.",
+                'Once you delete this conversation it and all its contents will be deleted.',
               button: {
-                label: "Delete Conversation",
+                label: 'Delete Conversation',
                 onClick: deleteConversation,
               },
             })

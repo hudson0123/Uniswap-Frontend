@@ -1,12 +1,15 @@
-import React from "react";
+import React from 'react';
 
 interface LoadingSpinnerProps {
-  size?: number,
+  size?: number;
 }
 
-export default function LoadingSpinner({size=5} : LoadingSpinnerProps) {
+export default function LoadingSpinner({ size = 5 }: LoadingSpinnerProps) {
   return (
-    <div role="status" className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+    <div
+      role="status"
+      className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
+    >
       <svg
         aria-hidden="true"
         className={`w-${size} h-${size} text-gray-200 animate-spin dark:text-black fill-blue-600`}

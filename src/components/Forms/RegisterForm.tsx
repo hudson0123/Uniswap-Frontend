@@ -1,30 +1,31 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import api from "@/lib/api";
-import { useRouter } from "next/router";
-import toast from "react-hot-toast";
-import { IUser } from "@/@types";
-import { IError } from "@/@types/api/response/error";
-import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
-import LoadingSpinner from "../Loading/LoadingSpinner";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import api from '@/lib/api';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
+import { IUser } from '@/@types';
+import { IError } from '@/@types/api/response/error';
+import { AxiosError } from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import LoadingSpinner from '../Loading/LoadingSpinner';
 
-const schema = z.object({
-    username: z.string().max(12, "Your username must be under 12 characters."),
-    email: z.string().email("Incorrectly formatted email address."),
+const schema = z
+  .object({
+    username: z.string().max(12, 'Your username must be under 12 characters.'),
+    email: z.string().email('Incorrectly formatted email address.'),
     first_name: z
       .string()
-      .max(10, "Your first name must be under 10 characters."),
+      .max(10, 'Your first name must be under 10 characters.'),
     last_name: z
       .string()
-      .max(10, "Your last name must be under 10 characters."),
+      .max(10, 'Your last name must be under 10 characters.'),
     password: z.string(),
     confirm_password: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
-    path: ["confirm_password"],
-    message: "Passwords must match",
+    path: ['confirm_password'],
+    message: 'Passwords must match',
   });
 
 type FormData = z.infer<typeof schema>;
@@ -43,21 +44,21 @@ export default function RegisterForm() {
   const { mutate: login, isPending } = useMutation<
     IUser,
     AxiosError<IError>,
-    Omit<FormData, "confirm_password">
+    Omit<FormData, 'confirm_password'>
   >({
     mutationFn: async (data) => {
-      const res = await api.post("/api/users/", data);
+      const res = await api.post('/api/users/', data);
       return res.data;
     },
     onSuccess: () => {
-      router.push("/auth/login");
-      toast.success("Account Created.");
+      router.push('/auth/login');
+      toast.success('Account Created.');
     },
     onError: (error) => {
       toast.error(
         error.response?.data?.detail ??
           error.message ??
-          "Failed to create user."
+          'Failed to create user.'
       );
     },
   });
@@ -83,7 +84,7 @@ export default function RegisterForm() {
           type="text"
           placeholder=" "
           className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("username")}
+          {...register('username')}
         />
         <label
           htmlFor="username"
@@ -102,7 +103,7 @@ export default function RegisterForm() {
           type="email"
           placeholder=" "
           className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("email")}
+          {...register('email')}
         />
         <label
           htmlFor="email"
@@ -121,7 +122,7 @@ export default function RegisterForm() {
             type="text"
             placeholder=" "
             className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("first_name")}
+            {...register('first_name')}
           />
           <label
             htmlFor="first_name"
@@ -140,7 +141,7 @@ export default function RegisterForm() {
             type="text"
             placeholder=" "
             className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-            {...register("last_name")}
+            {...register('last_name')}
           />
           <label
             htmlFor="last_name"
@@ -160,7 +161,7 @@ export default function RegisterForm() {
           type="password"
           placeholder=" "
           className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("password")}
+          {...register('password')}
         />
         <label
           htmlFor="password"
@@ -179,7 +180,7 @@ export default function RegisterForm() {
           type="password"
           placeholder=" "
           className="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-gray-300 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-          {...register("confirm_password")}
+          {...register('confirm_password')}
         />
         <label
           htmlFor="confirm_password"
@@ -199,7 +200,7 @@ export default function RegisterForm() {
         disabled={isSubmitting}
         className="relative bg-black text-white rounded-md py-2 w-full mt-5 h-10 hover:opacity-80 cursor-pointer transform duration-100 focus:opacity-70"
       >
-        {isPending ? <LoadingSpinner /> : "Register"}
+        {isPending ? <LoadingSpinner /> : 'Register'}
       </button>
     </form>
   );

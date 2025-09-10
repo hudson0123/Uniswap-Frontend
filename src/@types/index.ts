@@ -1,4 +1,4 @@
 export * from './models/user';
 export * from './models/post';
 export * from './models/request';
-export * from './api'
+export * from './api';

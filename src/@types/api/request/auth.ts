@@ -1,8 +1,8 @@
 export interface GetRefreshRequest {
-    refresh: string,
+  refresh: string;
 }
 
 export interface GetAccessRequest {
-    username: string,
-    password: string,
+  username: string;
+  password: string;
 }

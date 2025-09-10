@@ -1,10 +1,10 @@
-import { IProfile } from "./profile";
+import { IProfile } from './profile';
 
 export interface IMessage {
-  id: number,
-  conversation: number,
-  sender: IProfile,
-  content: string,
-  timestamp: string,
-  read: boolean,
+  id: number;
+  conversation: number;
+  sender: IProfile;
+  content: string;
+  timestamp: string;
+  read: boolean;
 }

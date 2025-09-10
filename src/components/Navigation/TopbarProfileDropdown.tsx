@@ -1,14 +1,13 @@
-import React from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { useAuthStore } from "@/lib/store";
+import React from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { useAuthStore } from '@/lib/store';
 
 export default function TopbarProfileDropdown() {
-
   // Hooks
   const router = useRouter();
-  const resetAuth = useAuthStore((state) => state.resetAuth)
+  const resetAuth = useAuthStore((state) => state.resetAuth);
   const {
     data: currentUserData,
     error: currentUserError,
@@ -24,31 +23,31 @@ export default function TopbarProfileDropdown() {
   }
 
   const handleShowProfile = () => {
-    router.push("/app/" + currentUserData?.username + "/");
+    router.push('/app/' + currentUserData?.username + '/');
     return null;
   };
 
   const handleFeedback = () => {
-    router.push("/app/feedback/");
+    router.push('/app/feedback/');
     return null;
   };
 
   const handleEditProfile = () => {
-    const editUrl = "/app/`" + currentUserData?.username + "/edit";
+    const editUrl = '/app/`' + currentUserData?.username + '/edit';
     router.push(editUrl);
     return null;
   };
 
   const handleVerifyProfile = () => {
-    router.push("/auth/verify");
+    router.push('/auth/verify');
     return null;
   };
 
   const handleLogout = () => {
-    resetAuth()
-    router.push('/auth/login')
+    resetAuth();
+    router.push('/auth/login');
     return null;
-  }
+  };
 
   return (
     <div
@@ -67,7 +66,7 @@ export default function TopbarProfileDropdown() {
             src={
               currentUserData?.profile_picture
                 ? currentUserData?.profile_picture
-                : "/profile.jpg"
+                : '/profile.jpg'
             }
             alt="user-profile"
           />
@@ -88,17 +87,18 @@ export default function TopbarProfileDropdown() {
           />
         </div>
       </div>
-      {(currentUserData?.verified == false && currentUserData?.email.endsWith(".edu")) && (
-        <>
-          <hr className=""></hr>
-          <button
-            onClick={handleVerifyProfile}
-            className="text-sm text-left p-4 bg-[#FDE295] hover:bg-yellow-200 transform duration-100 py-1 cursor-pointer"
-          >
-            Verify Account
-          </button>
-        </>
-      )}
+      {currentUserData?.verified == false &&
+        currentUserData?.email.endsWith('.edu') && (
+          <>
+            <hr className=""></hr>
+            <button
+              onClick={handleVerifyProfile}
+              className="text-sm text-left p-4 bg-[#FDE295] hover:bg-yellow-200 transform duration-100 py-1 cursor-pointer"
+            >
+              Verify Account
+            </button>
+          </>
+        )}
       <hr className=""></hr>
       <button
         onClick={handleEditProfile}
@@ -107,7 +107,10 @@ export default function TopbarProfileDropdown() {
         Settings
       </button>
       <hr className=""></hr>
-      <button onClick={handleFeedback}className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer">
+      <button
+        onClick={handleFeedback}
+        className="text-sm text-left p-4 hover:bg-gray-100 transform duration-100 py-1 cursor-pointer"
+      >
         Feedback
       </button>
       <hr className=""></hr>
